@@ -73,6 +73,16 @@ if ($result->num_rows > 0) {
     }
 }
 
+// Fetch all tags
+$sql = "SELECT name FROM tags";
+$result = $conn->query($sql);
+$all_tags = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $all_tags[] = $row['name'];
+    }
+}
+
 $conn->close();
 ?>
 
@@ -229,7 +239,7 @@ $conn->close();
                         </div>
                         <div class="pbmit-breadcrumb">
                             <div class="pbmit-breadcrumb-inner">
-                                <span><a title="" href="#" class="home"><span>Gimox</span></a></span>
+                                <span><a title="" href="#" class="home"><span>Home</span></a></span>
                                 <span class="sep">-</span>
                                 <span><a href="#" class="post-root post post-post current-item"><span><?php echo htmlspecialchars($category_name); ?></span></a></span>
                                 <span class="sep">-</span>
@@ -371,7 +381,7 @@ $conn->close();
                                 <aside class="widget widget-tag-cloud">
                                     <h3 class="widget-title">Tags</h3>
                                     <div class="tagcloud">
-                                        <?php foreach ($tags as $tag): ?>
+                                        <?php foreach ($all_tags as $tag): ?>
                                             <a href="../tag.php?name=<?php echo urlencode($tag); ?>" class="tag-cloud-link"><?php echo htmlspecialchars($tag); ?></a>
                                         <?php endforeach; ?>
                                     </div>
