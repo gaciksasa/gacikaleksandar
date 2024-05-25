@@ -24,7 +24,7 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id);
 
 if ($stmt->execute()) {
-    header("Location: view_all_articles.php");
+    header("Location: articles.php");
     exit;
 } else {
     echo "Error: " . $stmt->error;

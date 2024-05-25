@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Prepare the SQL query
     if (isset($_FILES['featured_image']) && $_FILES['featured_image']['error'] == 0) {
         $target_dir = "uploads/";
-        $target_file = $target_dir . lbasename($_FILES["featured_image"]["name"]);
+        $target_file = $target_dir . basename($_FILES["featured_image"]["name"]);
 
         // Check if directory exists and is writable
         if (!is_dir($target_dir) || !is_writable($target_dir)) {
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
 
-        header("Location: view_all_articles.php");
+        header("Location: articles.php");
         exit;
     } else {
         echo "Error: " . $stmt->error;

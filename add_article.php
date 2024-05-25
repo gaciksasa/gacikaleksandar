@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->execute();
     $stmt->close();
 
-    header("Location: view_all_articles.php");
+    header("Location: articles.php");
     exit;
 }
 
@@ -74,7 +74,7 @@ $conn->close();
                     <h1 class="h2">Add New Article</h1>
                 </div>
                 <div id="main-content">
-                    <form action="add_new_article.php" method="POST" enctype="multipart/form-data">
+                    <form action="add_article.php" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="title">Title</label>
                             <input type="text" class="form-control" id="title" name="title" required>

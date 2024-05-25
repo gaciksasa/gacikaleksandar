@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
 
-        header("Location: view_all_articles.php");
+        header("Location: articles.php");
         exit;
     } else {
         echo "Error executing statement: " . $stmt->error;
