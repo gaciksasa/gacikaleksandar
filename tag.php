@@ -55,6 +55,10 @@ if ($result->num_rows > 0) {
 }
 
 $conn->close();
+
+function create_excerpt($content, $length = 200) {
+    return substr($content, 0, $length) . '...';
+}
 ?>
 
 <!doctype html>
@@ -267,7 +271,7 @@ $conn->close();
                                                         </div>
                                                     </div>
                                                     <div class="pbmit-entry-content">
-                                                        <p><?php echo nl2br(htmlspecialchars($article['content'])); ?></p>
+                                                        <p><?php echo create_excerpt($article['content']); ?></p>
                                                         <div class="pbmit-box-blog">
                                                             <div class="pbmit-blogbox-readmore pbmit-vc_btn3">
                                                                 <div class="pbmit-blogbox-footer-left">

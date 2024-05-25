@@ -29,14 +29,14 @@ $stmt->fetch();
 $stmt->close();
 
 // Fetch articles in the category
-$sql = "SELECT slug, title, content, author, featured_image, published_date FROM blog_posts WHERE category_id = ?";
+$sql = "SELECT id, title, content, author, featured_image, published_date, slug FROM blog_posts WHERE category_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $category_id);
 $stmt->execute();
-$stmt->bind_result($slug, $title, $content, $author, $featured_image, $published_date);
+$stmt->bind_result($id, $title, $content, $author, $featured_image, $published_date, $slug);
 $articles = [];
 while ($stmt->fetch()) {
-    $articles[] = ['slug' => $slug, 'title' => $title, 'content' => $content, 'author' => $author, 'featured_image' => $featured_image, 'published_date' => $published_date];
+    $articles[] = ['id' => $id, 'title' => $title, 'content' => $content, 'author' => $author, 'featured_image' => $featured_image, 'published_date' => $published_date, 'slug' => $slug];
 }
 $stmt->close();
 
@@ -61,6 +61,15 @@ if ($result->num_rows > 0) {
 }
 
 $conn->close();
+
+// Function to create excerpt
+function create_excerpt($content, $length = 200) {
+    if (strlen($content) <= $length) {
+        return $content;
+    }
+    $excerpt = substr($content, 0, $length);
+    return substr($excerpt, 0, strrpos($excerpt, ' ')) . '...';
+}
 ?>
 
 <!doctype html>
@@ -273,7 +282,7 @@ $conn->close();
                                                         </div>
                                                     </div>
                                                     <div class="pbmit-entry-content">
-                                                        <p><?php echo nl2br(htmlspecialchars($article['content'])); ?></p>
+                                                        <p><?php echo nl2br(htmlspecialchars(create_excerpt($article['content']))); ?></p>
                                                         <div class="pbmit-box-blog">
                                                             <div class="pbmit-blogbox-readmore pbmit-vc_btn3">
                                                                 <div class="pbmit-blogbox-footer-left">
