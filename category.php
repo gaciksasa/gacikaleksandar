@@ -316,7 +316,7 @@ function create_excerpt($content, $length = 200) {
                                     </ul>
                                 </aside>
                                 <aside class="widget widget-recent-post">
-                                    <h2 class="widget-title">Recent posts</h2>
+                                    <h2 class="widget-title">Related posts</h2>
                                     <ul class="recent-post-list">
                                         <?php foreach ($articles as $article): ?>
                                             <li class="recent-post-list-li"> 

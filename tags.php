@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 }
 
 // Fetch all tags
-$sql = "SELECT id, name FROM tags";
+$sql = "SELECT id, name, featured_image FROM tags";
 $result = $conn->query($sql);
 $tags = [];
 if ($result->num_rows > 0) {
@@ -31,18 +31,16 @@ $conn->close();
 
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Tags - My Website</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit-no">
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
     <div class="container-fluid">
         <div class="row">
@@ -59,6 +57,7 @@ $conn->close();
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Featured Image</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -67,6 +66,11 @@ $conn->close();
                             <tr>
                                 <td><?php echo htmlspecialchars($tag['id']); ?></td>
                                 <td><?php echo htmlspecialchars($tag['name']); ?></td>
+                                <td>
+                                    <?php if ($tag['featured_image']): ?>
+                                        <img src="<?php echo htmlspecialchars($tag['featured_image']); ?>" alt="Featured Image" style="width: 50px; height: auto;">
+                                    <?php endif; ?>
+                                </td>
                                 <td>
                                     <a href="edit_tag.php?id=<?php echo $tag['id']; ?>" class="btn btn-warning">Edit</a>
                                     <a href="delete_tag.php?id=<?php echo $tag['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this tag?');">Delete</a>
@@ -84,5 +88,4 @@ $conn->close();
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </body>
-
 </html>

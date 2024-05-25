@@ -12,6 +12,16 @@ $id = $_GET['id'];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
+    $featured_image = '';
+
+    // Handle file upload
+    if (!empty($_FILES['featured_image']['name'])) {
+        $target_dir = "uploads/";
+        $target_file = $target_dir . basename($_FILES["featured_image"]["name"]);
+        if (move_uploaded_file($_FILES["featured_image"]["tmp_name"], $target_file)) {
+            $featured_image = $target_file;
+        }
+    }
 
     // Connect to the database
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -22,9 +32,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Update tag
-    $sql = "UPDATE tags SET name = ? WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("si", $name, $id);
+    if ($featured_image) {
+        $sql = "UPDATE tags SET name = ?, featured_image = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssi", $name, $featured_image, $id);
+    } else {
+        $sql = "UPDATE tags SET name = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $name, $id);
+    }
+
     $stmt->execute();
     $stmt->close();
 
@@ -41,11 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT name FROM tags WHERE id = ?";
+    $sql = "SELECT name, featured_image FROM tags WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
     $stmt->execute();
-    $stmt->bind_result($name);
+    $stmt->bind_result($name, $featured_image);
     $stmt->fetch();
     $stmt->close();
 
@@ -55,7 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -66,7 +82,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
     <div class="container-fluid">
         <div class="row">
@@ -77,10 +92,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Edit Tag</h1>
                 </div>
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="name">Tag Name</label>
                         <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="featured_image">Featured Image</label>
+                        <input type="file" class="form-control" id="featured_image" name="featured_image">
+                        <?php if ($featured_image): ?>
+                            <img src="<?php echo htmlspecialchars($featured_image); ?>" alt="Featured Image" style="width: 100px; height: auto;">
+                        <?php endif; ?>
                     </div>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </form>
@@ -93,5 +115,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </body>
-
 </html>

@@ -18,6 +18,15 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Fetch tag details including the featured image
+$sql = "SELECT featured_image FROM tags WHERE name = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $tag_name);
+$stmt->execute();
+$stmt->bind_result($featured_image);
+$stmt->fetch();
+$stmt->close();
+
 // Fetch articles with the tag
 $sql = "SELECT b.id, b.slug, b.title, b.content, b.author, b.featured_image, b.published_date 
         FROM blog_posts b 
@@ -27,10 +36,10 @@ $sql = "SELECT b.id, b.slug, b.title, b.content, b.author, b.featured_image, b.p
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $tag_name);
 $stmt->execute();
-$stmt->bind_result($id, $slug, $title, $content, $author, $featured_image, $published_date);
+$stmt->bind_result($id, $slug, $title, $content, $author, $featured_image_article, $published_date);
 $articles = [];
 while ($stmt->fetch()) {
-    $articles[] = ['id' => $id, 'slug' => $slug, 'title' => $title, 'content' => $content, 'author' => $author, 'featured_image' => $featured_image, 'published_date' => $published_date];
+    $articles[] = ['id' => $id, 'slug' => $slug, 'title' => $title, 'content' => $content, 'author' => $author, 'featured_image' => $featured_image_article, 'published_date' => $published_date];
 }
 $stmt->close();
 
@@ -56,8 +65,13 @@ if ($result->num_rows > 0) {
 
 $conn->close();
 
+// Function to create excerpt
 function create_excerpt($content, $length = 200) {
-    return substr($content, 0, $length) . '...';
+    if (strlen($content) <= $length) {
+        return $content;
+    }
+    $excerpt = substr($content, 0, $length);
+    return substr($excerpt, 0, strrpos($excerpt, ' ')) . '...';
 }
 ?>
 
@@ -84,6 +98,13 @@ function create_excerpt($content, $length = 200) {
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .pbmit-title-bar-wrapper {
+            background-image: url('<?php echo htmlspecialchars($featured_image); ?>');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -271,7 +292,7 @@ function create_excerpt($content, $length = 200) {
                                                         </div>
                                                     </div>
                                                     <div class="pbmit-entry-content">
-                                                        <p><?php echo create_excerpt($article['content']); ?></p>
+                                                        <p><?php echo nl2br(htmlspecialchars(create_excerpt($article['content']))); ?></p>
                                                         <div class="pbmit-box-blog">
                                                             <div class="pbmit-blogbox-readmore pbmit-vc_btn3">
                                                                 <div class="pbmit-blogbox-footer-left">
@@ -304,7 +325,7 @@ function create_excerpt($content, $length = 200) {
                                     </ul>
                                 </aside>
                                 <aside class="widget widget-recent-post">
-                                    <h2 class="widget-title">Recent posts</h2>
+                                    <h2 class="widget-title">Related posts</h2>
                                     <ul class="recent-post-list">
                                         <?php foreach ($articles as $article): ?>
                                             <li class="recent-post-list-li"> 
