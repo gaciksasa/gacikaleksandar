@@ -66,7 +66,7 @@ if ($result->num_rows > 0) {
 $conn->close();
 
 // Function to create excerpt
-function create_excerpt($content, $length = 200) {
+function create_excerpt($content, $length = 250) {
     if (strlen($content) <= $length) {
         return $content;
     }
@@ -292,7 +292,7 @@ function create_excerpt($content, $length = 200) {
                                                         </div>
                                                     </div>
                                                     <div class="pbmit-entry-content">
-                                                        <p><?php echo nl2br(htmlspecialchars(create_excerpt($article['content']))); ?></p>
+                                                        <p><?php echo create_excerpt($article['content']); ?></p>
                                                         <div class="pbmit-box-blog">
                                                             <div class="pbmit-blogbox-readmore pbmit-vc_btn3">
                                                                 <div class="pbmit-blogbox-footer-left">

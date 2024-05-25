@@ -138,6 +138,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <!-- TinyMCE -->
+    <script src="https://cdn.tiny.cloud/1/2d8d0z568l75o82jphit2mlssygij2v5xxuk0ev3ai9lv60g/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#content',
+            plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+            toolbar_mode: 'floating',
+            valid_elements: 'p,h2,h3,h4,strong,em,ul,ol,li,a[href|target],img[src|alt|width|height],blockquote',
+            valid_styles: {
+                '*': 'font-size,font-weight,font-style,color,text-decoration,text-align'
+            },
+            height: 500,
+        });
+    </script>
 </head>
 
 <body>
@@ -151,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <h1 class="h2">Edit Article</h1>
                 </div>
                 <div id="main-content">
-                    <form action="edit_article.php?id=<?php echo $id; ?>" method="POST" enctype="multipart/form-data">
+                    <form action="edit_article.php?id=<?php echo $id; ?>" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
                         <div class="form-group">
                             <label for="title">Title</label>
                             <input type="text" class="form-control" id="title" name="title" value="<?php echo $title; ?>" required>
@@ -192,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <input type="date" class="form-control" id="published_date" name="published_date" value="<?php echo $published_date; ?>" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Save</button>
-                        <a href="view_all_articles.php" class="btn btn-secondary">Cancel</a>
+                        <a href="articles.php" class="btn btn-secondary">Cancel</a>
                     </form>
                 </div>
             </main>
@@ -202,6 +216,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="js/jquery.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script>
+        function validateForm() {
+            // Ensure the content of the TinyMCE editor is synchronized with the textarea
+            tinymce.triggerSave();
+
+            // Check if the TinyMCE content is empty
+            const content = tinymce.get('content').getContent();
+            if (!content) {
+                alert('Content is required.');
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </body>
 
 </html>

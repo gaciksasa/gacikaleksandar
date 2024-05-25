@@ -295,7 +295,7 @@ $conn->close();
                                                 <h2 class="pbmit-post-title"><?php echo htmlspecialchars($title); ?></h2>
                                             </div>
                                             <div class="pbmit-entry-content">
-                                                <p><?php echo nl2br(htmlspecialchars($content)); ?></p>
+                                                <p><?php echo $content; ?></p>
                                             </div>
                                         </div>
                                         <div class="pbmit-blog-meta pbmit-blog-meta-bottom">
