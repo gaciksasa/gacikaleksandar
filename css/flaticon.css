@@ -1,0 +1,73 @@
+	/*
+  	Flaticon icon font: Flaticon
+  	Creation date: 23/01/2019 13:57
+  	*/
+
+	  @font-face {
+		font-family: "Flaticon";
+		src: url("../fonts/flaticon.eot");
+		src: url("../fonts/flaticon.eot?#iefix") format("embedded-opentype"),
+			 url("../fonts/flaticon.woff2") format("woff2"),
+			 url("../fonts/flaticon.woff") format("woff"),
+			 url("../fonts/flaticon.ttf") format("truetype"),
+			 url("../fonts/flaticon.svg#Flaticon") format("svg");
+		font-weight: normal;
+		font-style: normal;
+	  }
+	  
+	  @media screen and (-webkit-min-device-pixel-ratio:0) {
+		@font-face {
+		  font-family: "Flaticon";
+		  src: url("../fonts/flaticon.svg#Flaticon") format("svg");
+		}
+	  }
+	  
+	  	[class^="pbmit-gimox-business-icon-"]:before, [class*=" pbmit-gimox-business-icon-"]:before,
+		[class^="pbmit-gimox-business-icon-"]:after, [class*=" pbmit-gimox-business-icon-"]:after {   
+		font-family: Flaticon;
+		font-size: 20px;
+		font-style: normal;
+}
+	  
+	.pbmit-gimox-business-icon-diet:before { content: "\f100"; }
+	.pbmit-gimox-business-icon-dumbbell:before { content: "\f101"; }
+	.pbmit-gimox-business-icon-fruits:before { content: "\f102"; }
+	.pbmit-gimox-business-icon-wheel:before { content: "\f103"; }
+	.pbmit-gimox-business-icon-juice:before { content: "\f104"; }
+	.pbmit-gimox-business-icon-heart-rate:before { content: "\f105"; }
+	.pbmit-gimox-business-icon-medal:before { content: "\f106"; }
+	.pbmit-gimox-business-icon-muscle:before { content: "\f107"; }
+	.pbmit-gimox-business-icon-rowing-machine:before { content: "\f108"; }
+	.pbmit-gimox-business-icon-diet-1:before { content: "\f109"; }
+	.pbmit-gimox-business-icon-water-bottle:before { content: "\f10a"; }
+	.pbmit-gimox-business-icon-weightlift:before { content: "\f10b"; }
+	.pbmit-gimox-business-icon-no-smoking:before { content: "\f10c"; }
+	.pbmit-gimox-business-icon-stationary-bike:before { content: "\f10d"; }
+	.pbmit-gimox-business-icon-treadmill:before { content: "\f10e"; }
+	.pbmit-gimox-business-icon-weightlifter:before { content: "\f10f"; }
+	.pbmit-gimox-business-icon-gym:before { content: "\f110"; }
+	.pbmit-gimox-business-icon-barbell:before { content: "\f111"; }
+	.pbmit-gimox-business-icon-woman:before { content: "\f112"; }
+	.pbmit-gimox-business-icon-bike:before { content: "\f113"; }
+	.pbmit-gimox-business-icon-meditation:before { content: "\f114"; }
+	.pbmit-gimox-business-icon-dumbbell-1:before { content: "\f115"; }
+	.pbmit-gimox-business-icon-weight:before { content: "\f116"; }
+	.pbmit-gimox-business-icon-yoga:before { content: "\f117"; }
+	.pbmit-gimox-business-icon-weight-lifting:before { content: "\f118"; }
+	.pbmit-gimox-business-icon-phone-call:before { content: "\f119"; }
+	.pbmit-gimox-business-icon-wellness:before { content: "\f11a"; }
+	.pbmit-gimox-business-icon-gym-1:before { content: "\f11b"; }
+	.pbmit-gimox-business-icon-wellness-1:before { content: "\f11c"; }
+	.pbmit-gimox-business-icon-run:before { content: "\f11d"; }
+	.pbmit-gimox-business-icon-sports-and-competition:before { content: "\f11e"; }
+	.pbmit-gimox-business-icon-running-man:before { content: "\f11f"; }
+	.pbmit-gimox-business-icon-oil:before { content: "\f120"; }
+	.pbmit-gimox-business-icon-placeholder:before { content: "\f121"; }
+	.pbmit-gimox-business-icon-placeholder-1:before { content: "\f122"; }
+	.pbmit-gimox-business-icon-mail:before { content: "\f123"; }
+	.pbmit-gimox-business-icon-weight-1:before { content: "\f124"; }
+	.pbmit-gimox-business-icon-workout:before { content: "\f125"; }
+	.pbmit-gimox-business-icon-gym-2:before { content: "\f126"; }
+	.pbmit-gimox-business-icon-sports-and-competition-1:before { content: "\f127"; }
+	.pbmit-gimox-business-icon-weightlifter-1:before { content: "\f128"; }
+		

@@ -1,0 +1,122 @@
+    /*
+    Flaticon icon font: Flaticon
+    Creation date: 25/09/2019 15:27
+    */
+
+	@font-face {
+		font-family: "Flaticon";
+		src: url("../fonts/flaticon.eot");
+		src: url("../fonts/flaticon.eot?#iefix") format("embedded-opentype"),
+			 url("../fonts/flaticon.woff2") format("woff2"),
+			 url("../fonts/flaticon.woff") format("woff"),
+			 url("../fonts/flaticon.ttf") format("truetype"),
+			 url("../fonts/flaticon.svg#Flaticon") format("svg");
+		font-weight: normal;
+		font-style: normal;
+	  }
+	  
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("../fonts/flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+    .fi:before{
+        display: inline-block;
+		font-family: "Flaticon";
+		font-style: normal;
+		font-weight: normal;
+		font-variant: normal;
+		line-height: 1;
+		text-decoration: inherit;
+		text-rendering: optimizeLegibility;
+		text-transform: none;
+		-moz-osx-font-smoothing: grayscale;
+		-webkit-font-smoothing: antialiased;
+		font-smoothing: antialiased;
+    }
+
+.pbmit-gimox-business-icon-diet:before { content: "\f100"; }
+.pbmit-gimox-business-icon-dumbbell:before { content: "\f101"; }
+.pbmit-gimox-business-icon-fruits:before { content: "\f102"; }
+.pbmit-gimox-business-icon-wheel:before { content: "\f103"; }
+.pbmit-gimox-business-icon-juice:before { content: "\f104"; }
+.pbmit-gimox-business-icon-heart-rate:before { content: "\f105"; }
+.pbmit-gimox-business-icon-medal:before { content: "\f106"; }
+.pbmit-gimox-business-icon-muscle:before { content: "\f107"; }
+.pbmit-gimox-business-icon-rowing-machine:before { content: "\f108"; }
+.pbmit-gimox-business-icon-diet-1:before { content: "\f109"; }
+.pbmit-gimox-business-icon-water-bottle:before { content: "\f10a"; }
+.pbmit-gimox-business-icon-weightlift:before { content: "\f10b"; }
+.pbmit-gimox-business-icon-no-smoking:before { content: "\f10c"; }
+.pbmit-gimox-business-icon-stationary-bike:before { content: "\f10d"; }
+.pbmit-gimox-business-icon-treadmill:before { content: "\f10e"; }
+.pbmit-gimox-business-icon-weightlifter:before { content: "\f10f"; }
+.pbmit-gimox-business-icon-gym:before { content: "\f110"; }
+.pbmit-gimox-business-icon-barbell:before { content: "\f111"; }
+.pbmit-gimox-business-icon-woman:before { content: "\f112"; }
+.pbmit-gimox-business-icon-bike:before { content: "\f113"; }
+.pbmit-gimox-business-icon-meditation:before { content: "\f114"; }
+.pbmit-gimox-business-icon-dumbbell-1:before { content: "\f115"; }
+.pbmit-gimox-business-icon-weight:before { content: "\f116"; }
+.pbmit-gimox-business-icon-yoga:before { content: "\f117"; }
+.pbmit-gimox-business-icon-weight-lifting:before { content: "\f118"; }
+.pbmit-gimox-business-icon-phone-call:before { content: "\f119"; }
+.pbmit-gimox-business-icon-wellness:before { content: "\f11a"; }
+.pbmit-gimox-business-icon-gym-1:before { content: "\f11b"; }
+.pbmit-gimox-business-icon-wellness-1:before { content: "\f11c"; }
+.pbmit-gimox-business-icon-run:before { content: "\f11d"; }
+.pbmit-gimox-business-icon-sports-and-competition:before { content: "\f11e"; }
+.pbmit-gimox-business-icon-running-man:before { content: "\f11f"; }
+.pbmit-gimox-business-icon-oil:before { content: "\f120"; }
+.pbmit-gimox-business-icon-placeholder:before { content: "\f121"; }
+.pbmit-gimox-business-icon-placeholder-1:before { content: "\f122"; }
+.pbmit-gimox-business-icon-mail:before { content: "\f123"; }
+.pbmit-gimox-business-icon-weight-1:before { content: "\f124"; }
+.pbmit-gimox-business-icon-workout:before { content: "\f125"; }
+.pbmit-gimox-business-icon-gym-2:before { content: "\f126"; }
+.pbmit-gimox-business-icon-sports-and-competition-1:before { content: "\f127"; }
+.pbmit-gimox-business-icon-weightlifter-1:before { content: "\f128"; }
+    
+    $font-Flaticon-diet: "\f100";
+    $font-Flaticon-dumbbell: "\f101";
+    $font-Flaticon-fruits: "\f102";
+    $font-Flaticon-wheel: "\f103";
+    $font-Flaticon-juice: "\f104";
+    $font-Flaticon-heart-rate: "\f105";
+    $font-Flaticon-medal: "\f106";
+    $font-Flaticon-muscle: "\f107";
+    $font-Flaticon-rowing-machine: "\f108";
+    $font-Flaticon-diet-1: "\f109";
+    $font-Flaticon-water-bottle: "\f10a";
+    $font-Flaticon-weightlift: "\f10b";
+    $font-Flaticon-no-smoking: "\f10c";
+    $font-Flaticon-stationary-bike: "\f10d";
+    $font-Flaticon-treadmill: "\f10e";
+    $font-Flaticon-weightlifter: "\f10f";
+    $font-Flaticon-gym: "\f110";
+    $font-Flaticon-barbell: "\f111";
+    $font-Flaticon-woman: "\f112";
+    $font-Flaticon-bike: "\f113";
+    $font-Flaticon-meditation: "\f114";
+    $font-Flaticon-dumbbell-1: "\f115";
+    $font-Flaticon-weight: "\f116";
+    $font-Flaticon-yoga: "\f117";
+    $font-Flaticon-weight-lifting: "\f118";
+    $font-Flaticon-phone-call: "\f119";
+    $font-Flaticon-wellness: "\f11a";
+    $font-Flaticon-gym-1: "\f11b";
+    $font-Flaticon-wellness-1: "\f11c";
+    $font-Flaticon-run: "\f11d";
+    $font-Flaticon-sports-and-competition: "\f11e";
+    $font-Flaticon-running-man: "\f11f";
+    $font-Flaticon-oil: "\f120";
+    $font-Flaticon-placeholder: "\f121";
+    $font-Flaticon-placeholder-1: "\f122";
+    $font-Flaticon-mail: "\f123";
+    $font-Flaticon-weight-1: "\f124";
+    $font-Flaticon-workout: "\f125";
+    $font-Flaticon-gym-2: "\f126";
+    $font-Flaticon-sports-and-competition-1: "\f127";
+    $font-Flaticon-weightlifter-1: "\f128";
