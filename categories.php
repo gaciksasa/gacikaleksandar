@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 }
 
 // Fetch all categories
-$sql = "SELECT id, name FROM categories";
+$sql = "SELECT id, name, featured_image FROM categories";
 $result = $conn->query($sql);
 $categories = [];
 if ($result->num_rows > 0) {
@@ -59,6 +59,7 @@ $conn->close();
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Thumbnail</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -67,6 +68,13 @@ $conn->close();
                             <tr>
                                 <td><?php echo htmlspecialchars($category['id']); ?></td>
                                 <td><?php echo htmlspecialchars($category['name']); ?></td>
+                                <td>
+                                    <?php if (!empty($category['featured_image'])): ?>
+                                        <img src="<?php echo htmlspecialchars($category['featured_image']); ?>" alt="<?php echo htmlspecialchars($category['name']); ?>" style="max-width: 100px;">
+                                    <?php else: ?>
+                                        No image
+                                    <?php endif; ?>
+                                </td>
                                 <td>
                                     <a href="edit_category.php?id=<?php echo $category['id']; ?>" class="btn btn-warning">Edit</a>
                                     <a href="delete_category.php?id=<?php echo $category['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this category?');">Delete</a>

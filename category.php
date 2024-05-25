@@ -18,13 +18,14 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch category name
+// Fetch category name and featured image
 $category_name = '';
-$sql = "SELECT name FROM categories WHERE id = ?";
+$category_image = '';
+$sql = "SELECT name, featured_image FROM categories WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $category_id);
 $stmt->execute();
-$stmt->bind_result($category_name);
+$stmt->bind_result($category_name, $category_image);
 $stmt->fetch();
 $stmt->close();
 
@@ -221,7 +222,7 @@ function create_excerpt($content, $length = 200) {
         <!-- Header Main Area End Here -->
 
         <!-- Title Bar -->
-        <div class="pbmit-title-bar-wrapper">
+        <div class="pbmit-title-bar-wrapper" style="background-image: url('<?php echo htmlspecialchars($category_image); ?>');">
             <div class="container">
                 <div class="pbmit-title-bar-content">
                     <div class="pbmit-title-bar-content-inner">

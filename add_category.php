@@ -10,6 +10,14 @@ require 'config.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
+    $featured_image = '';
+
+    // Handle file upload
+    if (isset($_FILES['featured_image']) && $_FILES['featured_image']['error'] == UPLOAD_ERR_OK) {
+        $upload_dir = 'uploads/';
+        $featured_image = $upload_dir . basename($_FILES['featured_image']['name']);
+        move_uploaded_file($_FILES['featured_image']['tmp_name'], $featured_image);
+    }
 
     // Connect to the database
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -20,9 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Insert category
-    $sql = "INSERT INTO categories (name) VALUES (?)";
+    $sql = "INSERT INTO categories (name, featured_image) VALUES (?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $name);
+    $stmt->bind_param("ss", $name, $featured_image);
     $stmt->execute();
     $stmt->close();
 
@@ -57,10 +65,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Add Category</h1>
                 </div>
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="name">Category Name</label>
                         <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="featured_image">Featured Image</label>
+                        <input type="file" class="form-control" id="featured_image" name="featured_image" accept="image/*" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Add</button>
                 </form>
