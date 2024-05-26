@@ -1,0 +1,683 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>Gimox – Gym and Fitness HTML Template</title>
+	<meta name="robots" content="noindex, follow">
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Favicon -->
+	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+	<!-- CSS
+         ============================================ -->
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<!-- Fontawesome -->
+	<link rel="stylesheet" href="css/fontawesome.css">
+	<!-- Flaticon -->
+	<link rel="stylesheet" href="css/flaticon.css">
+	<!-- optico Icons -->
+	<link rel="stylesheet" href="css/pbminfotech-base-icons.css">
+	<!-- Swiper -->
+	<link rel="stylesheet" href="css/swiper.min.css">
+	<!-- Magnific -->
+	<link rel="stylesheet" href="css/magnific-popup.css">
+	<!-- Themify Icons -->
+	<link rel="stylesheet" href="css/themify-icons.css">
+	<!-- Shortcode CSS -->
+	<link rel="stylesheet" href="css/shortcode.css">
+	<!-- Base CSS -->
+	<link rel="stylesheet" href="css/base.css">
+	<!-- Style CSS -->
+	<link rel="stylesheet" href="css/style.css">
+	<!-- Responsive CSS -->
+	<link rel="stylesheet" href="css/responsive.css">
+	<!-- REVOLUTION STYLE SHEETS -->
+	<link rel="stylesheet" type="text/css" href="revolution/rs6.css">
+</head>
+
+<body>
+
+	<!-- page wrapper -->
+	<div class="page-wrapper">
+
+		<!-- Header Main Area -->
+		<header class="site-header header-style-1">
+			<div class="pbmit-header-overlay">
+				<div class="site-header-menu">
+					<div class="container-fluid p-0">
+						<div class="row g-0">
+							<div class="col-md-12">
+								<div class="d-flex align-items-center justify-content-between">
+									<div class="d-flex justify-content-between align-items-center">
+										<div class="site-branding">
+											<span class="site-title">
+												<a href="index.html">
+													<img class="logo-img" src="images/homepage-1/logo.png" alt="Gimox">
+													<img class="sticky-logo" src="images/homepage-1/logo-dark.png" alt="Gimox">
+												</a>
+											</span>
+										</div>
+										<div class="site-navigation">
+											<nav class="main-menu navbar-expand-xl navbar-light">
+												<div class="navbar-header">
+													<!-- Toggle Button -->
+													<button class="navbar-toggler" type="button">
+														<i class="pbmit-gimox-icon-bars"></i>
+													</button>
+												</div>
+												<div class="pbmit-mobile-menu-bg"></div>
+												<div class="collapse navbar-collapse clearfix show" id="pbmit-menu">
+													<div class="pbmit-menu-wrap">
+														<ul class="navigation clearfix">
+															<li class="dropdown active">
+																<a href="index.html">Home</a>
+																<ul>
+																	<li class="active"><a href="index.html">Homepage 1</a></li>
+																	<li><a href="homepage-2.html">Homepage 2</a></li>
+																	<li><a href="homepage-3.html">Homepage 3</a></li>
+																</ul>
+															</li>
+															<li class="dropdown">
+																<a href="#">Pages</a>
+																<ul>
+																	<li><a href="about-us.html">About us</a></li>
+																	<li><a href="our-services.html">Our Services</a></li>
+																	<li><a href="our-pricing.html">Our Pricing</a></li>
+																	<li><a href="our-trainers.html">Our Trainers</a></li>
+																	<li><a href="trainer-details.html">Trainer Details</a></li>
+																	<li><a href="faq.html">Faq</a></li>
+																</ul>
+															</li>
+															<li class="dropdown">
+																<a href="#">Portfolio</a>
+																<ul>
+																	<li><a href="portfolio-style-1.html">Portfolio Style 1</a></li>
+																	<li><a href="portfolio-style-2.html">Portfolio Style 2</a></li>
+																	<li><a href="portfolio-single.html">Portfolio Single</a></li>
+																</ul>
+															</li>
+															<li class="dropdown">
+																<a href="classes.html">Classes</a>
+																<ul>
+																	<li><a href="classes-details.html">Classes Details</a></li>
+																</ul>
+															</li>
+															<li class="dropdown">
+																<a href="#">Blog</a>
+																<ul>
+																	<li><a href="blog-large-image.html">Blog Large Image</a></li>
+																	<li><a href="blog-grid-view.html">Blog Grid View</a></li>
+																	<li><a href="blog-single-view.html">Blog Single View</a></li>
+																</ul>
+															</li>
+															<li><a href="contacts.html">Contacts</a></li>
+														</ul>
+													</div>
+												</div>
+											</nav>
+										</div>
+									</div>
+									<div class="pbmit-right-side">
+										<div class="pbmit-social-links-wrapper">
+											<ul class="social-icons">
+												<li class="pbmit-social-facebook">
+													<a class=" tooltip-top" target="_blank" href="#">
+														<i class="pbmit-base-icon-facebook"></i>
+													</a>
+												</li>
+												<li class="pbmit-social-twitter">
+													<a class=" tooltip-top" target="_blank" href="#">
+														<i class="pbmit-base-icon-twitter"></i>
+													</a>
+												</li>
+												<li class="pbmit-social-flickr">
+													<a class=" tooltip-top" target="_blank" href="#">
+														<i class="pbmit-base-icon-flickr"></i>
+													</a>
+												</li>
+												<li class="pbmit-social-linkedin">
+													<a class=" tooltip-top" target="_blank" href="">
+														<i class="pbmit-base-icon-linkedin"></i>
+													</a>
+												</li>
+											</ul>
+										</div>
+										<div class="pbmit-header-search-btn">
+											<a href="#">
+												<i class="pbmit-base-icon-search-2"></i>
+											</a>
+										</div>
+										<div class="pbmit-header-button">
+											<a href="contacts.html"><span>Get a Free Pass</span></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="pbmit-slider-area">
+				<!-- START Home Slider 1 REVOLUTION SLIDER 6.5.19 -->
+				<p class="rs-p-wp-fix"></p>
+				<rs-module-wrap id="rev_slider_1_1_wrapper" data-alias="Home-Slider-1" data-source="gallery" style="visibility:hidden;background:#222d35;padding:0;margin:0px auto;margin-top:0;margin-bottom:0;">
+					<rs-module id="rev_slider_1_1" data-version="6.5.19">
+						<rs-slides>
+							<rs-slide style="position: absolute;" data-key="rs-7" data-title="Slide" data-thumb="revolution/images/slider01-1a-50x100.jpg" data-anim="ms:1000;r:0;" data-in="o:0;" data-out="a:false;">
+								<img src="revolution/images/slider01-1a.jpg" alt="" title="slider01-1a" width="1900" height="898" class="rev-slidebg tp-rs-img rs-lazyload" data-lazyload="revolution/images/slider01-1a.jpg" data-no-retina>
+								<!--
+							--><rs-layer id="slider-4-slide-7-layer-0" data-type="text" data-rsp_ch="on" data-xy="xo:30px;yo:374px,374px,374px,175px;" data-text="s:100,100,100,40;l:100,100,100,40;ls:3px,3px,3px,2px;fw:700;" data-frame_0="x:50,50,50,19;" data-frame_1="st:1490;sp:1000;sR:1490;" data-frame_999="o:0;st:w;sR:6510;" style="z-index:9;font-family:'Rajdhani';text-transform:uppercase;"><span class="pbmit-skincolor">THE Best </span>Fitness<br>
+									Studio in Town
+								</rs-layer><!--
+
+							--><rs-layer id="slider-4-slide-7-layer-1" data-type="text" data-xy="xo:30px;yo:334px,334px,334px,152px;" data-text="w:normal;s:26,26,26,18;l:28,28,28,18;ls:8px,8px,8px,3px;fw:700;" data-rsp_bd="off" data-frame_0="x:-50,-50,-50,-19;" data-frame_1="st:1050;sp:1000;sR:1050;" data-frame_999="o:0;st:w;sR:6950;" style="z-index:8;font-family:'Rajdhani';text-transform:uppercase;">The Runner's Life
+								</rs-layer><!--
+
+							--><rs-layer id="slider-4-slide-7-layer-2" data-type="button" data-rsp_ch="on" data-xy="xo:30px;yo:603px,603px,603px,266px;" data-text="w:normal;s:25,25,25,14;l:55,55,55,25;a:center;" data-dim="w:60px,60px,60px,27px;h:60px,60px,60px,27px;minw:60px,60px,60px,none;minh:60px,60px,60px,none;" data-border="bos:solid;boc:#ffffff;bow:2px,2px,2px,2px;bor:50%,50%,50%,50%;" data-frame_0="x:0,0,0,0px;y:50,50,50,23px;" data-frame_1="x:0,0,0,0px;y:0,0,0,0px;st:2220;sp:1000;sR:2220;" data-frame_999="o:0;st:w;sR:5780;" style="z-index:10;background-color:rgba(255,255,255,0);font-family:'Roboto';text-transform:uppercase;"><i class="fa-angle-right"></i>
+								</rs-layer><!--
+
+							--><rs-layer id="slider-4-slide-7-layer-3" data-type="text" data-xy="xo:101px,101px,101px,68px;yo:619px,619px,619px,273px;" data-text="w:normal;s:14,14,14,12;l:25,25,25,14;ls:2px,2px,2px,1px;fw:700;" data-vbility="t,f,f,f" data-frame_0="y:50,50,50,19;" data-frame_1="st:2210;sp:1000;sR:2210;" data-frame_999="o:0;st:w;sR:5790;" style="z-index:11;font-family:'Rajdhani';text-transform:uppercase;">Discover more
+								</rs-layer><!--
+--> </rs-slide>
+							<rs-slide style="position: absolute;" data-key="rs-18" data-title="Slide" data-thumb="revolution/images/slider01-2-50x100.jpg" data-anim="ms:1000;r:0;" data-in="o:0;" data-out="a:false;">
+								<img src="revolution/images/slider01-2.jpg" alt="" title="slider01-2" width="1900" height="900" class="rev-slidebg tp-rs-img rs-lazyload" data-lazyload="revolution/images/slider01-2.jpg" data-no-retina>
+								<!--
+							--><rs-layer id="slider-4-slide-18-layer-0" data-type="text" data-rsp_ch="on" data-xy="xo:30px;yo:374px,374px,374px,175px;" data-text="s:100,100,100,40;l:100,100,100,40;ls:3px,3px,3px,2px;fw:700;" data-frame_0="x:50,50,50,19;" data-frame_1="st:1490;sp:1000;sR:1490;" data-frame_999="o:0;st:w;sR:6510;" style="z-index:9;font-family:'Rajdhani';text-transform:uppercase;"><span class="pbmit-skincolor">THE Best </span>Fitness<br>
+									Studio in Town
+								</rs-layer><!--
+
+							--><rs-layer id="slider-4-slide-18-layer-1" data-type="text" data-xy="xo:30px;yo:334px,334px,334px,152px;" data-text="w:normal;s:26,26,26,18;l:28,28,28,18;ls:8px,8px,8px,3px;fw:700;" data-rsp_bd="off" data-frame_0="x:-50,-50,-50,-19;" data-frame_1="st:1050;sp:1000;sR:1050;" data-frame_999="o:0;st:w;sR:6950;" style="z-index:8;font-family:'Rajdhani';text-transform:uppercase;">The Runner's Life
+								</rs-layer><!--
+
+							--><rs-layer id="slider-4-slide-18-layer-2" data-type="button" data-rsp_ch="on" data-xy="xo:30px;yo:603px,603px,603px,266px;" data-text="w:normal;s:25,25,25,14;l:55,55,55,25;a:center;" data-dim="w:60px,60px,60px,27px;h:60px,60px,60px,27px;minw:60px,60px,60px,none;minh:60px,60px,60px,none;" data-border="bos:solid;boc:#ffffff;bow:2px,2px,2px,2px;bor:50%,50%,50%,50%;" data-frame_0="x:0,0,0,0px;y:50,50,50,23px;" data-frame_1="x:0,0,0,0px;y:0,0,0,0px;st:2220;sp:1000;sR:2220;" data-frame_999="o:0;st:w;sR:5780;" style="z-index:10;background-color:rgba(255,255,255,0);font-family:'Roboto';text-transform:uppercase;"><i class="fa-angle-right"></i>
+								</rs-layer><!--
+
+							--><rs-layer id="slider-4-slide-18-layer-3" data-type="text" data-xy="xo:101px,101px,101px,68px;yo:619px,619px,619px,273px;" data-text="w:normal;s:14,14,14,12;l:25,25,25,14;ls:2px,2px,2px,1px;fw:700;" data-vbility="t,f,f,f" data-frame_0="y:50,50,50,19;" data-frame_1="st:2210;sp:1000;sR:2210;" data-frame_999="o:0;st:w;sR:5790;" style="z-index:11;font-family:'Rajdhani';text-transform:uppercase;">Discover more
+								</rs-layer><!--
+--> </rs-slide>
+						</rs-slides>
+					</rs-module>
+				</rs-module-wrap>
+				<!-- END REVOLUTION SLIDER -->
+			</div>
+		</header>
+		<!-- Header Main Area End Here -->
+
+		<!-- Page Content -->
+		<div class="page-content">
+
+			<!-- About Start -->
+			<section class="about-section-one">
+				<div class="container">
+					<div class="row g-0">
+						<div class="col-md-0 col-xl-3"></div>
+						<div class="col-md-5 col-xl-3">
+							<div class="about-one-img"></div>
+						</div>
+						<div class="col-md-7 col-xl-6">
+							<div class="about-one-ihbox">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="pbmit-ihbox-style-2">
+											<div class="pbmit-ihbox-inner">
+												<div class="pbmit-ihbox-heading">
+													<div class="pbmit-vc_general pbmit-vc_cta3">
+														<div class="pbmit-vc_cta3_content-container">
+															<div class="pbmit-vc_cta3-content">
+																<div class="pbmit-vc_cta3-content-header pbmit-wrap">
+																	<div class="pbmit-vc_cta3-headers pbmit-wrap-cell"></div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="pbmit-ihbox-contents">
+														<div class="pbmit-cta3-content-wrapper">1234 Grove Street Floor 3<br>
+															Gimox, NY 11007
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="pbmit-ihbox-style-2 pbmit-ihbox-style">
+											<div class="pbmit-ihbox-inner">
+												<div class="pbmit-ihbox-heading">
+													<div class="pbmit-vc_general pbmit-vc_cta3">
+														<div class="pbmit-vc_cta3_content-container">
+															<div class="pbmit-vc_cta3-content">
+																<div class="pbmit-vc_cta3-content-header pbmit-wrap">
+																	<div class="pbmit-vc_cta3-headers pbmit-wrap-cell"></div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="pbmit-ihbox-contents">
+														<div class="pbmit-cta3-content-wrapper">info@example.com<br>
+															<a href="tel:1-408-555-5555">+1-408-555-5555</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- About End -->
+
+			<!-- Icon Box Start -->
+			<section class="iconbox-section-one pbmit-bg-color-blackish">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-4">
+							<div class="pbmit-ihbox-style-3">
+								<div class="pbmit-ihbox-inner">
+									<div class="pbmit-ihbox-table">
+										<div class="pbmit-ihbox-icon  pbmit-icon-skincolor">
+											<div class="pbmit-ihbox-icon-wrapper">
+												<i class="pbmit-gimox-business-icon pbmit-gimox-business-icon-barbell"></i>
+											</div>
+										</div>
+										<div class="pbmit-vc_general pbmit-vc_cta3">
+											<div class="pbmit-vc_cta3_content-container">
+												<div class="pbmit-vc_cta3-content">
+													<div class="pbmit-vc_cta3-content-header pbmit-wrap">
+														<div class="pbmit-vc_cta3-headers pbmit-wrap-cell">
+															<h2 class="pbmit-custom-heading ">Cardio program</h2>
+															<h4 class="pbmit-custom-heading ">Friendly atmosphere</h4>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="pbmit-ihbox-contents">
+										<div class="pbmit-cta3-content-wrapper">Make the muscles of your body larger and fit stronger through tension and exercises such as lifting weights.</div>
+										<div class="pbmit-vc_btn3-container pbmit-vc_btn3-inline">
+											<a class="pbmit-vc_general pbmit-vc_btn3" href="index.html" title="">
+												<span>READ MORE</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="pbmit-ihbox-style-3">
+								<div class="pbmit-ihbox-inner">
+									<div class="pbmit-ihbox-table">
+										<div class="pbmit-ihbox-icon  pbmit-icon-skincolor">
+											<div class="pbmit-ihbox-icon-wrapper">
+												<i class="pbmit-gimox-business-icon pbmit-gimox-business-icon-gym-1"></i>
+											</div>
+										</div>
+										<div class="pbmit-vc_general pbmit-vc_cta3">
+											<div class="pbmit-vc_cta3_content-container">
+												<div class="pbmit-vc_cta3-content">
+													<div class="pbmit-vc_cta3-content-header pbmit-wrap">
+														<div class="pbmit-vc_cta3-headers pbmit-wrap-cell">
+															<h2 class="pbmit-custom-heading ">Pure Strength</h2>
+															<h4 class="pbmit-custom-heading ">Friendly atmosphere</h4>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="pbmit-ihbox-contents">
+										<div class="pbmit-cta3-content-wrapper">Make the muscles of your body larger and fit stronger through tension and exercises such as lifting weights.</div>
+										<div class="pbmit-vc_btn3-container pbmit-vc_btn3-inline">
+											<a class="pbmit-vc_general pbmit-vc_btn3" href="index.html" title="">
+												<span>READ MORE</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="pbmit-ihbox-style-3">
+								<div class="pbmit-ihbox-inner">
+									<div class="pbmit-ihbox-table">
+										<div class="pbmit-ihbox-icon  pbmit-icon-skincolor">
+											<div class="pbmit-ihbox-icon-wrapper">
+												<i class="pbmit-gimox-business-icon pbmit-gimox-business-icon-weight-lifting"></i>
+											</div>
+										</div>
+										<div class="pbmit-vc_general pbmit-vc_cta3">
+											<div class="pbmit-vc_cta3_content-container">
+												<div class="pbmit-vc_cta3-content">
+													<div class="pbmit-vc_cta3-content-header pbmit-wrap">
+														<div class="pbmit-vc_cta3-headers pbmit-wrap-cell">
+															<h2 class="pbmit-custom-heading ">Power yoga</h2>
+															<h4 class="pbmit-custom-heading ">Friendly atmosphere</h4>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="pbmit-ihbox-contents">
+										<div class="pbmit-cta3-content-wrapper">Make the muscles of your body larger and fit stronger through tension and exercises such as lifting weights.</div>
+										<div class="pbmit-vc_btn3-container pbmit-vc_btn3-inline">
+											<a class="pbmit-vc_general pbmit-vc_btn3" href="index.html" title="">
+												<span>READ MORE</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- Icon Box End -->
+
+			<!-- About Us Start -->
+			<section class="about-us-section-one">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12 col-lg-6">
+							<div class="about-us-one-content">
+								<div class="pbmit-heading-subheading">
+									<h4 class="pbmit-subtitle">Know About US </h4>
+									<h2 class="pbmit-title">WHY CHOOSE US? BECAUSE <br>WE’RE THE BEST. </h2>
+								</div>
+								<p>Our state of the art gyms provide you with a great place to work out in, whether you are there to burn off some calories or are training for something more specific. Why not visit your nearest Gym Center and take a look? We’re here to help you!</p>
+								<ul class="list-group list-group-borderless">
+									<li class="list-group-item">
+										<i class="themifyicon ti-check"></i>Train with the best experts in bodybuilding field.
+									</li>
+									<li class="list-group-item">
+										<i class="themifyicon ti-check"></i>Our personal trainers will help you find a perfect workout.
+									</li>
+								</ul>
+								<a href="about-us.html" class="pbmit-btn">
+									<span>READ MORE</span>
+								</a>
+							</div>
+						</div>
+						<div class="col-md-12 col-lg-6">
+							<div class="about-us-one-img">
+								<img src="images/homepage-1/img-02.jpg" class="img-fluid" alt="">
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- About Us End -->
+
+			<!-- Service Start -->
+			<section class="section-lgb pbmit-bg-color-blackish">
+				<div class="container">
+					<div class="row g-0">
+						<div class="col-md-12 col-xl-2">
+							<div class="service-one-img">
+								<div class="video-one-btn-bg">
+									<div class="video-one-play-btn">
+										<span><i class="fa fa-play"></i></span>
+										<a href="https://www.youtube.com/watch?v=j6UyNq_TwGA" class="pbmin-lightbox-video"></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 col-xl-10">
+							<div class="service-one-box">
+								<div class="row">
+									<div class="col-8">
+										<div class="pbmit-heading-subheading">
+											<h4 class="pbmit-subtitle">OUR CLASSES</h4>
+											<h2 class="pbmit-title text-white">OUR FEATURED CLASSES</h2>
+										</div>
+									</div>
+									<div class="col-4">
+										<div class="service-one-arrow swiper-btn-custom d-flex flex-row-reverse"></div>
+									</div>
+								</div>
+								<div class="swiper-slider" data-arrows-class="service-one-arrow" data-autoplay="true" data-loop="true" data-dots="false" data-arrows="true" data-columns="3" data-margin="30" data-effect="slide">
+									<div class="swiper-wrapper">
+										<div class="swiper-slide">
+											<!-- Slide1 -->
+											<article class="pbmit-box-service pbmit-servicebox-style-3">
+												<div class="pbmit-post-item">
+													<span class="pbmit-item-thumbnail">
+														<span class="pbmit-item-thumbnail-inner">
+															<img src="images/homepage-1/service/service-01.jpg" class="img-fluid" alt="">
+														</span>
+													</span>
+													<div class="pbmit-box-content">
+														<div class="pbmit-ihbox-icon">
+															<i class="pbmit-gimox-business-icon pbmit-gimox-business-icon-gym-1"></i>
+														</div>
+														<div class="pbmit-box-content-inner">
+															<div class="pbmit-pf-box-title">
+																<h3><a href="classes-details.html">Psycho Training</a></h3>
+																<div class="pbmit-service-content">
+																	<p>Winning means you’re willing to go longer, work harder for more.</p>
+																</div>
+															</div>
+															<div class="pbmit-box-link pbmit-vc_btn3">
+																<a href="classes-details.html">READ MORE</a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</article>
+										</div>
+										<div class="swiper-slide">
+											<!-- Slide2 -->
+											<article class="pbmit-box-service pbmit-servicebox-style-3">
+												<div class="pbmit-post-item">
+													<span class="pbmit-item-thumbnail">
+														<span class="pbmit-item-thumbnail-inner">
+															<img src="images/homepage-1/service/service-02.jpg" class="img-fluid" alt="">
+														</span>
+													</span>
+													<div class="pbmit-box-content">
+														<div class="pbmit-ihbox-icon">
+															<i class="pbmit-gimox-business-icon pbmit-gimox-business-icon-running-man"></i>
+														</div>
+														<div class="pbmit-box-content-inner">
+															<div class="pbmit-pf-box-title">
+																<h3><a href="classes-details.html">Self Defense</a></h3>
+																<div class="pbmit-service-content">
+																	<p>Don’t practice until you get it right practice until can’t wrong</p>
+																</div>
+															</div>
+															<div class="pbmit-box-link pbmit-vc_btn3">
+																<a href="classes-details.html">READ MORE</a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</article>
+										</div>
+										<div class="swiper-slide">
+											<!-- Slide3 -->
+											<article class="pbmit-box-service pbmit-servicebox-style-3">
+												<div class="pbmit-post-item">
+													<span class="pbmit-item-thumbnail">
+														<span class="pbmit-item-thumbnail-inner">
+															<img src="images/homepage-1/service/service-03.jpg" class="img-fluid" alt="">
+														</span>
+													</span>
+													<div class="pbmit-box-content">
+														<div class="pbmit-ihbox-icon">
+															<i class="pbmit-gimox-business-icon pbmit-gimox-business-icon-weight-lifting"></i>
+														</div>
+														<div class="pbmit-box-content-inner">
+															<div class="pbmit-pf-box-title">
+																<h3><a href="classes-details.html">Fitness For Man</a></h3>
+																<div class="pbmit-service-content">
+																	<p>Fitness Center provide all training with instrument.</p>
+																</div>
+															</div>
+															<div class="pbmit-box-link pbmit-vc_btn3">
+																<a href="classes-details.html">READ MORE</a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</article>
+										</div>
+										<div class="swiper-slide">
+											<!-- Slide4 -->
+											<article class="pbmit-box-service pbmit-servicebox-style-3">
+												<div class="pbmit-post-item">
+													<span class="pbmit-item-thumbnail">
+														<span class="pbmit-item-thumbnail-inner">
+															<img src="images/homepage-1/service/service-04.jpg" class="img-fluid" alt="">
+														</span>
+													</span>
+													<div class="pbmit-box-content">
+														<div class="pbmit-ihbox-icon">
+															<i class="pbmit-gimox-business-icon pbmit-gimox-business-icon-wellness"></i>
+														</div>
+														<div class="pbmit-box-content-inner">
+															<div class="pbmit-pf-box-title">
+																<h3><a href="classes-details.html">Strength Training</a></h3>
+																<div class="pbmit-service-content">
+																	<p>Improve your body strength with Join our trainings & get shape.</p>
+																</div>
+															</div>
+															<div class="pbmit-box-link pbmit-vc_btn3">
+																<a href="classes-details.html">READ MORE</a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</article>
+										</div>
+										<div class="swiper-slide">
+											<!-- Slide5 -->
+											<article class="pbmit-box-service pbmit-servicebox-style-3">
+												<div class="pbmit-post-item">
+													<span class="pbmit-item-thumbnail">
+														<span class="pbmit-item-thumbnail-inner">
+															<img src="images/homepage-1/service/service-05.jpg" class="img-fluid" alt="">
+														</span>
+													</span>
+													<div class="pbmit-box-content">
+														<div class="pbmit-ihbox-icon">
+															<i class="pbmit-gimox-business-icon pbmit-gimox-business-icon-muscle"></i>
+														</div>
+														<div class="pbmit-box-content-inner">
+															<div class="pbmit-pf-box-title">
+																<h3><a href="classes-details.html">Boxing For Man</a></h3>
+																<div class="pbmit-service-content">
+																	<p>Strength exercises for runners, you realize incredible Strategies.</p>
+																</div>
+															</div>
+															<div class="pbmit-box-link pbmit-vc_btn3">
+																<a href="classes-details.html">READ MORE</a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</article>
+										</div>
+										<div class="swiper-slide">
+											<!-- Slide6 -->
+											<article class="pbmit-box-service pbmit-servicebox-style-3">
+												<div class="pbmit-post-item">
+													<span class="pbmit-item-thumbnail">
+														<span class="pbmit-item-thumbnail-inner">
+															<img src="images/homepage-1/service/service-06.jpg" class="img-fluid" alt="">
+														</span>
+													</span>
+													<div class="pbmit-box-content">
+														<div class="pbmit-ihbox-icon">
+															<i class="pbmit-gimox-business-icon pbmit-gimox-business-icon-gym-2"></i>
+														</div>
+														<div class="pbmit-box-content-inner">
+															<div class="pbmit-pf-box-title">
+																<h3><a href="classes-details.html">Cardio For Man</a></h3>
+																<div class="pbmit-service-content">
+																	<p>Our trainer will perfect cardio workout, get best body ever. </p>
+																</div>
+															</div>
+															<div class="pbmit-box-link pbmit-vc_btn3">
+																<a href="classes-details.html">READ MORE</a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</article>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- Service End -->
+
+			<!-- Include Testimonials -->
+			<?php include 'testimonials.php'; ?>
+
+			<!-- Include Latest Blog Posts -->
+			<?php include 'blog-posts.php'; ?>
+
+		</div>
+		<!-- Page Content End -->
+
+		<!-- Include Footer -->
+		<?php include 'footer.php'; ?>
+
+	</div>
+	<!-- page wrapper End -->
+
+	<!-- Search Box Start Here -->
+	<div class="pbmit-search-overlay">
+		<div class="pbmit-icon-close"></div>
+		<div class="pbmit-search-outer">
+			<div class="pbmit-search-logo">
+				<img src="images/logo.png" alt="">
+			</div>
+			<form class="pbmit-site-searchform">
+				<input type="search" class="form-control field searchform-s" name="s" placeholder="Type Word Then Press Enter">
+				<button type="submit">
+					<i class="pbmit-base-icon-search"></i>
+				</button>
+			</form>
+		</div>
+	</div>
+	<!-- Search Box End Here -->
+
+	<!-- JS
+         ============================================ -->
+	<!-- jQuery JS -->
+	<script src="js/jquery.min.js"></script>
+	<!-- Popper JS -->
+	<script src="js/popper.min.js"></script>
+	<!-- Bootstrap JS -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- jquery Waypoints JS -->
+	<script src="js/jquery.waypoints.min.js"></script>
+	<!-- jquery Appear JS -->
+	<script src="js/jquery.appear.js"></script>
+	<!-- Numinate JS -->
+	<script src="js/numinate.min.js"></script>
+	<!-- Swiper JS -->
+	<script src="js/swiper.min.js"></script>
+	<!-- Magnific JS -->
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<!-- Circle Progress JS -->
+	<script src="js/circle-progress.js"></script>
+	<!-- Scripts JS -->
+	<script src="js/scripts.js"></script>
+	<!-- Revolution JS -->
+	<script src="revolution/rslider.js"></script>
+	<script src="revolution/rbtools.min.js"></script>
+	<script src="revolution/rs6.min.js"></script>
+</body>
+
+</html>

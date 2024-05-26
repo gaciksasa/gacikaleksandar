@@ -1446,6 +1446,10 @@ body {
 	letter-spacing: 2px;
 	font-family: Rajdhani,sans-serif;
 }
+
+.pbmit-testimonialbox-style-2 blockquote:after{
+    color: #313538 ;
+}
 .pbmit-testimonialbox-style-2 .pbmit-box-img img{
     border-radius: 50%;
     max-height: 80px;
