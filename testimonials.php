@@ -11,7 +11,7 @@ if ($conn->connect_error) {
 }
 
 // Fetch testimonials
-$sql = "SELECT author_name, author_designation, author_image, testimonial_text, rating FROM testimonials ORDER BY created_at DESC LIMIT 3";
+$sql = "SELECT author_name, author_designation, testimonial_text, rating FROM testimonials ORDER BY created_at DESC LIMIT 3";
 $result = $conn->query($sql);
 
 $testimonials = [];

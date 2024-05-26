@@ -10,7 +10,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="articles.php">
-                <i class="fa fa-newspaper-o"></i>
+                    <i class="fa fa-newspaper-o"></i>
                     Articles
                 </a>
             </li>
@@ -24,6 +24,12 @@
                 <a class="nav-link" href="categories.php">
                     <i class="fa fa-folder-open"></i>
                     Categories
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="view_testimonials.php">
+                    <i class="fa fa-comments"></i>
+                    Testimonials
                 </a>
             </li>
         </ul>
