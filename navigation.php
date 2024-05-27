@@ -3,7 +3,7 @@
     <div class="position-sticky">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="#">
+                <a class="nav-link active" href="dashboard.php">
                     <i class="fa fa-home"></i>
                     Dashboard
                 </a>
@@ -24,6 +24,12 @@
                 <a class="nav-link" href="categories.php">
                     <i class="fa fa-folder-open"></i>
                     Categories
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="view_services.php">
+                    <i class="fa fa-cogs"></i>
+                    Services
                 </a>
             </li>
             <li class="nav-item">
