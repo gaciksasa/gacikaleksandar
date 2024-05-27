@@ -10,6 +10,17 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
+// Fetch section details
+$section_sql = "SELECT section_title, section_subtitle FROM testimonial_section WHERE id = 1";
+$section_result = $conn->query($section_sql);
+$section_title = '';
+$section_subtitle = '';
+if ($section_result && $section_result->num_rows > 0) {
+  $section = $section_result->fetch_assoc();
+  $section_title = $section['section_title'];
+  $section_subtitle = $section['section_subtitle'];
+}
+
 // Fetch testimonials
 $sql = "SELECT author_name, author_designation, testimonial_text, rating FROM testimonials ORDER BY created_at DESC LIMIT 3";
 $result = $conn->query($sql);
@@ -17,11 +28,8 @@ $result = $conn->query($sql);
 $testimonials = [];
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
-
     $testimonials[] = $row;
   }
-} else {
-  echo "No testimonials found.<br>";
 }
 
 $conn->close();
@@ -34,8 +42,8 @@ $conn->close();
       <div class="row">
         <div class="col-md-12 col-lg-4">
           <div class="pbmit-heading-subheading">
-            <h4 class="pbmit-subtitle">Our Testimonial</h4>
-            <h2 class="pbmit-title text-white">What our<br> clients<br> say About us</h2>
+            <h4 class="pbmit-subtitle"><?php echo htmlspecialchars($section_subtitle); ?></h4>
+            <h2 class="pbmit-title text-white"><?php echo htmlspecialchars($section_title); ?></h2>
           </div>
         </div>
         <div class="col-md-12 col-lg-8">
@@ -53,7 +61,7 @@ $conn->close();
                           <?php endfor; ?>
                         </div>
                         <div class="pbmit-box-desc">
-                          <blockquote class="pbmit-testimonial-text"><?php echo ($testimonial['testimonial_text']); ?></blockquote>
+                          <blockquote class="pbmit-testimonial-text"><?php echo htmlspecialchars($testimonial['testimonial_text']); ?></blockquote>
                         </div>
                       </div>
                       <div class="pbmit-box-author">

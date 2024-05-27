@@ -16,7 +16,40 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch all testimonials
+// Initialize variables for the section
+$section_title = '';
+$section_subtitle = '';
+
+// Fetch section details
+$section_sql = "SELECT section_title, section_subtitle FROM testimonial_section WHERE id = 1";
+$section_result = $conn->query($section_sql);
+if ($section_result && $section_result->num_rows > 0) {
+  $section = $section_result->fetch_assoc();
+  $section_title = $section['section_title'];
+  $section_subtitle = $section['section_subtitle'];
+}
+
+// Handle form submission for updating section details
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_section'])) {
+  $section_title = $_POST['section_title'];
+  $section_subtitle = $_POST['section_subtitle'];
+
+  // Update section details
+  if ($section_result->num_rows > 0) {
+    $update_section_sql = "UPDATE testimonial_section SET section_title = ?, section_subtitle = ? WHERE id = 1";
+  } else {
+    $update_section_sql = "INSERT INTO testimonial_section (section_title, section_subtitle) VALUES (?, ?)";
+  }
+  $stmt = $conn->prepare($update_section_sql);
+  $stmt->bind_param("ss", $section_title, $section_subtitle);
+  $stmt->execute();
+  $stmt->close();
+
+  header("Location: view_testimonials.php");
+  exit;
+}
+
+// Fetch testimonials
 $sql = "SELECT id, author_name, author_designation, testimonial_text, rating FROM testimonials";
 $result = $conn->query($sql);
 $testimonials = [];
@@ -53,11 +86,28 @@ $conn->close();
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Testimonials</h1>
         </div>
+
+        <!-- Section Details Form -->
+        <div class="mb-3">
+          <form method="POST" action="view_testimonials.php">
+            <button type="submit" class="btn btn-primary mb-3" name="save_section">Save Section</button>
+
+            <div class="form-group">
+              <label for="section_subtitle">Section Subtitle</label>
+              <input type="text" class="form-control" id="section_subtitle" name="section_subtitle" value="<?php echo htmlspecialchars($section_subtitle); ?>">
+            </div>
+            <div class="form-group">
+              <label for="section_title">Section Title</label>
+              <input type="text" class="form-control" id="section_title" name="section_title" value="<?php echo htmlspecialchars($section_title); ?>">
+            </div>
+          </form>
+        </div>
+
         <a href="add_testimonial.php" class="btn btn-primary mb-3">Add Testimonial</a>
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th>Author Name</th>
+              <th>Author</th>
               <th>Designation</th>
               <th>Testimonial</th>
               <th>Rating</th>
