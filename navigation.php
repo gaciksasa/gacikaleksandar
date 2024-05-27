@@ -33,6 +33,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="view_about.php">
+                    <i class="fa fa-info-circle"></i>
+                    About
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="view_services.php">
                     <i class="fa fa-cogs"></i>
                     Services

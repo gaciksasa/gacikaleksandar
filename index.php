@@ -341,39 +341,8 @@
 			</section>
 			<!-- Icon Box End -->
 
-			<!-- About Us Start -->
-			<section class="about-us-section-one">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-12 col-lg-6">
-							<div class="about-us-one-content">
-								<div class="pbmit-heading-subheading">
-									<h4 class="pbmit-subtitle">Know About US </h4>
-									<h2 class="pbmit-title">WHY CHOOSE US? BECAUSE <br>WE’RE THE BEST. </h2>
-								</div>
-								<p>Our state of the art gyms provide you with a great place to work out in, whether you are there to burn off some calories or are training for something more specific. Why not visit your nearest Gym Center and take a look? We’re here to help you!</p>
-								<ul class="list-group list-group-borderless">
-									<li class="list-group-item">
-										<i class="themifyicon ti-check"></i>Train with the best experts in bodybuilding field.
-									</li>
-									<li class="list-group-item">
-										<i class="themifyicon ti-check"></i>Our personal trainers will help you find a perfect workout.
-									</li>
-								</ul>
-								<a href="about-us.html" class="pbmit-btn">
-									<span>READ MORE</span>
-								</a>
-							</div>
-						</div>
-						<div class="col-md-12 col-lg-6">
-							<div class="about-us-one-img">
-								<img src="images/homepage-1/img-02.jpg" class="img-fluid" alt="">
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-			<!-- About Us End -->
+			<!-- Include About -->
+			<?php include 'about.php'; ?>
 
 			<!-- Include Sevices -->
 			<?php include 'services.php'; ?>
