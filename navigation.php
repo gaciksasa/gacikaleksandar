@@ -39,6 +39,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="view_programs.php">
+                    <i class="fa fa-tasks"></i>
+                    Programs
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="view_services.php">
                     <i class="fa fa-cogs"></i>
                     Services
