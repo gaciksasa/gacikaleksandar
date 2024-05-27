@@ -29,6 +29,18 @@ if ($result->num_rows > 0) {
 $conn->close();
 ?>
 
+<style>
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+  }
+</style>
+
 <!-- START Home Slider 1 REVOLUTION SLIDER 6.5.19 -->
 <p class="rs-p-wp-fix"></p>
 <rs-module-wrap id="rev_slider_1_1_wrapper" data-alias="Home-Slider-1" data-source="gallery" style="visibility:hidden;background:#222d35;padding:0;margin:0px auto;margin-top:0;margin-bottom:0;">
@@ -37,6 +49,7 @@ $conn->close();
       <?php foreach ($sliders as $index => $slider) : ?>
         <rs-slide style="position: absolute;" data-key="rs-<?php echo $index; ?>" data-title="Slide" data-thumb="revolution/images/slider01-1a-50x100.jpg" data-anim="ms:1000;r:0;" data-in="o:0;" data-out="a:false;">
           <img src="uploads/<?php echo htmlspecialchars($slider['background_image']); ?>" alt="<?php echo htmlspecialchars($slider['title']); ?>" title="<?php echo htmlspecialchars($slider['title']); ?>" width="1900" height="898" class="rev-slidebg tp-rs-img rs-lazyload" data-lazyload="uploads/<?php echo htmlspecialchars($slider['background_image']); ?>" data-no-retina>
+          <div class="overlay"></div>
           <rs-layer id="slider-<?php echo $index; ?>-layer-0" data-type="text" data-rsp_ch="on" data-xy="xo:30px;yo:374px,374px,374px,175px;" data-text="s:100,100,100,40;l:100,100,100,40;ls:3px,3px,3px,2px;fw:700;" data-frame_0="x:50,50,50,19;" data-frame_1="st:1490;sp:1000;sR:1490;" data-frame_999="o:0;st:w;sR:6510;" style="z-index:9;font-family:'Rajdhani';text-transform:uppercase;"><span class="pbmit-skincolor"><?php echo htmlspecialchars($slider['title']); ?></span>
           </rs-layer>
           <rs-layer id="slider-<?php echo $index; ?>-layer-1" data-type="text" data-xy="xo:30px;yo:334px,334px,334px,152px;" data-text="w:normal;s:26,26,26,18;l:28,28,28,18;ls:8px,8px,8px,3px;fw:700;" data-rsp_bd="off" data-frame_0="x:-50,-50,-50,-19;" data-frame_1="st:1050;sp:1000;sR:1050;" data-frame_999="o:0;st:w;sR:6950;" style="z-index:8;font-family:'Rajdhani';text-transform:uppercase;"><?php echo htmlspecialchars($slider['subtitle']); ?>
