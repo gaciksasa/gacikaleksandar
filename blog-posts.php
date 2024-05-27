@@ -1,5 +1,7 @@
 <?php
 
+require 'config.php';
+
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
@@ -21,6 +23,11 @@ if ($result->num_rows > 0) {
     }
 }
 
+// Fetch section details
+$section_sql = "SELECT section_title, section_subtitle FROM blog_section WHERE id = 1";
+$section_result = $conn->query($section_sql);
+$section = $section_result->fetch_assoc();
+
 $conn->close();
 ?>
 
@@ -28,8 +35,8 @@ $conn->close();
 <section class="section-lg pbmit-bg-color-light">
     <div class="container">
         <div class="pbmit-heading-subheading text-center">
-            <h4 class="pbmit-subtitle">LATEST BLOG POSTS</h4>
-            <h2 class="pbmit-title">See what’s happening<br>around Gym</h2>
+            <h4 class="pbmit-subtitle"><?php echo htmlspecialchars($section['section_subtitle'] ?? 'LATEST BLOG POSTS'); ?></h4>
+            <h2 class="pbmit-title"><?php echo htmlspecialchars($section['section_title'] ?? 'See what’s happening around Gym'); ?></h2>
         </div>
         <div class="row g-0">
             <?php foreach ($articles as $index => $article) : ?>

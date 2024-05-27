@@ -16,6 +16,39 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Initialize variables for the section
+$section_title = '';
+$section_subtitle = '';
+
+// Fetch section details
+$section_sql = "SELECT section_title, section_subtitle FROM blog_section WHERE id = 1";
+$section_result = $conn->query($section_sql);
+if ($section_result && $section_result->num_rows > 0) {
+    $section = $section_result->fetch_assoc();
+    $section_title = $section['section_title'];
+    $section_subtitle = $section['section_subtitle'];
+}
+
+// Handle form submission for updating section details
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_section'])) {
+    $section_title = $_POST['section_title'];
+    $section_subtitle = $_POST['section_subtitle'];
+
+    // Update section details
+    if ($section_result->num_rows > 0) {
+        $update_section_sql = "UPDATE blog_section SET section_title = ?, section_subtitle = ? WHERE id = 1";
+    } else {
+        $update_section_sql = "INSERT INTO blog_section (section_title, section_subtitle) VALUES (?, ?)";
+    }
+    $stmt = $conn->prepare($update_section_sql);
+    $stmt->bind_param("ss", $section_title, $section_subtitle);
+    $stmt->execute();
+    $stmt->close();
+
+    header("Location: articles.php");
+    exit;
+}
+
 // Fetch articles
 $sql = "SELECT id, title, slug, created_at FROM blog_posts";
 $result = $conn->query($sql);
@@ -45,8 +78,25 @@ $result = $conn->query($sql);
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Articles</h1>
                 </div>
+
+                <!-- Section Details Form -->
+                <div class="mb-3">
+                    <form method="POST" action="articles.php">
+                        <button type="submit" class="btn btn-primary mb-3" name="save_section">Save Section</button>
+                        <div class="form-group">
+                            <label for="section_subtitle">Section Subtitle</label>
+                            <input type="text" class="form-control" id="section_subtitle" name="section_subtitle" value="<?php echo htmlspecialchars($section_subtitle); ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="section_title">Section Title</label>
+                            <input type="text" class="form-control" id="section_title" name="section_title" value="<?php echo htmlspecialchars($section_title); ?>">
+                        </div>
+
+                    </form>
+                </div>
+
                 <div id="main-content">
-                <a href="add_article.php" class="btn btn-primary mb-3">Add Article</a>
+                    <a href="add_article.php" class="btn btn-primary mb-3">Add Article</a>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -57,8 +107,8 @@ $result = $conn->query($sql);
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if ($result->num_rows > 0): ?>
-                                <?php while($row = $result->fetch_assoc()): ?>
+                            <?php if ($result->num_rows > 0) : ?>
+                                <?php while ($row = $result->fetch_assoc()) : ?>
                                     <tr>
                                         <td><?php echo $row['id']; ?></td>
                                         <td><?php echo htmlspecialchars($row['title']); ?></td>
@@ -70,7 +120,7 @@ $result = $conn->query($sql);
                                         </td>
                                     </tr>
                                 <?php endwhile; ?>
-                            <?php else: ?>
+                            <?php else : ?>
                                 <tr>
                                     <td colspan="4">No articles found</td>
                                 </tr>
