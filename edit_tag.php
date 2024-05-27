@@ -72,16 +72,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Edit Tag - My Website</title>
+    <title>Edit Tag - Gacik Aleksandar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit-no">
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
     <div class="container-fluid">
         <div class="row">
@@ -100,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="form-group">
                         <label for="featured_image">Featured Image</label>
                         <input type="file" class="form-control" id="featured_image" name="featured_image">
-                        <?php if ($featured_image): ?>
+                        <?php if ($featured_image) : ?>
                             <img src="<?php echo htmlspecialchars($featured_image); ?>" alt="Featured Image" style="width: 100px; height: auto;">
                         <?php endif; ?>
                     </div>
@@ -115,4 +117,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </body>
+
 </html>

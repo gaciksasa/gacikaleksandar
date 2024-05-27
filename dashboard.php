@@ -14,7 +14,7 @@ if (!isset($_SESSION['user_id'])) {
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Dashboard - My Website</title>
+    <title>Dashboard - Gacik Aleksandar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -47,8 +47,8 @@ if (!isset($_SESSION['user_id'])) {
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $('#sidebar .nav-link').on('click', function () {
+        $(document).ready(function() {
+            $('#sidebar .nav-link').on('click', function() {
                 var $el = $(this);
                 var $collapse = $el.next('.collapse');
                 if ($collapse.length) {

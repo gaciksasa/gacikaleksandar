@@ -35,7 +35,7 @@ $conn->close();
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Categories - My Website</title>
+    <title>Categories - Gacik Aleksandar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit-no">
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -64,14 +64,14 @@ $conn->close();
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($categories as $category): ?>
+                        <?php foreach ($categories as $category) : ?>
                             <tr>
                                 <td><?php echo htmlspecialchars($category['id']); ?></td>
                                 <td><?php echo htmlspecialchars($category['name']); ?></td>
                                 <td>
-                                    <?php if (!empty($category['featured_image'])): ?>
+                                    <?php if (!empty($category['featured_image'])) : ?>
                                         <img src="<?php echo htmlspecialchars($category['featured_image']); ?>" alt="<?php echo htmlspecialchars($category['name']); ?>" style="max-width: 100px;">
-                                    <?php else: ?>
+                                    <?php else : ?>
                                         No image
                                     <?php endif; ?>
                                 </td>

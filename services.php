@@ -9,8 +9,13 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
+// Fetch section details
+$section_sql = "SELECT section_title, section_subtitle, section_content FROM services_section WHERE id = 1";
+$section_result = $conn->query($section_sql);
+$section = $section_result->fetch_assoc();
+
 // Fetch services
-$sql = "SELECT title, description, image, icon, link FROM services";
+$sql = "SELECT title, icon, description, image, link FROM services";
 $result = $conn->query($sql);
 $services = [];
 if ($result->num_rows > 0) {
@@ -25,10 +30,10 @@ $conn->close();
 <section class="service-two pbmit-bg-color-blackish">
   <div class="container">
     <div class="pbmit-heading-subheading text-center">
-      <h4 class="pbmit-subtitle">OUR CLASSES</h4>
-      <h2 class="pbmit-title text-white">OUR FEATURED CLASSES</h2>
+      <h4 class="pbmit-subtitle"><?php echo htmlspecialchars($section['section_subtitle'] ?? 'OUR CLASSES'); ?></h4>
+      <h2 class="pbmit-title text-white"><?php echo htmlspecialchars($section['section_title'] ?? 'OUR FEATURED CLASSES'); ?></h2>
       <div class="pbmit-content-wrapper">
-        <p>Fitness is not about being better than someone. Fitness is about being better than the person you were yesterday. Whether you are there to burn off some calories or are training.</p>
+        <p><?php echo htmlspecialchars($section['section_content'] ?? 'Fitness is not about being better than someone. Fitness is about being better than the person you were yesterday. Whether you are there to burn off some calories or are training.'); ?></p>
       </div>
     </div>
     <div class="row">
@@ -48,8 +53,8 @@ $conn->close();
               <div class="pbmit-box-content">
                 <div class="pbmit-box-content-inner">
                   <div class="pbmit-pf-box-title">
-                    <div class="pbmit-ihbox-icon pbmit-icon-skincolor">
-                      <i class="pbmit-gimox-business-icon-<?php echo htmlspecialchars($service['icon']); ?>"></i>
+                    <div class="pbmit-ihbox-icon  pbmit-icon-skincolor">
+                      <i class="<?php echo htmlspecialchars($service['icon']); ?>"></i>
                     </div>
                   </div>
                   <div class="pbmit-des">

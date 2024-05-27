@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Edit Category - My Website</title>
+    <title>Edit Category - Gacik Aleksandar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit-no">
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="form-group">
                         <label for="featured_image">Featured Image</label>
                         <input type="file" class="form-control" id="featured_image" name="featured_image" accept="image/*">
-                        <?php if ($featured_image): ?>
+                        <?php if ($featured_image) : ?>
                             <img src="<?php echo htmlspecialchars($featured_image); ?>" alt="Current Featured Image" style="max-width: 100px; margin-top: 10px;">
                         <?php endif; ?>
                     </div>

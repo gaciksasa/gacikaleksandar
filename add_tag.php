@@ -52,16 +52,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Add Tag - My Website</title>
+    <title>Add Tag - Gacik Aleksandar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit-no">
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
     <div class="container-fluid">
         <div class="row">
@@ -92,4 +94,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </body>
+
 </html>

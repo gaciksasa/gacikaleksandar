@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Login - My Website</title>
+    <title>Login - Gacik Aleksandar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <h2>Login</h2>
                     </div>
                     <div class="card-body">
-                        <?php if (isset($error)): ?>
+                        <?php if (isset($error)) : ?>
                             <div class="alert alert-danger">
                                 <?php echo $error; ?>
                             </div>

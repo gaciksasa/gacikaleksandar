@@ -31,16 +31,18 @@ $conn->close();
 
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Tags - My Website</title>
+    <title>Tags - Gacik Aleksandar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit-no">
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
     <div class="container-fluid">
         <div class="row">
@@ -62,12 +64,12 @@ $conn->close();
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($tags as $tag): ?>
+                        <?php foreach ($tags as $tag) : ?>
                             <tr>
                                 <td><?php echo htmlspecialchars($tag['id']); ?></td>
                                 <td><?php echo htmlspecialchars($tag['name']); ?></td>
                                 <td>
-                                    <?php if ($tag['featured_image']): ?>
+                                    <?php if ($tag['featured_image']) : ?>
                                         <img src="<?php echo htmlspecialchars($tag['featured_image']); ?>" alt="Featured Image" style="width: 50px; height: auto;">
                                     <?php endif; ?>
                                 </td>
@@ -88,4 +90,5 @@ $conn->close();
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </body>
+
 </html>
