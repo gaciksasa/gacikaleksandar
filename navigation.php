@@ -27,6 +27,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="view_sliders.php">
+                    <i class="fa fa-sliders"></i>
+                    Slider
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="view_services.php">
                     <i class="fa fa-cogs"></i>
                     Services
