@@ -45,6 +45,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="view_pricing.php">
+                    <i class="fa fa-dollar"></i>
+                    Pricing
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="view_services.php">
                     <i class="fa fa-cogs"></i>
                     Services

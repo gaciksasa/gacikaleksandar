@@ -236,11 +236,15 @@
 			<!-- Include Programs -->
 			<?php include 'programs.php'; ?>
 
+
 			<!-- Include About -->
 			<?php include 'about.php'; ?>
 
 			<!-- Include Sevices -->
 			<?php include 'services.php'; ?>
+
+			<!-- Include Pricing -->
+			<?php include 'pricing.php'; ?>
 
 			<!-- Include Testimonials -->
 			<?php include 'testimonials.php'; ?>
