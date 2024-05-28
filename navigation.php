@@ -8,6 +8,9 @@
                     Dashboard
                 </a>
             </li>
+            <li class="nav-item my-2 py-2 px-3 bg-primary text-white">
+                Blog
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="articles.php">
                     <i class="fa fa-newspaper-o"></i>
@@ -25,6 +28,9 @@
                     <i class="fa fa-folder-open"></i>
                     Categories
                 </a>
+            </li>
+            <li class="nav-item my-2 py-2 px-3 bg-primary text-white">
+                Sections
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="view_sliders.php">
@@ -61,6 +67,9 @@
                     <i class="fa fa-comments"></i>
                     Testimonials
                 </a>
+            </li>
+            <li class="nav-item my-2 py-2 px-3 bg-primary text-white">
+                Pages
             </li>
         </ul>
     </div>

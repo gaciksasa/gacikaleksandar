@@ -103,7 +103,7 @@ $conn->close();
         </div>
 
         <!-- Services Table -->
-        <a href="add_service.php" class="btn btn-primary mb-3">Add Service</a>
+        <a href="add_service.php" class="btn btn-primary mb-3 mt-4">Add Service</a>
         <table class="table table-bordered">
           <thead>
             <tr>

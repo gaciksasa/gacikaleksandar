@@ -81,12 +81,13 @@ $conn->close();
       <!-- Main Content -->
       <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">Pricing Management</h1>
+          <h1 class="h2">Pricing</h1>
         </div>
 
         <!-- Pricing Section Form -->
         <form method="POST" action="view_pricing.php">
           <input type="hidden" name="section" value="section">
+          <button type="submit" class="btn btn-primary mb-3">Save Section</button>
           <div class="form-group">
             <label for="title">Section Title</label>
             <input type="text" class="form-control" id="title" name="title" value="<?php echo htmlspecialchars($title); ?>" required>
@@ -99,7 +100,6 @@ $conn->close();
             <label for="content">Section Content</label>
             <textarea class="form-control" id="content" name="content" required><?php echo htmlspecialchars($content); ?></textarea>
           </div>
-          <button type="submit" class="btn btn-primary">Save Section</button>
         </form>
 
         <!-- Pricing Plans -->

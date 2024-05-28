@@ -96,7 +96,7 @@ $result = $conn->query($sql);
                 </div>
 
                 <div id="main-content">
-                    <a href="add_article.php" class="btn btn-primary mb-3">Add Article</a>
+                    <a href="add_article.php" class="btn btn-primary mb-3 mt-4">Add Article</a>
                     <table class="table table-striped">
                         <thead>
                             <tr>

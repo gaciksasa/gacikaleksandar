@@ -103,7 +103,7 @@ $conn->close();
           </form>
         </div>
 
-        <a href="add_testimonial.php" class="btn btn-primary mb-3">Add Testimonial</a>
+        <a href="add_testimonial.php" class="btn btn-primary mb-3 mt-4">Add Testimonial</a>
         <table class="table table-bordered">
           <thead>
             <tr>
