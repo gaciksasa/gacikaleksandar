@@ -1,4 +1,3 @@
-<!-- navigation.php -->
 <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
     <div class="position-sticky">
         <ul class="nav flex-column">
@@ -70,6 +69,12 @@
             </li>
             <li class="nav-item my-2 py-2 px-3 bg-primary text-white">
                 Pages
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="logout.php">
+                    <i class="fa fa-sign-out"></i>
+                    Logout
+                </a>
             </li>
         </ul>
     </div>
