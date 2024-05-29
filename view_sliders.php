@@ -59,7 +59,7 @@ $conn->close();
             <tr>
               <th>Title</th>
               <th>Subtitle</th>
-              <th>Background Image</th>
+              <th>Background Image (1900x900)</th>
               <th>Link</th>
               <th>Actions</th>
             </tr>

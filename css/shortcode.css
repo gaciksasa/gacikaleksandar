@@ -1670,6 +1670,7 @@ body {
 .header-style-1 .social-icons{
 	padding-top: 0;
 	padding-bottom: 0;
+    padding-right: 25px;
 }
 .header-style-1 .social-icons li a:hover{
 	color: var(--pbmit-global-color);

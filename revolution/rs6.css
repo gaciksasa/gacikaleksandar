@@ -264,7 +264,7 @@ a.rs-layer:-webkit-any-link { text-decoration: none }
 
 a[x-apple-data-detectors] { color: inherit !important;   text-decoration: none !important;   font-size: inherit !important;   font-family: inherit !important;   font-weight: inherit !important;   line-height: inherit !important; }
 
-.entry-content rs-module a, rs-module a { box-shadow: none; }
+.entry-content rs-module a, rs-module a { box-shadow: none; color: #ffffff;}
 
 .rs-ov-hidden 		{ 	overflow:hidden !important;}
 

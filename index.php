@@ -128,30 +128,22 @@
 														<i class="pbmit-base-icon-facebook"></i>
 													</a>
 												</li>
-												<li class="pbmit-social-twitter">
+												<li class="pbmit-social-instagram">
 													<a class=" tooltip-top" target="_blank" href="#">
-														<i class="pbmit-base-icon-twitter"></i>
+														<i class="pbmit-base-icon-instagram"></i>
 													</a>
 												</li>
-												<li class="pbmit-social-flickr">
+												<li class="pbmit-social-youtube">
 													<a class=" tooltip-top" target="_blank" href="#">
-														<i class="pbmit-base-icon-flickr"></i>
-													</a>
-												</li>
-												<li class="pbmit-social-linkedin">
-													<a class=" tooltip-top" target="_blank" href="">
-														<i class="pbmit-base-icon-linkedin"></i>
+														<i class="pbmit-base-icon-youtube"></i>
 													</a>
 												</li>
 											</ul>
 										</div>
-										<div class="pbmit-header-search-btn">
-											<a href="#">
-												<i class="pbmit-base-icon-search-2"></i>
-											</a>
-										</div>
 										<div class="pbmit-header-button">
-											<a href="contacts.html"><span>Get a Free Pass</span></a>
+											<a class=" tooltip-top" href="tel:+381604494033">
+												<i class="pbmit-base-icon-phone"> </i> 060 44 94 033
+											</a>
 										</div>
 									</div>
 								</div>
@@ -170,72 +162,8 @@
 		<!-- Page Content -->
 		<div class="page-content">
 
-			<!-- About Start -->
-			<section class="about-section-one">
-				<div class="container">
-					<div class="row g-0">
-						<div class="col-md-0 col-xl-3"></div>
-						<div class="col-md-5 col-xl-3">
-							<div class="about-one-img"></div>
-						</div>
-						<div class="col-md-7 col-xl-6">
-							<div class="about-one-ihbox">
-								<div class="row">
-									<div class="col-md-6">
-										<div class="pbmit-ihbox-style-2">
-											<div class="pbmit-ihbox-inner">
-												<div class="pbmit-ihbox-heading">
-													<div class="pbmit-vc_general pbmit-vc_cta3">
-														<div class="pbmit-vc_cta3_content-container">
-															<div class="pbmit-vc_cta3-content">
-																<div class="pbmit-vc_cta3-content-header pbmit-wrap">
-																	<div class="pbmit-vc_cta3-headers pbmit-wrap-cell"></div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="pbmit-ihbox-contents">
-														<div class="pbmit-cta3-content-wrapper">1234 Grove Street Floor 3<br>
-															Gimox, NY 11007
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="pbmit-ihbox-style-2 pbmit-ihbox-style">
-											<div class="pbmit-ihbox-inner">
-												<div class="pbmit-ihbox-heading">
-													<div class="pbmit-vc_general pbmit-vc_cta3">
-														<div class="pbmit-vc_cta3_content-container">
-															<div class="pbmit-vc_cta3-content">
-																<div class="pbmit-vc_cta3-content-header pbmit-wrap">
-																	<div class="pbmit-vc_cta3-headers pbmit-wrap-cell"></div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="pbmit-ihbox-contents">
-														<div class="pbmit-cta3-content-wrapper">info@example.com<br>
-															<a href="tel:1-408-555-5555">+1-408-555-5555</a>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-			<!-- About End -->
-
 			<!-- Include Programs -->
 			<?php include 'programs.php'; ?>
-
 
 			<!-- Include About -->
 			<?php include 'about.php'; ?>
