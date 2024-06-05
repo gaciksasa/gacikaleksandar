@@ -218,7 +218,7 @@
 													</div>
 												</div>
 												<div class="pbmit-ihbox-contents">
-													<div class="pbmit-cta3-content-wrapper">51 Somestreet Cambridge,<br> CB4 3AA, United Kingdom</div>
+													<div class="pbmit-cta3-content-wrapper">Dušanova 58/601, Niš 18000</div>
 												</div>
 											</div>
 										</div>
@@ -245,7 +245,7 @@
 													</div>
 												</div>
 												<div class="pbmit-ihbox-contents">
-													<div class="pbmit-cta3-content-wrapper">Mobile: (+88) 090 1900 – 6886 <br> Hotline: 1800 6886</div>
+													<div class="pbmit-cta3-content-wrapper">Mobile: 060 44 94 033</div>
 												</div>
 											</div>
 										</div>
@@ -272,7 +272,7 @@
 													</div>
 												</div>
 												<div class="pbmit-ihbox-contents">
-													<div class="pbmit-cta3-content-wrapper">info@website.com <br> sales@website.com</div>
+													<div class="pbmit-cta3-content-wrapper">info@gacikaleksandar.com</div>
 												</div>
 											</div>
 										</div>
@@ -319,124 +319,15 @@
 			</section>
 
 			<section>
-				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3315.0085753561057!2d-117.92116288436817!3d33.812091780671935!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80dcd7d12b3b5e6b%3A0x2ef62f8418225cfa!2sDisneyland+Park!5e0!3m2!1sen!2sin!4v1542193458866" height="450" allowfullscreen=""></iframe>
+				<iframe src="https://www.google.com/maps/d/embed?mid=1cPGsJCmWaxSjIOMev-3N2_Ri9EIAWBA&ehbc=2E312F&noprof=1" height="450" allowfullscreen=""></iframe>
 			</section>
 			<!-- Contact End -->
 
 		</div>
 		<!-- Page Content End -->
 		
-		<!-- footer -->
-		<footer class="footer site-footer">
-			<div class="pbmit-footer-widget-area">
-				<div class="container">
-					<div class="row">
-						<div class="footer-widget-col-1">
-							<div class="widget">
-								<div class="textwidget widget-text">
-									<img class="pbmit-footerlogo" src="images/footer-logo.png" alt="">
-									<p>There are many variations of passages of lorem ipsum available, but the majority have suffered alteration in some form by injected.</p>
-								</div>
-							</div>
-						</div>
-						<div class="footer-widget-col-2">
-							<div class="widget">
-							<h3 class="widget-title">Information</h3>
-								<div class="textwidget">
-									<ul>
-										<li><a href="about-us.html">About Us</a></li>
-										<li><a href="portfolio-style-1.html">Clients</a></li>
-										<li><a href="contacts.html">Privacy policy</a></li>
-										<li><a href="contacts.html">Customer</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="footer-widget-col-3">
-							<div class="widget">
-								<h2 class="widget-title">Our Services</h2>
-								<div class="textwidget">
-									<ul>
-										<li><a href="classes-details.html">Psycho Training</a></li>
-										<li><a href="classes-details.html">Self Defense</a></li>
-										<li><a href="classes-details.html">Fitness For Man</a></li>
-										<li><a href="classes-details.html">Strength Training</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="footer-widget-col-4">
-							<div class="widget">
-								<h2 class="widget-title">Subscribe us</h2>
-								<div class="textwidget">
-									<form>
-										<input type="email" name="EMAIL" placeholder="Email address" required="">
-										<button type="submit">Subscribe</button>
-									</form>					
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="pbmit-footer-bottom">
-				<div class="container">
-					<div class="pbmit-footer-text-inner">
-						<div class="row">
-							<div class="col-md-6 col-lg-3">
-								<div class="widget-as-link">
-									<p>Copyright © 2023 All Rights<br>Reserved.</p>
-								</div>
-							</div>	
-							<div class="col-md-6 col-lg-3">
-								<div class="widget-as-link">
-									<ul class="pbmit_contact_widget_wrapper">
-										<li>(+01) 123 456 7890</li>
-										<li><a href="mailto:info@example.com">info@example.com</a></li>
-									</ul>
-								</div>
-							</div>
-							<div class="col-md-6 col-lg-3">
-								<div class="widget-as-link">
-									<ul class="pbmit_contact_widget_wrapper">
-										<li>51 Somestreet Cambridge,<br>CB4 3AA, United Kingdom</li>
-									</ul>
-								</div>
-							</div>
-							<div class="col-md-6 col-lg-3">
-								<div class="widget-as-link">
-									<div class="pbmit-social-links-wrapper">
-										<ul class="social-icons">
-											<li class="pbmit-social-facebook">
-												<a class=" tooltip-top" target="_blank" href="#" data-tooltip="Facebook" rel="noopener">
-													<i class="pbmit-base-icon-facebook"></i>
-												</a>
-											</li>
-											<li class="pbmit-social-twitter">
-												<a class=" tooltip-top" target="_blank" href="#" data-tooltip="Twitter" rel="noopener">
-													<i class="pbmit-base-icon-twitter"></i>
-												</a>
-											</li>
-											<li class="pbmit-social-flickr">
-												<a class=" tooltip-top" target="_blank" href="#" data-tooltip="Flickr" rel="noopener">
-													<i class="pbmit-base-icon-flickr"></i>
-												</a>
-											</li>
-											<li class="pbmit-social-linkedin">
-												<a class=" tooltip-top" target="_blank" href="" data-tooltip="LinkedIn" rel="noopener">
-													<i class="pbmit-base-icon-linkedin"></i>
-												</a>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>		
-						</div>
-					</div>	
-				</div>
-			</div>	
-		</footer>
-		<!-- footer End -->
+		<!-- Include Footer -->
+		<?php include 'footer.php'; ?> 
 
 	</div>
 	<!-- Page Wrapper End -->
