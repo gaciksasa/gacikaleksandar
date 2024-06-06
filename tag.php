@@ -127,13 +127,6 @@ function create_excerpt($content, $length = 250) {
                                 <h1 class="pbmit-tbar-title">Tag: <?php echo htmlspecialchars($tag_name); ?></h1>
                             </div>
                         </div>
-                        <div class="pbmit-breadcrumb">
-                            <div class="pbmit-breadcrumb-inner">
-                                <span><a title="" href="#" class="home"><span>Gimox</span></a></span>
-                                <span class="sep">-</span>
-                                <span><span class="post-root post post-post current-item"><?php echo htmlspecialchars($tag_name); ?></span></span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

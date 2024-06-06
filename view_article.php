@@ -237,15 +237,6 @@ $conn->close();
                                 <h1 class="pbmit-tbar-title">Blog</h1>
                             </div>
                         </div>
-                        <div class="pbmit-breadcrumb">
-                            <div class="pbmit-breadcrumb-inner">
-                                <span><a title="" href="#" class="home"><span>Home</span></a></span>
-                                <span class="sep">-</span>
-                                <span><a href="#" class="post-root post post-post current-item"><span><?php echo htmlspecialchars($category_name); ?></span></a></span>
-                                <span class="sep">-</span>
-                                <span><span class="post-root post post-post current-item"><?php echo htmlspecialchars($title); ?></span></span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

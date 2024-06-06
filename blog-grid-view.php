@@ -87,14 +87,7 @@ $conn->close();
 					<div class="pbmit-title-bar-content-inner">
 						<div class="pbmit-tbar">
 							<div class="pbmit-tbar-inner container">
-								<h1 class="pbmit-tbar-title">Blog Grid View</h1>
-							</div>
-						</div>
-						<div class="pbmit-breadcrumb">
-							<div class="pbmit-breadcrumb-inner">
-								<span><a title="" href="#" class="home"><span>Gimox</span></a></span>
-								<span class="sep">-</span>
-								<span><span class="post-root post post-post current-item">Blog Grid View</span></span>
+								<h1 class="pbmit-tbar-title">Blog</h1>
 							</div>
 						</div>
 					</div>

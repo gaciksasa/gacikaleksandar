@@ -125,13 +125,6 @@ function create_excerpt($content, $length = 200) {
                                 <h1 class="pbmit-tbar-title">Category: <?php echo htmlspecialchars($category_name); ?></h1>
                             </div>
                         </div>
-                        <div class="pbmit-breadcrumb">
-                            <div class="pbmit-breadcrumb-inner">
-                                <span><a title="" href="#" class="home"><span>Gimox</span></a></span>
-                                <span class="sep">-</span>
-                                <span><span class="post-root post post-post current-item"><?php echo htmlspecialchars($category_name); ?></span></span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
