@@ -137,12 +137,7 @@ $conn->close();
                                                     <div class="pbmit-menu-wrap">
                                                         <ul class="navigation clearfix">
                                                             <li class="dropdown">
-                                                                <a href="../index.html">Home</a>
-                                                                <ul>
-                                                                    <li><a href="../index.html">Homepage 1</a></li>
-                                                                    <li><a href="../homepage-2.html">Homepage 2</a></li>
-                                                                    <li><a href="../homepage-3.html">Homepage 3</a></li>
-                                                                </ul>
+                                                                <a href="../index.php">Home</a>
                                                             </li>
                                                             <li class="dropdown">
                                                                 <a href="#">Pages</a>
@@ -170,14 +165,9 @@ $conn->close();
                                                                 </ul>
                                                             </li>
                                                             <li class="dropdown active">
-                                                                <a href="#">Blog</a>
-                                                                <ul>
-                                                                    <li class="active"><a href="../blog-large-image.html">Blog Large Image</a></li>
-                                                                    <li><a href="../blog-grid-view.html">Blog Grid View</a></li>
-                                                                    <li><a href="../blog-single-view.html">Blog Single View</a></li>
-                                                                </ul>
+                                                                <a href="../blog-grid-view.php">Blog</a>
                                                             </li>
-                                                            <li><a href="../contacts.html">Contacts</a></li>
+                                                            <li><a href="../contacts.php">Contact</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
