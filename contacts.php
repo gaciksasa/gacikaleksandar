@@ -74,7 +74,7 @@
 						<div class="col-md-6"> 
 							<div class="contact-left-box"> 
 								<div class="pbmit-heading-subheading">
-									<h4 class="pbmit-subtitle">Know About US</h4>
+									<h4 class="pbmit-subtitle">Know About ME</h4>
 									<h2 class="pbmit-title">GET IN TOUCH</h2>
 								</div>
 								<div class="pbmit-ihbox-style-1">

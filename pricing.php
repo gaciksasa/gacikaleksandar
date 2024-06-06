@@ -53,13 +53,13 @@ $conn->close();
                   <div class="pbmit-ptablebox-featured-w pbmit-bgcolor-skincolor pbmit-white">Featured</div>
                 <?php endif; ?>
                 <div class="pbmit-ptable-main">
-                  <h3 class="pbmit-ptable-heading"><?php echo htmlspecialchars($plan['title']); ?></h3>
+                  <h3 class="pbmit-ptable-heading"><?php echo ($plan['title']); ?></h3>
                   <div class="pbmit-des"></div>
                   <div class="pbmit-sep"></div>
                   <div class="pbmit-ptable-price-w">
-                    <div class="pbmit-ptable-price"><?php echo htmlspecialchars($plan['price']); ?></div>
-                    <div class="pbmit-ptable-cur-symbol-after"><?php echo htmlspecialchars($plan['currency_symbol']); ?></div>
-                    <div class="pbmit-ptable-frequency"><?php echo htmlspecialchars($plan['frequency']); ?></div>
+                    <div class="pbmit-ptable-price"><?php echo ($plan['price']); ?></div>
+                    <div class="pbmit-ptable-cur-symbol-after"><?php echo ($plan['currency_symbol']); ?></div>
+                    <div class="pbmit-ptable-frequency"><?php echo ($plan['frequency']); ?></div>
                   </div>
                 </div>
                 <div class="pbmit-ptablebox-colum pbmit-ptablebox-featurebox">
@@ -77,8 +77,8 @@ $conn->close();
                   </div>
                 </div>
                 <div class="pbmit-vc_btn3-container pbmit-vc_btn3-inline">
-                  <a class="pbmit-vc_general pbmit-vc_btn3" href="<?php echo htmlspecialchars($plan['link']); ?>" title="">
-                    <span>PURCHASE</span>
+                  <a class="pbmit-vc_general pbmit-vc_btn3" href="<?php echo ($plan['link']); ?>" title="">
+                    <span>Detaljnije</span>
                   </a>
                 </div>
               </div>
