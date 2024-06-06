@@ -1779,6 +1779,17 @@ label.error {
 .form-control::placeholder{
     color: #999;
 }
+
+.language-selector select {
+    border: none;
+    background: none;
+    margin-right: 30px;
+    color: #fff;
+}
+.language-selector select option {
+    border: none;
+    color: #000;
+}
 .input-group-text{
     width: 30%;
     height: 60px;
