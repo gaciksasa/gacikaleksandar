@@ -8,6 +8,12 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'config.php';
 
+// Set default language
+$lang = 'sr';
+if (isset($_GET['lang'])) {
+  $lang = $_GET['lang'];
+}
+
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
@@ -17,8 +23,11 @@ if ($conn->connect_error) {
 }
 
 // Fetch about section data
-$sql = "SELECT title, subtitle, content, link, image FROM about LIMIT 1";
-$result = $conn->query($sql);
+$sql = "SELECT title, subtitle, content, link, image FROM about WHERE language = ? LIMIT 1";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$result = $stmt->get_result();
 
 // Initialize variables
 $title = '';
@@ -54,17 +63,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   // Insert or update the about section data
   if ($result && $result->num_rows > 0) {
-    $sql = "UPDATE about SET title=?, subtitle=?, content=?, link=?, image=? WHERE id=1";
+    $sql = "UPDATE about SET title=?, subtitle=?, content=?, link=?, image=? WHERE language=?";
   } else {
-    $sql = "INSERT INTO about (title, subtitle, content, link, image) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO about (title, subtitle, content, link, image, language) VALUES (?, ?, ?, ?, ?, ?)";
   }
 
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param("sssss", $title, $subtitle, $content, $link, $image);
+  $stmt->bind_param("ssssss", $title, $subtitle, $content, $link, $image, $lang);
   $stmt->execute();
   $stmt->close();
 
-  header("Location: view_about.php");
+  header("Location: view_about.php?lang=$lang");
   exit;
 }
 
@@ -77,7 +86,7 @@ $conn->close();
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>About Us - Gacik Aleksandar</title>
+  <title>About - Gacik Aleksandar</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
   <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -91,6 +100,7 @@ $conn->close();
       setup: function(editor) {
         editor.on('change', function() {
           editor.save();
+          enableSaveButton();
         });
       }
     });
@@ -98,6 +108,17 @@ $conn->close();
     function syncEditorContent() {
       tinymce.triggerSave();
     }
+
+    function enableSaveButton() {
+      document.getElementById('saveButton').disabled = false;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      const formElements = document.querySelectorAll("input, textarea");
+      formElements.forEach(element => {
+        element.addEventListener("change", enableSaveButton);
+      });
+    });
   </script>
 </head>
 
@@ -109,9 +130,13 @@ $conn->close();
       <!-- Main Content -->
       <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">About Us</h1>
+          <h1 class="h2">About</h1>
+          <div>
+            <a href="?lang=en" class="btn <?php echo $lang === 'en' ? 'btn-primary' : 'btn-outline-primary'; ?>">English</a>
+            <a href="?lang=sr" class="btn <?php echo $lang === 'sr' ? 'btn-primary' : 'btn-outline-primary'; ?>">Serbian</a>
+          </div>
         </div>
-        <form method="POST" action="view_about.php" enctype="multipart/form-data" onsubmit="syncEditorContent()">
+        <form method="POST" action="view_about.php?lang=<?php echo $lang; ?>" enctype="multipart/form-data" onsubmit="syncEditorContent()">
           <div class="form-group">
             <label for="title">Title</label>
             <input type="text" class="form-control" id="title" name="title" value="<?php echo htmlspecialchars($title); ?>" required>
@@ -135,7 +160,7 @@ $conn->close();
               <img src="uploads/<?php echo htmlspecialchars($image); ?>" alt="Current Image" style="max-width: 200px; margin-top: 10px;">
             <?php endif; ?>
           </div>
-          <button type="submit" class="btn btn-primary mt-3">Save</button>
+          <button type="submit" class="btn btn-primary mt-3" id="saveButton" disabled>Save</button>
         </form>
       </main>
       <!-- Main Content End -->
