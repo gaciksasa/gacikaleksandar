@@ -78,7 +78,7 @@ $conn->close();
                 </div>
                 <div class="pbmit-vc_btn3-container pbmit-vc_btn3-inline">
                   <a class="pbmit-vc_general pbmit-vc_btn3" href="<?php echo ($plan['link']); ?>" title="">
-                    <span>Detaljnije</span>
+                    <span><?php echo $translations['read-more']; ?></span>
                   </a>
                 </div>
               </div>

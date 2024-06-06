@@ -69,7 +69,7 @@ $conn->close();
                                 <div class="pbmit-blogbox-footer">
                                     <div class="pbmit-blogbox-readmore pbmit-vc_btn3">
                                         <div class="pbmit-blogbox-footer-left">
-                                            <a href="article/<?php echo urlencode($article['slug']); ?>">Read More</a>
+                                            <a href="article/<?php echo urlencode($article['slug']); ?>"><?php echo $translations['read-more']; ?></a>
                                         </div>
                                     </div>
                                 </div>

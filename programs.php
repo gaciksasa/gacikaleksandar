@@ -59,7 +59,7 @@ $conn->close();
                 <div class="pbmit-cta3-content-wrapper"><?php echo ($program['content']); ?></div>
                 <div class="pbmit-vc_btn3-container pbmit-vc_btn3-inline">
                   <a class="pbmit-vc_general pbmit-vc_btn3" href="<?php echo ($program['link']); ?>" title="">
-                    <span>READ MORE</span>
+                    <span><?php echo $translations['read-more']; ?></span>
                   </a>
                 </div>
               </div>

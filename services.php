@@ -63,7 +63,7 @@ $conn->close();
                       <p><?php echo htmlspecialchars($service['description']); ?></p>
                     </div>
                     <div class="pbmit-box-link pbmit-vc_btn3">
-                      <a href="<?php echo htmlspecialchars($service['link']); ?>">READ MORE</a>
+                      <a href="<?php echo htmlspecialchars($service['link']); ?>"><?php echo $translations['read-more']; ?></a>
                     </div>
                   </div>
                 </div>

@@ -2,6 +2,12 @@
 // Include the configuration file
 require 'config.php';
 
+// Set default language
+$lang = 'sr';
+if (isset($_GET['lang'])) {
+  $lang = $_GET['lang'];
+}
+
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
@@ -11,8 +17,11 @@ if ($conn->connect_error) {
 }
 
 // Fetch about section data
-$sql = "SELECT title, subtitle, content, link, image FROM about LIMIT 1";
-$result = $conn->query($sql);
+$sql = "SELECT title, subtitle, content, link, image FROM about WHERE language = ? LIMIT 1";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$result = $stmt->get_result();
 
 // Initialize variables
 $title = '';
@@ -40,26 +49,18 @@ $conn->close();
       <div class="col-md-12 col-lg-6">
         <div class="about-us-one-content">
           <div class="pbmit-heading-subheading">
-            <h4 class="pbmit-subtitle"><?php echo ($subtitle); ?></h4>
-            <h2 class="pbmit-title"><?php echo ($title); ?></h2>
+            <h4 class="pbmit-subtitle"><?php echo htmlspecialchars($subtitle); ?></h4>
+            <h2 class="pbmit-title"><?php echo htmlspecialchars($title); ?></h2>
           </div>
           <div><?php echo ($content); ?></div>
-          <ul class="list-group list-group-borderless">
-            <li class="list-group-item">
-              <i class="themifyicon ti-check"></i>Train with the best experts in bodybuilding field.
-            </li>
-            <li class="list-group-item">
-              <i class="themifyicon ti-check"></i>Our personal trainers will help you find a perfect workout.
-            </li>
-          </ul>
-          <a href="<?php echo ($link); ?>" class="pbmit-btn">
-            <span>READ MORE</span>
+          <a href="<?php echo htmlspecialchars($link); ?>" class="pbmit-btn">
+            <span><?php echo $translations['read-more']; ?></span>
           </a>
         </div>
       </div>
       <div class="col-md-12 col-lg-6">
         <div class="about-us-one-img">
-          <img src="uploads/<?php echo ($image); ?>" class="img-fluid" alt="">
+          <img src="uploads/<?php echo htmlspecialchars($image); ?>" class="img-fluid" alt="">
         </div>
       </div>
     </div>
