@@ -1798,6 +1798,7 @@ label.error {
 }
 .sticky-header .language-selector select {
     color: #000;
+    padding: 33px 0;
 }
 .sticky-header language-selector option {
     color: #000;

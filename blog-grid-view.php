@@ -234,23 +234,13 @@ $conn->close();
 									<div class="pbmit-social-links-wrapper">
 										<ul class="social-icons">
 											<li class="pbmit-social-facebook">
-												<a class=" tooltip-top" target="_blank" href="#" data-tooltip="Facebook" rel="noopener">
+												<a class=" tooltip-top" target="_blank" href="https://www.facebook.com/gacik.alexandar.5">
 													<i class="pbmit-base-icon-facebook"></i>
 												</a>
 											</li>
-											<li class="pbmit-social-twitter">
-												<a class=" tooltip-top" target="_blank" href="#" data-tooltip="Twitter" rel="noopener">
-													<i class="pbmit-base-icon-twitter"></i>
-												</a>
-											</li>
-											<li class="pbmit-social-flickr">
-												<a class=" tooltip-top" target="_blank" href="#" data-tooltip="Flickr" rel="noopener">
-													<i class="pbmit-base-icon-flickr"></i>
-												</a>
-											</li>
-											<li class="pbmit-social-linkedin">
-												<a class=" tooltip-top" target="_blank" href="" data-tooltip="LinkedIn" rel="noopener">
-													<i class="pbmit-base-icon-linkedin"></i>
+											<li class="pbmit-social-instagram">
+												<a class=" tooltip-top" target="_blank" href="https://www.instagram.com/garejiujitsu/">
+													<i class="pbmit-base-icon-instagram"></i>
 												</a>
 											</li>
 										</ul>

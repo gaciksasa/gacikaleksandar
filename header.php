@@ -81,18 +81,13 @@ $translations = include "languages/$lang.php";
                             <div class="pbmit-social-links-wrapper">
                                 <ul class="social-icons">
                                     <li class="pbmit-social-facebook">
-                                        <a class="tooltip-top" target="_blank" href="#">
+                                        <a class="tooltip-top" target="_blank" href="https://www.facebook.com/gacik.alexandar.5">
                                             <i class="pbmit-base-icon-facebook"></i>
                                         </a>
                                     </li>
                                     <li class="pbmit-social-instagram">
-                                        <a class="tooltip-top" target="_blank" href="#">
+                                        <a class="tooltip-top" target="_blank" href="https://www.instagram.com/garejiujitsu/">
                                             <i class="pbmit-base-icon-instagram"></i>
-                                        </a>
-                                    </li>
-                                    <li class="pbmit-social-youtube">
-                                        <a class="tooltip-top" target="_blank" href="#">
-                                            <i class="pbmit-base-icon-youtube"></i>
                                         </a>
                                     </li>
                                 </ul>
