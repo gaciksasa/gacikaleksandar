@@ -84,8 +84,11 @@ body {
 	.header-style-1 .pre-header-wrapper{
 		display: none;
 	}
-	.header-style-1 .pbmit-right-side{
+	.header-style-1 .pbmit-right-side .pbmit-social-links-wrapper{
 		display: none;
+	}
+	.header-style-1 .pbmit-right-side .language-selector{
+		margin-right: 50px;
 	}
 	.header-style-1 .site-header-menu .site-branding {
 		display: block;
@@ -312,7 +315,7 @@ body {
 	}
     .navbar-toggler { 
 		position: absolute;
-		top: 33px;
+		top: 28px;
 		right: 15px;
 		width: 40px;
 		height: 40px;
@@ -506,7 +509,7 @@ body {
 		padding: 10px 20px;
 	}
 	.header-style-1 .site-branding{
-		padding-left: 50px;
+		padding-left: 25px;
 	}
 	.header-style-1 .site-header-menu{
 		border-bottom: none;

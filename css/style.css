@@ -1781,13 +1781,25 @@ label.error {
 }
 
 .language-selector select {
-    border: none;
+    font-family: "Rajdhani",Arial,Helvetica,sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 1px;
+    outline: none;
+    border: 0;
     background: none;
     margin-right: 30px;
     color: #fff;
+    padding: 42px 0;
 }
-.language-selector select option {
-    border: none;
+.language-selector option {
+    border: 0;
+    color: #000;
+}
+.sticky-header .language-selector select {
+    color: #000;
+}
+.sticky-header language-selector option {
     color: #000;
 }
 .input-group-text{
