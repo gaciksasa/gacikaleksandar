@@ -5,7 +5,7 @@ if (isset($_GET['lang'])) {
     $lang = $_GET['lang'];
     $_SESSION['lang'] = $lang;
 } elseif (!isset($_SESSION['lang'])) {
-    $_SESSION['lang'] = 'en'; // Default language
+    $_SESSION['lang'] = 'sr'; // Default language
 }
 
 $lang = $_SESSION['lang'];
@@ -92,11 +92,11 @@ $translations = include "languages/$lang.php";
                                     </li>
                                 </ul>
                             </div>
-							<div class="language-selector">
+                            <div class="language-selector">
                                 <form method="get" action="" class="form-inline">
                                     <select name="lang" onchange="this.form.submit()">
-                                        <option value="en" <?php if($lang == 'en') echo 'selected'; ?>>EN</option>
-                                        <option value="sr" <?php if($lang == 'sr') echo 'selected'; ?>>SR</option>
+                                        <option value="en" <?php if ($lang == 'en') echo 'selected'; ?>>EN</option>
+                                        <option value="sr" <?php if ($lang == 'sr') echo 'selected'; ?>>SR</option>
                                     </select>
                                 </form>
                             </div>
