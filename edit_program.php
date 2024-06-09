@@ -8,10 +8,19 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'config.php';
 
+// Set default language
+$lang = 'en';
+if (isset($_GET['lang'])) {
+  $lang = $_GET['lang'];
+  $_SESSION['lang'] = $lang;
+} elseif (isset($_SESSION['lang'])) {
+  $lang = $_SESSION['lang'];
+}
+
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-// Check the connection
+// Check connection
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
@@ -19,9 +28,9 @@ if ($conn->connect_error) {
 $id = $_GET['id'];
 
 // Fetch the program data
-$sql = "SELECT title, subtitle, icon, link, content FROM programs WHERE id=?";
+$sql = "SELECT title, subtitle, icon, link, content FROM programs WHERE id=? AND language=?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $id);
+$stmt->bind_param("is", $id, $lang);
 $stmt->execute();
 $result = $stmt->get_result();
 $program = $result->fetch_assoc();
@@ -35,13 +44,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $content = $_POST['content'];
 
   // Update the program
-  $sql = "UPDATE programs SET title=?, subtitle=?, icon=?, link=?, content=? WHERE id=?";
+  $sql = "UPDATE programs SET title=?, subtitle=?, icon=?, link=?, content=? WHERE id=? AND language=?";
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param("sssssi", $title, $subtitle, $icon, $link, $content, $id);
+  $stmt->bind_param("sssssis", $title, $subtitle, $icon, $link, $content, $id, $lang);
   $stmt->execute();
   $stmt->close();
 
-  header("Location: view_programs.php");
+  header("Location: view_programs.php?lang=$lang");
   exit;
 }
 
@@ -71,8 +80,12 @@ $conn->close();
       <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Edit Program</h1>
+          <div>
+            <a href="?id=<?php echo $id; ?>&lang=en" class="btn <?php echo $lang === 'en' ? 'btn-primary' : 'btn-secondary'; ?>">English</a>
+            <a href="?id=<?php echo $id; ?>&lang=sr" class="btn <?php echo $lang === 'sr' ? 'btn-primary' : 'btn-secondary'; ?>">Serbian</a>
+          </div>
         </div>
-        <form method="POST" action="edit_program.php?id=<?php echo $id; ?>">
+        <form method="POST" action="edit_program.php?id=<?php echo $id; ?>&lang=<?php echo $lang; ?>">
           <div class="form-group">
             <label for="title">Title</label>
             <input type="text" class="form-control" id="title" name="title" value="<?php echo htmlspecialchars($program['title']); ?>" required>
@@ -97,14 +110,10 @@ $conn->close();
                 "weightlifter-1"
               ];
               foreach ($icons as $iconOption) {
-                $selected = $iconOption == str_replace("pbmit-gimox-business-icon-", "", $icon) ? "selected" : "";
+                $selected = $iconOption == str_replace("pbmit-gimox-business-icon-", "", $program['icon']) ? "selected" : "";
                 echo "<option value='$iconOption' $selected>$iconOption</option>";
               }
               ?>
-              <option value="pbmit-gimox-business-icon-barbell" <?php if ($program['icon'] == 'pbmit-gimox-business-icon-barbell') echo 'selected'; ?>>Barbell</option>
-              <option value="pbmit-gimox-business-icon-gym-1" <?php if ($program['icon'] == 'pbmit-gimox-business-icon-gym-1') echo 'selected'; ?>>Gym</option>
-              <option value="pbmit-gimox-business-icon-weight-lifting" <?php if ($program['icon'] == 'pbmit-gimox-business-icon-weight-lifting') echo 'selected'; ?>>Weight Lifting</option>
-              <!-- Add other icons as needed -->
             </select>
           </div>
           <div class="form-group">

@@ -8,12 +8,23 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'config.php';
 
+// Set default language
+$lang = 'en';
+if (isset($_GET['lang'])) {
+  $lang = $_GET['lang'];
+  $_SESSION['lang'] = $lang;
+} elseif (isset($_SESSION['lang'])) {
+  $lang = $_SESSION['lang'];
+}
+
+// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $title = $_POST['title'];
   $subtitle = $_POST['subtitle'];
   $icon = $_POST['icon'];
   $link = $_POST['link'];
   $content = $_POST['content'];
+  $language = $lang;
 
   // Connect to the database
   $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -24,14 +35,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   // Insert new program
-  $sql = "INSERT INTO programs (title, subtitle, icon, link, content) VALUES (?, ?, ?, ?, ?)";
+  $sql = "INSERT INTO programs (title, subtitle, icon, link, content, language) VALUES (?, ?, ?, ?, ?, ?)";
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param("sssss", $title, $subtitle, $icon, $link, $content);
+  $stmt->bind_param("ssssss", $title, $subtitle, $icon, $link, $content, $language);
   $stmt->execute();
   $stmt->close();
   $conn->close();
 
-  header("Location: view_programs.php");
+  header("Location: view_programs.php?lang=$lang");
   exit;
 }
 ?>
@@ -59,8 +70,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Add Program</h1>
+          <div>
+            <a href="?lang=en" class="btn <?php echo $lang === 'en' ? 'btn-primary' : 'btn-secondary'; ?>">English</a>
+            <a href="?lang=sr" class="btn <?php echo $lang === 'sr' ? 'btn-primary' : 'btn-secondary'; ?>">Serbian</a>
+          </div>
         </div>
-        <form method="POST" action="add_program.php">
+        <form method="POST" action="add_program.php?lang=<?php echo $lang; ?>">
           <div class="form-group">
             <label for="title">Title</label>
             <input type="text" class="form-control" id="title" name="title" required>

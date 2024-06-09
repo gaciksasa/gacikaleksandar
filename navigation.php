@@ -2,9 +2,9 @@
     <div class="position-sticky">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="dashboard.php?lang=sr">
-                    <i class="fa fa-home"></i>
-                    Dashboard
+                <a class="nav-link active" target="_blank" href="index.php?lang=sr">
+                    <i class="fa fa-eye"></i>
+                    View website
                 </a>
             </li>
             <li class="nav-item my-2 py-2 px-3 bg-primary text-white">

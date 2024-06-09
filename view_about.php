@@ -132,8 +132,8 @@ $conn->close();
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">About</h1>
           <div>
-            <a href="?lang=en" class="btn <?php echo $lang === 'en' ? 'btn-primary' : 'btn-outline-primary'; ?>">English</a>
-            <a href="?lang=sr" class="btn <?php echo $lang === 'sr' ? 'btn-primary' : 'btn-outline-primary'; ?>">Serbian</a>
+            <a href="?lang=en" class="btn <?php echo $lang === 'en' ? 'btn-primary' : 'btn-secondary'; ?>">English</a>
+            <a href="?lang=sr" class="btn <?php echo $lang === 'sr' ? 'btn-primary' : 'btn-secondary'; ?>">Serbian</a>
           </div>
         </div>
         <form method="POST" action="view_about.php?lang=<?php echo $lang; ?>" enctype="multipart/form-data" onsubmit="syncEditorContent()">

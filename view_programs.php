@@ -8,6 +8,15 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'config.php';
 
+// Set default language
+$lang = 'sr';
+if (isset($_GET['lang'])) {
+  $lang = $_GET['lang'];
+  $_SESSION['lang'] = $lang;
+} elseif (isset($_SESSION['lang'])) {
+  $lang = $_SESSION['lang'];
+}
+
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
@@ -17,8 +26,11 @@ if ($conn->connect_error) {
 }
 
 // Fetch programs
-$sql = "SELECT id, title, subtitle, icon, link, content FROM programs";
-$result = $conn->query($sql);
+$sql = "SELECT id, title, subtitle, icon, link, content FROM programs WHERE language = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$result = $stmt->get_result();
 
 $conn->close();
 ?>
@@ -46,8 +58,12 @@ $conn->close();
       <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Programs</h1>
+          <div>
+            <a href="?lang=en" class="btn <?php echo $lang === 'en' ? 'btn-primary' : 'btn-secondary'; ?>">English</a>
+            <a href="?lang=sr" class="btn <?php echo $lang === 'sr' ? 'btn-primary' : 'btn-secondary'; ?>">Serbian</a>
+          </div>
         </div>
-        <a href="add_program.php" class="btn btn-primary mb-3">Add Program</a>
+        <a href="add_program.php?lang=<?php echo $lang; ?>" class="btn btn-primary mb-3">Add Program</a>
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -71,8 +87,8 @@ $conn->close();
                   <td><?php echo htmlspecialchars($row['link']); ?></td>
                   <td><?php echo htmlspecialchars($row['content']); ?></td>
                   <td>
-                    <a href="edit_program.php?id=<?php echo $row['id']; ?>" class="btn btn-warning">Edit</a>
-                    <a href="delete_program.php?id=<?php echo $row['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this program?');">Delete</a>
+                    <a href="edit_program.php?id=<?php echo $row['id']; ?>&lang=<?php echo $lang; ?>" class="btn btn-warning">Edit</a>
+                    <a href="delete_program.php?id=<?php echo $row['id']; ?>&lang=<?php echo $lang; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this program?');">Delete</a>
                   </td>
                 </tr>
               <?php endwhile; ?>
