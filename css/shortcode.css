@@ -2877,6 +2877,8 @@ ul.list-group .list-group-item i{
 }
 .pbmit-skincolor{
 	color: rgb(31, 172, 225);
+    font-size: 64px !important;
+    font-weight: 700 !important;
 }
 /* Slider 2*/ 
 #rev_slider_2_1_wrapper rs-module{
