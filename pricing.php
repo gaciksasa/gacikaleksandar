@@ -1,18 +1,32 @@
 <?php
-// Include the configuration file
+
+if (!isset($_SESSION['user_id'])) {
+  header("Location: login.php");
+  exit;
+}
+
 require 'config.php';
+
+// Set default language
+$lang = 'en';
+if (isset($_GET['lang'])) {
+  $lang = $_GET['lang'];
+}
 
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-// Check the connection
+// Check connection
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
 // Fetch pricing section data
-$sql = "SELECT title, subtitle, content FROM pricing_section LIMIT 1";
-$result = $conn->query($sql);
+$sql = "SELECT title, subtitle, content FROM pricing_section WHERE language = ? LIMIT 1";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$result = $stmt->get_result();
 $pricingSection = $result->fetch_assoc();
 
 $title = isset($pricingSection['title']) ? $pricingSection['title'] : '';
@@ -20,8 +34,11 @@ $subtitle = isset($pricingSection['subtitle']) ? $pricingSection['subtitle'] : '
 $content = isset($pricingSection['content']) ? $pricingSection['content'] : '';
 
 // Fetch pricing plans data
-$sql = "SELECT title, price, currency_symbol, frequency, features, is_featured, link FROM pricing";
-$result = $conn->query($sql);
+$sql = "SELECT title, price, currency_symbol, frequency, features, is_featured, link FROM pricing WHERE language = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$result = $stmt->get_result();
 
 $pricingPlans = [];
 if ($result->num_rows > 0) {
@@ -30,6 +47,7 @@ if ($result->num_rows > 0) {
   }
 }
 
+$stmt->close();
 $conn->close();
 ?>
 
@@ -53,13 +71,13 @@ $conn->close();
                   <div class="pbmit-ptablebox-featured-w pbmit-bgcolor-skincolor pbmit-white">Featured</div>
                 <?php endif; ?>
                 <div class="pbmit-ptable-main">
-                  <h3 class="pbmit-ptable-heading"><?php echo ($plan['title']); ?></h3>
+                  <h3 class="pbmit-ptable-heading"><?php echo htmlspecialchars($plan['title']); ?></h3>
                   <div class="pbmit-des"></div>
                   <div class="pbmit-sep"></div>
                   <div class="pbmit-ptable-price-w">
-                    <div class="pbmit-ptable-price"><?php echo ($plan['price']); ?></div>
-                    <div class="pbmit-ptable-cur-symbol-after"><?php echo ($plan['currency_symbol']); ?></div>
-                    <div class="pbmit-ptable-frequency"><?php echo ($plan['frequency']); ?></div>
+                    <div class="pbmit-ptable-price"><?php echo htmlspecialchars($plan['price']); ?></div>
+                    <div class="pbmit-ptable-cur-symbol-after"><?php echo htmlspecialchars($plan['currency_symbol']); ?></div>
+                    <div class="pbmit-ptable-frequency"><?php echo htmlspecialchars($plan['frequency']); ?></div>
                   </div>
                 </div>
                 <div class="pbmit-ptablebox-colum pbmit-ptablebox-featurebox">
@@ -77,7 +95,7 @@ $conn->close();
                   </div>
                 </div>
                 <div class="pbmit-vc_btn3-container pbmit-vc_btn3-inline">
-                  <a class="pbmit-vc_general pbmit-vc_btn3" href="<?php echo ($plan['link']); ?>" title="">
+                  <a class="pbmit-vc_general pbmit-vc_btn3" href="<?php echo htmlspecialchars($plan['link']); ?>" title="">
                     <span><?php echo $translations['read-more']; ?></span>
                   </a>
                 </div>

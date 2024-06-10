@@ -8,6 +8,15 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'config.php';
 
+// Set default language
+$lang = 'en';
+if (isset($_GET['lang'])) {
+  $lang = $_GET['lang'];
+  $_SESSION['lang'] = $lang;
+} elseif (isset($_SESSION['lang'])) {
+  $lang = $_SESSION['lang'];
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $title = $_POST['title'];
   $price = intval($_POST['price']); // Ensure price is an integer
@@ -26,14 +35,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   // Insert new pricing plan
-  $sql = "INSERT INTO pricing (title, price, currency_symbol, frequency, features, is_featured, link) VALUES (?, ?, ?, ?, ?, ?, ?)";
+  $sql = "INSERT INTO pricing (title, price, currency_symbol, frequency, features, is_featured, link, language) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param("sisssis", $title, $price, $currency_symbol, $frequency, $features, $is_featured, $link);
+  $stmt->bind_param("sisssiss", $title, $price, $currency_symbol, $frequency, $features, $is_featured, $link, $lang);
   $stmt->execute();
   $stmt->close();
   $conn->close();
 
-  header("Location: view_pricing.php");
+  header("Location: view_pricing.php?lang=$lang");
   exit;
 }
 ?>
@@ -62,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Add Pricing Plan</h1>
         </div>
-        <form method="POST" action="add_pricing.php">
+        <form method="POST" action="add_pricing.php?lang=<?php echo $lang; ?>">
           <div class="form-group">
             <label for="title">Title</label>
             <input type="text" class="form-control" id="title" name="title" required>
@@ -100,6 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <script src="js/jquery.min.js"></script>
   <script src="js/popper.min.js"></script>
+
   <script src="js/bootstrap.min.js"></script>
 </body>
 

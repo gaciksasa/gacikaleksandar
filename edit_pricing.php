@@ -8,6 +8,15 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'config.php';
 
+// Set default language
+$lang = 'en';
+if (isset($_GET['lang'])) {
+  $lang = $_GET['lang'];
+  $_SESSION['lang'] = $lang;
+} elseif (isset($_SESSION['lang'])) {
+  $lang = $_SESSION['lang'];
+}
+
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
@@ -19,9 +28,9 @@ if ($conn->connect_error) {
 $id = $_GET['id'];
 
 // Fetch pricing plan data
-$sql = "SELECT title, price, currency_symbol, frequency, features, is_featured, link FROM pricing WHERE id = ?";
+$sql = "SELECT title, price, currency_symbol, frequency, features, is_featured, link FROM pricing WHERE id = ? AND language = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $id);
+$stmt->bind_param("is", $id, $lang);
 $stmt->execute();
 $result = $stmt->get_result();
 $plan = $result->fetch_assoc();
@@ -45,13 +54,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $is_featured = isset($_POST['is_featured']) ? 1 : 0;
   $link = $_POST['link'];
 
-  $sql = "UPDATE pricing SET title = ?, price = ?, currency_symbol = ?, frequency = ?, features = ?, is_featured = ?, link = ? WHERE id = ?";
+  $sql = "UPDATE pricing SET title = ?, price = ?, currency_symbol = ?, frequency = ?, features = ?, is_featured = ?, link = ? WHERE id = ? AND language = ?";
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param("sisssisi", $title, $price, $currency_symbol, $frequency, $features, $is_featured, $link, $id);
+  $stmt->bind_param("sisssisis", $title, $price, $currency_symbol, $frequency, $features, $is_featured, $link, $id, $lang);
   $stmt->execute();
   $stmt->close();
 
-  header("Location: view_pricing.php");
+  header("Location: view_pricing.php?lang=$lang");
   exit;
 }
 
@@ -82,7 +91,7 @@ $conn->close();
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Edit Pricing Plan</h1>
         </div>
-        <form method="POST" action="edit_pricing.php?id=<?php echo $id; ?>">
+        <form method="POST" action="edit_pricing.php?id=<?php echo $id; ?>&lang=<?php echo $lang; ?>">
           <div class="form-group">
             <label for="title">Title</label>
             <input type="text" class="form-control" id="title" name="title" value="<?php echo htmlspecialchars($title); ?>" required>

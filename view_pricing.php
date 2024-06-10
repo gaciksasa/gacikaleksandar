@@ -8,6 +8,15 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'config.php';
 
+// Set default language
+$lang = 'en';
+if (isset($_GET['lang'])) {
+  $lang = $_GET['lang'];
+  $_SESSION['lang'] = $lang;
+} elseif (isset($_SESSION['lang'])) {
+  $lang = $_SESSION['lang'];
+}
+
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
@@ -17,8 +26,11 @@ if ($conn->connect_error) {
 }
 
 // Fetch pricing section data
-$sql = "SELECT title, subtitle, content FROM pricing_section LIMIT 1";
-$result = $conn->query($sql);
+$sql = "SELECT title, subtitle, content FROM pricing_section WHERE language = ? LIMIT 1";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$result = $stmt->get_result();
 $pricingSection = $result->fetch_assoc();
 
 $title = isset($pricingSection['title']) ? $pricingSection['title'] : '';
@@ -32,23 +44,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['section'])) {
   $content = $_POST['content'];
 
   if ($result && $result->num_rows > 0) {
-    $sql = "UPDATE pricing_section SET title=?, subtitle=?, content=? WHERE id=1";
+    $sql = "UPDATE pricing_section SET title=?, subtitle=?, content=? WHERE language=?";
   } else {
-    $sql = "INSERT INTO pricing_section (title, subtitle, content) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO pricing_section (title, subtitle, content, language) VALUES (?, ?, ?, ?)";
   }
 
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param("sss", $title, $subtitle, $content);
+  $stmt->bind_param("ssss", $title, $subtitle, $content, $lang);
   $stmt->execute();
   $stmt->close();
 
-  header("Location: view_pricing.php");
+  header("Location: view_pricing.php?lang=$lang");
   exit;
 }
 
 // Fetch pricing plans
-$sql = "SELECT id, title, price, currency_symbol, frequency, features, is_featured, link FROM pricing";
-$result = $conn->query($sql);
+$sql = "SELECT id, title, price, currency_symbol, frequency, features, is_featured, link FROM pricing WHERE language = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$result = $stmt->get_result();
 $pricingPlans = [];
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
@@ -82,10 +97,14 @@ $conn->close();
       <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Pricing</h1>
+          <div>
+            <a href="?lang=en" class="btn <?php echo $lang === 'en' ? 'btn-primary' : 'btn-secondary'; ?>">English</a>
+            <a href="?lang=sr" class="btn <?php echo $lang === 'sr' ? 'btn-primary' : 'btn-secondary'; ?>">Serbian</a>
+          </div>
         </div>
 
         <!-- Pricing Section Form -->
-        <form method="POST" action="view_pricing.php">
+        <form method="POST" action="view_pricing.php?lang=<?php echo $lang; ?>">
           <input type="hidden" name="section" value="section">
           <button type="submit" class="btn btn-primary mb-3">Save Section</button>
           <div class="form-group">
