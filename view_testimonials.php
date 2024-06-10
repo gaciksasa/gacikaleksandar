@@ -8,6 +8,15 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'config.php';
 
+// Set default language
+$lang = 'sr';
+if (isset($_GET['lang'])) {
+  $lang = $_GET['lang'];
+  $_SESSION['lang'] = $lang;
+} elseif (isset($_SESSION['lang'])) {
+  $lang = $_SESSION['lang'];
+}
+
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
@@ -21,43 +30,59 @@ $section_title = '';
 $section_subtitle = '';
 
 // Fetch section details
-$section_sql = "SELECT section_title, section_subtitle FROM testimonial_section WHERE id = 1";
-$section_result = $conn->query($section_sql);
-if ($section_result && $section_result->num_rows > 0) {
-  $section = $section_result->fetch_assoc();
-  $section_title = $section['section_title'];
-  $section_subtitle = $section['section_subtitle'];
-}
+$section_sql = "SELECT section_title, section_subtitle FROM testimonial_section WHERE language = ?";
+$stmt = $conn->prepare($section_sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$stmt->bind_result($section_title, $section_subtitle);
+$stmt->fetch();
+$stmt->close();
 
 // Handle form submission for updating section details
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_section'])) {
   $section_title = $_POST['section_title'];
   $section_subtitle = $_POST['section_subtitle'];
 
-  // Update section details
-  if ($section_result->num_rows > 0) {
-    $update_section_sql = "UPDATE testimonial_section SET section_title = ?, section_subtitle = ? WHERE id = 1";
+  // Check if the record already exists
+  $check_sql = "SELECT COUNT(*) FROM testimonial_section WHERE language = ?";
+  $stmt = $conn->prepare($check_sql);
+  $stmt->bind_param("s", $lang);
+  $stmt->execute();
+  $stmt->bind_result($count);
+  $stmt->fetch();
+  $stmt->close();
+
+  if ($count > 0) {
+    // Update existing record
+    $update_section_sql = "UPDATE testimonial_section SET section_title = ?, section_subtitle = ? WHERE language = ?";
+    $stmt = $conn->prepare($update_section_sql);
+    $stmt->bind_param("sss", $section_title, $section_subtitle, $lang);
   } else {
-    $update_section_sql = "INSERT INTO testimonial_section (section_title, section_subtitle) VALUES (?, ?)";
+    // Insert new record
+    $insert_section_sql = "INSERT INTO testimonial_section (section_title, section_subtitle, language) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($insert_section_sql);
+    $stmt->bind_param("sss", $section_title, $section_subtitle, $lang);
   }
-  $stmt = $conn->prepare($update_section_sql);
-  $stmt->bind_param("ss", $section_title, $section_subtitle);
   $stmt->execute();
   $stmt->close();
 
-  header("Location: view_testimonials.php");
+  header("Location: view_testimonials.php?lang=$lang");
   exit;
 }
 
 // Fetch testimonials
-$sql = "SELECT id, author_name, author_designation, testimonial_text, rating FROM testimonials";
-$result = $conn->query($sql);
+$sql = "SELECT id, author_name, author_designation, testimonial_text, rating FROM testimonials WHERE language = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$result = $stmt->get_result();
 $testimonials = [];
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
     $testimonials[] = $row;
   }
 }
+$stmt->close();
 
 $conn->close();
 ?>
@@ -85,11 +110,15 @@ $conn->close();
       <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Testimonials</h1>
+          <div>
+            <a href="?lang=en" class="btn <?php echo $lang === 'en' ? 'btn-primary' : 'btn-secondary'; ?>">English</a>
+            <a href="?lang=sr" class="btn <?php echo $lang === 'sr' ? 'btn-primary' : 'btn-secondary'; ?>">Serbian</a>
+          </div>
         </div>
 
         <!-- Section Details Form -->
         <div class="mb-3">
-          <form method="POST" action="view_testimonials.php">
+          <form method="POST" action="view_testimonials.php?lang=<?php echo $lang; ?>">
             <button type="submit" class="btn btn-primary mb-3" name="save_section">Save Section</button>
 
             <div class="form-group">
@@ -103,7 +132,7 @@ $conn->close();
           </form>
         </div>
 
-        <a href="add_testimonial.php" class="btn btn-primary mb-3 mt-4">Add Testimonial</a>
+        <a href="add_testimonial.php?lang=<?php echo $lang; ?>" class="btn btn-primary mb-3 mt-4">Add Testimonial</a>
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -119,11 +148,11 @@ $conn->close();
               <tr>
                 <td><?php echo htmlspecialchars($testimonial['author_name']); ?></td>
                 <td><?php echo htmlspecialchars($testimonial['author_designation']); ?></td>
-                <td><?php echo ($testimonial['testimonial_text']); ?></td>
+                <td><?php echo htmlspecialchars($testimonial['testimonial_text']); ?></td>
                 <td><?php echo htmlspecialchars($testimonial['rating']); ?></td>
                 <td>
-                  <a href="edit_testimonial.php?id=<?php echo $testimonial['id']; ?>" class="btn btn-warning">Edit</a>
-                  <a href="delete_testimonial.php?id=<?php echo $testimonial['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this testimonial?');">Delete</a>
+                  <a href="edit_testimonial.php?id=<?php echo $testimonial['id']; ?>&lang=<?php echo $lang; ?>" class="btn btn-warning">Edit</a>
+                  <a href="delete_testimonial.php?id=<?php echo $testimonial['id']; ?>&lang=<?php echo $lang; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this testimonial?');">Delete</a>
                 </td>
               </tr>
             <?php endforeach; ?>

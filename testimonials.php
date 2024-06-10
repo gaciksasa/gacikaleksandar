@@ -1,6 +1,20 @@
 <?php
-// Include the configuration file
+
+if (!isset($_SESSION['user_id'])) {
+  header("Location: login.php");
+  exit;
+}
+
 require 'config.php';
+
+// Set default language
+$lang = 'sr';
+if (isset($_GET['lang'])) {
+  $lang = $_GET['lang'];
+  $_SESSION['lang'] = $lang;
+} elseif (isset($_SESSION['lang'])) {
+  $lang = $_SESSION['lang'];
+}
 
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -11,19 +25,20 @@ if ($conn->connect_error) {
 }
 
 // Fetch section details
-$section_sql = "SELECT section_title, section_subtitle FROM testimonial_section WHERE id = 1";
-$section_result = $conn->query($section_sql);
-$section_title = '';
-$section_subtitle = '';
-if ($section_result && $section_result->num_rows > 0) {
-  $section = $section_result->fetch_assoc();
-  $section_title = $section['section_title'];
-  $section_subtitle = $section['section_subtitle'];
-}
+$section_sql = "SELECT section_title, section_subtitle FROM testimonial_section WHERE language = ?";
+$stmt = $conn->prepare($section_sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$stmt->bind_result($section_title, $section_subtitle);
+$stmt->fetch();
+$stmt->close();
 
 // Fetch testimonials
-$sql = "SELECT author_name, author_designation, testimonial_text, rating FROM testimonials ORDER BY created_at DESC LIMIT 3";
-$result = $conn->query($sql);
+$sql = "SELECT author_name, author_designation, testimonial_text, rating FROM testimonials WHERE language = ? ORDER BY created_at DESC LIMIT 3";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$result = $stmt->get_result();
 
 $testimonials = [];
 if ($result->num_rows > 0) {
@@ -31,7 +46,7 @@ if ($result->num_rows > 0) {
     $testimonials[] = $row;
   }
 }
-
+$stmt->close();
 $conn->close();
 ?>
 

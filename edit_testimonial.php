@@ -9,6 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 require 'config.php';
 
 $id = $_GET['id'];
+$lang = isset($_GET['lang']) ? $_GET['lang'] : 'sr';
 
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -25,24 +26,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $rating = $_POST['rating'];
 
   // Update testimonial
-  $sql = "UPDATE testimonials SET author_name = ?, author_designation = ?, testimonial_text = ?, rating = ? WHERE id = ?";
+  $sql = "UPDATE testimonials SET author_name = ?, author_designation = ?, testimonial_text = ?, rating = ?, language = ? WHERE id = ?";
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param("sssii", $author_name, $author_designation, $testimonial_text, $rating, $id);
+  $stmt->bind_param("sssiss", $author_name, $author_designation, $testimonial_text, $rating, $lang, $id);
   $stmt->execute();
   $stmt->close();
 
   $conn->close();
 
-  header("Location: view_testimonials.php");
+  header("Location: view_testimonials.php?lang=$lang");
   exit;
 }
 
 // Fetch testimonial details
-$sql = "SELECT author_name, author_designation, testimonial_text, rating FROM testimonials WHERE id = ?";
+$sql = "SELECT author_name, author_designation, testimonial_text, rating, language FROM testimonials WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id);
 $stmt->execute();
-$stmt->bind_result($author_name, $author_designation, $testimonial_text, $rating);
+$stmt->bind_result($author_name, $author_designation, $testimonial_text, $rating, $service_lang);
 $stmt->fetch();
 $stmt->close();
 
@@ -73,7 +74,7 @@ $conn->close();
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Edit Testimonial</h1>
         </div>
-        <form method="post">
+        <form method="post" action="edit_testimonial.php?id=<?php echo $id; ?>&lang=<?php echo $lang; ?>">
           <div class="mb-3">
             <label for="author_name" class="form-label">Author Name</label>
             <input type="text" class="form-control" id="author_name" name="author_name" value="<?php echo htmlspecialchars($author_name); ?>" required>
@@ -84,7 +85,7 @@ $conn->close();
           </div>
           <div class="mb-3">
             <label for="testimonial_text" class="form-label">Testimonial</label>
-            <textarea class="form-control" id="testimonial_text" name="testimonial_text" rows="3" required><?php echo ($testimonial_text); ?></textarea>
+            <textarea class="form-control" id="testimonial_text" name="testimonial_text" rows="3" required><?php echo htmlspecialchars($testimonial_text); ?></textarea>
           </div>
           <div class="mb-3">
             <label for="rating" class="form-label">Rating</label>
