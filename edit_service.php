@@ -9,6 +9,13 @@ if (!isset($_SESSION['user_id'])) {
 require 'config.php';
 
 $id = $_GET['id'];
+$lang = isset($_GET['lang']) ? $_GET['lang'] : 'sr';
+if (isset($_GET['lang'])) {
+  $lang = $_GET['lang'];
+  $_SESSION['lang'] = $lang;
+} elseif (isset($_SESSION['lang'])) {
+  $lang = $_SESSION['lang'];
+}
 
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -19,11 +26,11 @@ if ($conn->connect_error) {
 }
 
 // Fetch service details
-$sql = "SELECT title, icon, description, image, link FROM services WHERE id = ?";
+$sql = "SELECT title, icon, description, image, link, language FROM services WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id);
 $stmt->execute();
-$stmt->bind_result($title, $icon, $description, $image, $link);
+$stmt->bind_result($title, $icon, $description, $image, $link, $service_lang);
 $stmt->fetch();
 $stmt->close();
 
@@ -32,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $icon = $_POST['icon'];
   $description = $_POST['description'];
   $link = $_POST['link'];
+  $service_lang = $lang;
 
   // Handle file upload
   if ($_FILES['image']['name']) {
@@ -42,14 +50,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   // Update service details
-  $sql = "UPDATE services SET title = ?, icon = ?, description = ?, image = ?, link = ? WHERE id = ?";
+  $sql = "UPDATE services SET title = ?, icon = ?, description = ?, image = ?, link = ?, language = ? WHERE id = ?";
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param("sssssi", $title, $icon, $description, $image, $link, $id);
+  $stmt->bind_param("ssssssi", $title, $icon, $description, $image, $link, $service_lang, $id);
   $stmt->execute();
   $stmt->close();
   $conn->close();
 
-  header("Location: view_services.php");
+  header("Location: view_services.php?lang=$service_lang");
   exit;
 }
 
@@ -80,7 +88,7 @@ $conn->close();
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Edit Service</h1>
         </div>
-        <form method="POST" action="edit_service.php?id=<?php echo $id; ?>" enctype="multipart/form-data">
+        <form method="POST" action="edit_service.php?id=<?php echo $id; ?>&lang=<?php echo $lang; ?>" enctype="multipart/form-data">
           <div class="form-group">
             <label for="title">Title</label>
             <input type="text" class="form-control" id="title" name="title" value="<?php echo htmlspecialchars($title); ?>" required>

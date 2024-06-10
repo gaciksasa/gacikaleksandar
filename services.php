@@ -1,6 +1,15 @@
 <?php
 require 'config.php';
 
+// Set default language
+$lang = 'sr';
+if (isset($_GET['lang'])) {
+  $lang = $_GET['lang'];
+  $_SESSION['lang'] = $lang;
+} elseif (isset($_SESSION['lang'])) {
+  $lang = $_SESSION['lang'];
+}
+
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
@@ -14,16 +23,25 @@ $section_sql = "SELECT section_title, section_subtitle, section_content FROM ser
 $section_result = $conn->query($section_sql);
 $section = $section_result->fetch_assoc();
 
-// Fetch services
-$sql = "SELECT title, icon, description, image, link FROM services";
-$result = $conn->query($sql);
+// Fetch services for the selected language
+$sql = "SELECT title, icon, description, image, link FROM services WHERE language = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$result = $stmt->get_result();
 $services = [];
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
     $services[] = $row;
   }
 }
+$stmt->close();
 $conn->close();
+
+function getExcerpt($str, $length = 70)
+{
+  return strlen($str) > $length ? substr($str, 0, $length) . '...' : $str;
+}
 ?>
 
 <!-- Service Start -->
@@ -45,7 +63,7 @@ $conn->close();
                 <a href="<?php echo htmlspecialchars($service['link']); ?>">
                   <span class="pbmit-item-thumbnail">
                     <span class="pbmit-item-thumbnail-inner">
-                      <img src="<?php echo htmlspecialchars($service['image']); ?>" class="img-fluid" alt="">
+                      <img src="<?php echo htmlspecialchars($service['image']); ?>" class="img-fluid" width="100%" alt="">
                     </span>
                   </span>
                 </a>
@@ -60,7 +78,7 @@ $conn->close();
                   <div class="pbmit-des">
                     <h3><a href="<?php echo htmlspecialchars($service['link']); ?>"><?php echo htmlspecialchars($service['title']); ?></a></h3>
                     <div class="pbmit-service-content">
-                      <p><?php echo htmlspecialchars($service['description']); ?></p>
+                      <p><?php echo htmlspecialchars(getExcerpt($service['description'])); ?></p>
                     </div>
                     <div class="pbmit-box-link pbmit-vc_btn3">
                       <a href="<?php echo htmlspecialchars($service['link']); ?>"><?php echo $translations['read-more']; ?></a>
