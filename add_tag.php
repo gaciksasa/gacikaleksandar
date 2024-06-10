@@ -9,7 +9,13 @@ if (!isset($_SESSION['user_id'])) {
 require 'config.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST['name'];
+    if (isset($_POST['name']) && !empty($_POST['name'])) {
+        $name = $_POST['name'];
+    } else {
+        $name = null;
+        echo "Tag name is required.";
+    }
+
     $featured_image = '';
 
     // Handle file upload
@@ -31,22 +37,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Insert tag
-    $sql = "INSERT INTO tags (name, featured_image) VALUES (?, ?)";
-    $stmt = $conn->prepare($sql);
-    if ($stmt === false) {
-        die("Prepare failed: " . $conn->error);
+    // Insert tag if name is not null
+    if ($name !== null) {
+        $sql = "INSERT INTO tags (name, featured_image, language) VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        if ($stmt === false) {
+            die("Prepare failed: " . $conn->error);
+        }
+        $stmt->bind_param("sss", $name, $featured_image, $lang);
+        if ($stmt->execute() === false) {
+            die("Execute failed: " . $stmt->error);
+        }
+        $stmt->close();
     }
-    $stmt->bind_param("ss", $name, $featured_image);
-    if ($stmt->execute() === false) {
-        die("Execute failed: " . $stmt->error);
-    }
-    $stmt->close();
 
     $conn->close();
 
     header("Location: tags.php");
     exit;
+} else {
+    $lang = 'sr';
+    if (isset($_GET['lang'])) {
+        $lang = $_GET['lang'];
+        $_SESSION['lang'] = $lang;
+    } elseif (isset($_SESSION['lang'])) {
+        $lang = $_SESSION['lang'];
+    }
 }
 ?>
 
@@ -73,6 +89,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Add Tag</h1>
+                    <div>
+                        <a href="?lang=en" class="btn <?php echo $lang === 'en' ? 'btn-primary' : 'btn-secondary'; ?>">English</a>
+                        <a href="?lang=sr" class="btn <?php echo $lang === 'sr' ? 'btn-primary' : 'btn-secondary'; ?>">Serbian</a>
+                    </div>
                 </div>
                 <form method="post" enctype="multipart/form-data">
                     <div class="form-group">

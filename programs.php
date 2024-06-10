@@ -1,11 +1,7 @@
 <?php
-
-if (!isset($_SESSION['user_id'])) {
-  header("Location: login.php");
-  exit;
-}
-
+// Include the configuration file
 require 'config.php';
+
 
 // Set default language
 $lang = 'sr';

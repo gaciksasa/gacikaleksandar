@@ -2,10 +2,10 @@
 
 // Handle language selection
 if (isset($_GET['lang'])) {
-    $lang = $_GET['lang'];
-    $_SESSION['lang'] = $lang;
+  $lang = $_GET['lang'];
+  $_SESSION['lang'] = $lang;
 } elseif (!isset($_SESSION['lang'])) {
-    $_SESSION['lang'] = 'sr'; // Default language
+  $_SESSION['lang'] = 'sr'; // Default language
 }
 
 $lang = $_SESSION['lang'];
@@ -33,9 +33,8 @@ $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 // Check the connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+  die("Connection failed: " . $conn->connect_error);
 }
 
 // Set the charset to utf8mb4
 $conn->set_charset("utf8mb4");
-

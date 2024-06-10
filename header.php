@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 if (isset($_GET['lang'])) {
     $lang = $_GET['lang'];
@@ -10,6 +9,7 @@ if (isset($_GET['lang'])) {
 
 $lang = $_SESSION['lang'];
 $translations = include "languages/$lang.php";
+
 ?>
 
 <div class="pbmit-header-overlay">

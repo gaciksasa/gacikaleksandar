@@ -1,18 +1,13 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
-
 require 'config.php';
 
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+	die("Connection failed: " . $conn->connect_error);
 }
 
 // Fetch all blog posts
@@ -21,11 +16,12 @@ $result = $conn->query($sql);
 
 $articles = [];
 if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $articles[] = $row;
-    }
+	while ($row = $result->fetch_assoc()) {
+		$articles[] = $row;
+	}
 }
 
+session_destroy();
 $conn->close();
 ?>
 
@@ -34,46 +30,46 @@ $conn->close();
 <html class="no-js" lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Blog Grid View – Gimox HTML Template</title>
-    <meta name="robots" content="noindex, follow">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>Blog Grid View – Gimox HTML Template</title>
+	<meta name="robots" content="noindex, follow">
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Favicon -->
+	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
 
-    <!-- CSS
+	<!-- CSS
         ============================================ -->
 
-      <!-- Bootstrap CSS -->
-      <link rel="stylesheet" href="css/bootstrap.min.css">
-      <!-- Fontawesome -->
-      <link rel="stylesheet" href="css/fontawesome.css">
-      <!-- Flaticon -->
-      <link rel="stylesheet" href="css/flaticon.css">
-      <!-- Base Icons -->
-      <link rel="stylesheet" href="css/pbminfotech-base-icons.css"> 
-      <!-- Swiper -->
-      <link rel="stylesheet" href="css/swiper.min.css">
-      <!-- Magnific -->
-      <link rel="stylesheet" href="css/magnific-popup.css"> 
-      <!-- Shortcode CSS -->
-      <link rel="stylesheet" href="css/shortcode.css">
-      <!-- Base CSS -->
-      <link rel="stylesheet" href="css/base.css">
-      <!-- Style CSS -->
-      <link rel="stylesheet" href="css/style.css">
-      <!-- Responsive CSS -->
-      <link rel="stylesheet" href="css/responsive.css">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<!-- Fontawesome -->
+	<link rel="stylesheet" href="css/fontawesome.css">
+	<!-- Flaticon -->
+	<link rel="stylesheet" href="css/flaticon.css">
+	<!-- Base Icons -->
+	<link rel="stylesheet" href="css/pbminfotech-base-icons.css">
+	<!-- Swiper -->
+	<link rel="stylesheet" href="css/swiper.min.css">
+	<!-- Magnific -->
+	<link rel="stylesheet" href="css/magnific-popup.css">
+	<!-- Shortcode CSS -->
+	<link rel="stylesheet" href="css/shortcode.css">
+	<!-- Base CSS -->
+	<link rel="stylesheet" href="css/base.css">
+	<!-- Style CSS -->
+	<link rel="stylesheet" href="css/style.css">
+	<!-- Responsive CSS -->
+	<link rel="stylesheet" href="css/responsive.css">
 </head>
 
 <body>
 
-    <!-- Page Wrapper -->
-    <div class="page-wrapper">
+	<!-- Page Wrapper -->
+	<div class="page-wrapper">
 
-        <!-- Header Main Area -->
+		<!-- Header Main Area -->
 		<header class="site-header header-style-1">
 			<!-- Include Header -->
 			<?php include 'header.php'; ?>
@@ -97,62 +93,62 @@ $conn->close();
 		<!-- Title Bar End-->
 
 		<!-- Page Content -->
-		<div class="page-content">   
+		<div class="page-content">
 
 			<!-- Blog Grid -->
 			<section class="section-md">
-                <div class="container">
-                    <div class="row">
-                        <?php foreach ($articles as $article): ?>
-                        <div class="col-md-6 col-lg-4">
-                            <article class="pbmit-box-blog pbmit-blogbox-style-1">
-                                <div class="post-item">
-                                    <div class="pbmit-blog-image-with-meta">
-                                        <div class="pbmit-featured-wrapper pbmit-post-featured-wrapper">
-                                            <img src="<?php echo htmlspecialchars($article['featured_image']); ?>" class="img-fluid" alt="Featured Image">
-                                        </div>
-                                    </div>
-                                    <div class="pbmit-box-content">
-                                        <div class="pbmit-entry-meta-wrapper">
-                                            <div class="entry-meta pbmit-entry-meta pbmit-entry-meta-blogclassic">
-                                                <span class="pbmit-meta-line byline">
-                                                    <span class="author vcard">
-                                                        <span class="screen-reader-text pbmit-hide">Author </span>By
-                                                        <a class="url fn n" href="blog-large-image.html"><?php echo htmlspecialchars($article['author']); ?></a>
-                                                    </span>
-                                                </span>
-                                                <span class="pbmit-meta-line posted-on">
-                                                    <span class="screen-reader-text">Posted on </span>
-                                                    <a href="view_article.php?id=<?php echo $article['id']; ?>" rel="bookmark">
-                                                        <time class="entry-date published updated" datetime="<?php echo htmlspecialchars($article['published_date']); ?>"><?php echo date('F j, Y', strtotime($article['published_date'])); ?></time>
-                                                    </a>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="pbmit-box-title">
-                                            <h2 class="pbmit-title">
-                                                <a href="view_article.php?id=<?php echo $article['id']; ?>"><?php echo htmlspecialchars($article['title']); ?></a>
-                                            </h2>
-                                        </div>
-                                        <div class="pbmit-blogbox-readmore pbmit-vc_btn3">
-                                            <div class="pbmit-blogbox-footer-left">
-                                                <a href="view_article.php?id=<?php echo $article['id']; ?>">Read More</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-            </section>
-            <!-- Blog Grid End -->
+				<div class="container">
+					<div class="row">
+						<?php foreach ($articles as $article) : ?>
+							<div class="col-md-6 col-lg-4">
+								<article class="pbmit-box-blog pbmit-blogbox-style-1">
+									<div class="post-item">
+										<div class="pbmit-blog-image-with-meta">
+											<div class="pbmit-featured-wrapper pbmit-post-featured-wrapper">
+												<img src="<?php echo htmlspecialchars($article['featured_image']); ?>" class="img-fluid" alt="Featured Image">
+											</div>
+										</div>
+										<div class="pbmit-box-content">
+											<div class="pbmit-entry-meta-wrapper">
+												<div class="entry-meta pbmit-entry-meta pbmit-entry-meta-blogclassic">
+													<span class="pbmit-meta-line byline">
+														<span class="author vcard">
+															<span class="screen-reader-text pbmit-hide">Author </span>By
+															<a class="url fn n" href="blog-large-image.html"><?php echo htmlspecialchars($article['author']); ?></a>
+														</span>
+													</span>
+													<span class="pbmit-meta-line posted-on">
+														<span class="screen-reader-text">Posted on </span>
+														<a href="view_article.php?id=<?php echo $article['id']; ?>" rel="bookmark">
+															<time class="entry-date published updated" datetime="<?php echo htmlspecialchars($article['published_date']); ?>"><?php echo date('F j, Y', strtotime($article['published_date'])); ?></time>
+														</a>
+													</span>
+												</div>
+											</div>
+											<div class="pbmit-box-title">
+												<h2 class="pbmit-title">
+													<a href="view_article.php?id=<?php echo $article['id']; ?>"><?php echo htmlspecialchars($article['title']); ?></a>
+												</h2>
+											</div>
+											<div class="pbmit-blogbox-readmore pbmit-vc_btn3">
+												<div class="pbmit-blogbox-footer-left">
+													<a href="view_article.php?id=<?php echo $article['id']; ?>">Read More</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</article>
+							</div>
+						<?php endforeach; ?>
+					</div>
+				</div>
+			</section>
+			<!-- Blog Grid End -->
 
 		</div>
 		<!-- Page Content End -->
 
-        <!-- footer -->
+		<!-- footer -->
 		<footer class="footer site-footer">
 			<div class="pbmit-footer-widget-area">
 				<div class="container">
@@ -167,7 +163,7 @@ $conn->close();
 						</div>
 						<div class="footer-widget-col-2">
 							<div class="widget">
-							<h3 class="widget-title">Information</h3>
+								<h3 class="widget-title">Information</h3>
 								<div class="textwidget">
 									<ul>
 										<li><a href="about-us.html">About Us</a></li>
@@ -198,7 +194,7 @@ $conn->close();
 									<form>
 										<input type="email" name="EMAIL" placeholder="Email address" required="">
 										<button type="submit">Subscribe</button>
-									</form>					
+									</form>
 								</div>
 							</div>
 						</div>
@@ -213,7 +209,7 @@ $conn->close();
 								<div class="widget-as-link">
 									<p>Copyright © 2023 All Rights<br>Reserved.</p>
 								</div>
-							</div>	
+							</div>
 							<div class="col-md-6 col-lg-3">
 								<div class="widget-as-link">
 									<ul class="pbmit_contact_widget_wrapper">
@@ -246,21 +242,21 @@ $conn->close();
 										</ul>
 									</div>
 								</div>
-							</div>		
+							</div>
 						</div>
-					</div>	
+					</div>
 				</div>
-			</div>	
+			</div>
 		</footer>
 		<!-- footer End -->
 
-   	</div>
-   	<!-- Page Wrapper End -->
+	</div>
+	<!-- Page Wrapper End -->
 
 	<!-- Search Box Start Here -->
 	<div class="pbmit-search-overlay">
 		<div class="pbmit-icon-close"></div>
-		<div class="pbmit-search-outer"> 
+		<div class="pbmit-search-outer">
 			<div class="pbmit-search-logo">
 				<img src="images/logo.png" alt="">
 			</div>
@@ -274,28 +270,29 @@ $conn->close();
 	</div>
 	<!-- Search Box End Here -->
 
-     <!-- JS
+	<!-- JS
          ============================================ -->
-      <!-- jQuery JS -->
-      <script src="js/jquery.min.js"></script>
-      <!-- Popper JS -->
-      <script src="js/popper.min.js"></script>
-      <!-- Bootstrap JS -->
-      <script src="js/bootstrap.min.js"></script> 
-      <!-- jquery Waypoints JS -->
-      <script src="js/jquery.waypoints.min.js"></script>
-      <!-- jquery Appear JS -->
-      <script src="js/jquery.appear.js"></script>
-      <!-- Numinate JS -->
-      <script src="js/numinate.min.js"></script>
-      <!-- Swiper JS -->
-      <script src="js/swiper.min.js"></script>
-      <!-- Magnific JS -->
-      <script src="js/jquery.magnific-popup.min.js"></script>
-      <!-- Circle Progress JS -->
-      <script src="js/circle-progress.js"></script>  
-      <!-- Scripts JS -->
-      <script src="js/scripts.js"></script>       
+	<!-- jQuery JS -->
+	<script src="js/jquery.min.js"></script>
+	<!-- Popper JS -->
+	<script src="js/popper.min.js"></script>
+	<!-- Bootstrap JS -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- jquery Waypoints JS -->
+	<script src="js/jquery.waypoints.min.js"></script>
+	<!-- jquery Appear JS -->
+	<script src="js/jquery.appear.js"></script>
+	<!-- Numinate JS -->
+	<script src="js/numinate.min.js"></script>
+	<!-- Swiper JS -->
+	<script src="js/swiper.min.js"></script>
+	<!-- Magnific JS -->
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<!-- Circle Progress JS -->
+	<script src="js/circle-progress.js"></script>
+	<!-- Scripts JS -->
+	<script src="js/scripts.js"></script>
 
 </body>
+
 </html>

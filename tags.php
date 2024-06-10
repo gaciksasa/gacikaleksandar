@@ -8,6 +8,15 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'config.php';
 
+// Set default language
+$lang = 'sr';
+if (isset($_GET['lang'])) {
+    $lang = $_GET['lang'];
+    $_SESSION['lang'] = $lang;
+} elseif (isset($_SESSION['lang'])) {
+    $lang = $_SESSION['lang'];
+}
+
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
@@ -16,15 +25,19 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch all tags
-$sql = "SELECT id, name, featured_image FROM tags";
-$result = $conn->query($sql);
+// Fetch all tags for the selected language
+$sql = "SELECT id, name, featured_image FROM tags WHERE language = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$result = $stmt->get_result();
 $tags = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $tags[] = $row;
     }
 }
+$stmt->close();
 
 $conn->close();
 ?>
@@ -52,12 +65,15 @@ $conn->close();
             <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Tags</h1>
+                    <div>
+                        <a href="?lang=en" class="btn <?php echo $lang === 'en' ? 'btn-primary' : 'btn-secondary'; ?>">English</a>
+                        <a href="?lang=sr" class="btn <?php echo $lang === 'sr' ? 'btn-primary' : 'btn-secondary'; ?>">Serbian</a>
+                    </div>
                 </div>
-                <a href="add_tag.php" class="btn btn-primary mb-3">Add Tag</a>
+                <a href="add_tag.php?lang=<?php echo $lang; ?>" class="btn btn-primary mb-3">Add Tag</a>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Name</th>
                             <th>Featured Image</th>
                             <th>Actions</th>
@@ -66,7 +82,6 @@ $conn->close();
                     <tbody>
                         <?php foreach ($tags as $tag) : ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($tag['id']); ?></td>
                                 <td><?php echo htmlspecialchars($tag['name']); ?></td>
                                 <td>
                                     <?php if ($tag['featured_image']) : ?>
@@ -74,8 +89,8 @@ $conn->close();
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <a href="edit_tag.php?id=<?php echo $tag['id']; ?>" class="btn btn-warning">Edit</a>
-                                    <a href="delete_tag.php?id=<?php echo $tag['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this tag?');">Delete</a>
+                                    <a href="edit_tag.php?id=<?php echo $tag['id']; ?>&lang=<?php echo $lang; ?>" class="btn btn-warning">Edit</a>
+                                    <a href="delete_tag.php?id=<?php echo $tag['id']; ?>&lang=<?php echo $lang; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this tag?');">Delete</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

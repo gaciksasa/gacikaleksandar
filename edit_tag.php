@@ -8,11 +8,21 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'config.php';
 
+// Set default language
+$lang = 'sr';
+if (isset($_GET['lang'])) {
+    $lang = $_GET['lang'];
+    $_SESSION['lang'] = $lang;
+} elseif (isset($_SESSION['lang'])) {
+    $lang = $_SESSION['lang'];
+}
+
 $id = $_GET['id'];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     $featured_image = '';
+    $language = $lang; // Use the selected language
 
     // Handle file upload
     if (!empty($_FILES['featured_image']['name'])) {
@@ -33,13 +43,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Update tag
     if ($featured_image) {
-        $sql = "UPDATE tags SET name = ?, featured_image = ? WHERE id = ?";
+        $sql = "UPDATE tags SET name = ?, featured_image = ?, language = ? WHERE id = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssi", $name, $featured_image, $id);
+        $stmt->bind_param("sssi", $name, $featured_image, $language, $id);
     } else {
-        $sql = "UPDATE tags SET name = ? WHERE id = ?";
+        $sql = "UPDATE tags SET name = ?, language = ? WHERE id = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("si", $name, $id);
+        $stmt->bind_param("ssi", $name, $language, $id);
     }
 
     $stmt->execute();
@@ -47,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $conn->close();
 
-    header("Location: tags.php");
+    header("Location: tags.php?lang=$lang");
     exit;
 } else {
     // Fetch tag details
@@ -55,7 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Check connection
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+        die("Connection failed: " .
+            $conn->connect_error);
     }
 
     $sql = "SELECT name, featured_image FROM tags WHERE id = ?";
@@ -106,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <img src="<?php echo htmlspecialchars($featured_image); ?>" alt="Featured Image" style="width: 100px; height: auto;">
                         <?php endif; ?>
                     </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary mt-4">Update tag</button>
                 </form>
             </main>
             <!-- Main Content End -->

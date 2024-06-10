@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 10, 2024 at 06:31 PM
+-- Generation Time: Jun 10, 2024 at 07:42 PM
 -- Server version: 5.7.36
 -- PHP Version: 7.4.26
 
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `about` (
 
 INSERT INTO `about` (`id`, `title`, `subtitle`, `content`, `link`, `image`, `created_at`, `language`) VALUES
 (2, 'Why choose us? Because we are the best!', 'Know About Us', '<p>Our state of the art gyms provide you with a great place to work out in, whether you are there to burn off some calories or are training for something more specific. Why not visit your nearest Gym Center and take a look? We&rsquo;re here to help you!</p>\r\n<p>Train with the best experts in bodybuilding field.<br />Our personal trainers will help you find a perfect workout.</p>', '#', 'img-02.jpg', '2024-06-08 18:51:38', 'en'),
-(3, 'Zasto odabrati nas? zato sto smo najbolji!', 'Saznajte o nama', '<p>Na&scaron;e najsavremenije teretane vam pruÅ¾aju odliÄno mesto za veÅ¾banje, bilo da ste tu da sagorete kalorije ili trenirate za ne&scaron;to konkretnije. Za&scaron;to ne posetite najbliÅ¾u teretanu i pogledate? Tu smo da vam pomognemo!</p>\r\n<p>Trenirajte sa najboljim struÄnjacima u oblasti bodibildinga.<br />Na&scaron;i liÄni treneri cÌe vam pomocÌi da pronaÄ‘ete savr&scaron;enu veÅ¾bu.</p>', '#', 'img-02.jpg', '2024-06-08 18:51:38', 'sr');
+(3, 'ZaÅ¡to odabrati nas? zato Å¡to smo najbolji!', 'Saznajte viÅ¡e o nama', '<p>Na&scaron;e najsavremenije teretane vam pruÅ¾aju odliÄno mesto za veÅ¾banje, bilo da ste tu da sagorete kalorije ili trenirate za ne&scaron;to konkretnije. Za&scaron;to ne posetite najbliÅ¾u teretanu i pogledate? Tu smo da vam pomognemo!</p>\r\n<p>Trenirajte sa najboljim struÄnjacima u oblasti bodibildinga.<br />Na&scaron;i liÄni treneri cÌe vam pomocÌi da pronaÄ‘ete savr&scaron;enu veÅ¾bu.</p>', '#', 'img-02.jpg', '2024-06-08 18:51:38', 'sr');
 
 -- --------------------------------------------------------
 
@@ -306,21 +306,24 @@ INSERT INTO `services_section` (`id`, `section_title`, `section_subtitle`, `sect
 DROP TABLE IF EXISTS `sliders`;
 CREATE TABLE IF NOT EXISTS `sliders` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `subtitle` varchar(255) NOT NULL,
-  `background_image` varchar(255) NOT NULL,
-  `link` varchar(255) NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subtitle` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `background_image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `link` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `language` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT 'en',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `sliders`
 --
 
-INSERT INTO `sliders` (`id`, `title`, `subtitle`, `background_image`, `link`) VALUES
-(1, 'The best fitness studio in town', 'The Runner\'s Life  							', 'slider-2.jpg', '#'),
-(3, 'as dasda sas d', 'as dasda sdasd', 'slider-1.jpg', '#'),
-(4, 'The best fitness studio in town', 'The runner\'s life', 'slider-3.jpg', '#');
+INSERT INTO `sliders` (`id`, `title`, `subtitle`, `background_image`, `link`, `language`) VALUES
+(1, 'The best fitness studio in town', 'The Runner\'s Life  							', 'slider-2.jpg', '#', 'en'),
+(3, 'Best weight lose programs', 'individual trainings', 'slider-1.jpg', '#', 'en'),
+(4, 'The best fitness studio in town', 'The runner\'s life', 'slider-3.jpg', '#', 'en'),
+(5, 'Programi za pripremu sportista', 'individualne vežbe snage', 'slider-1.jpg', '#', 'sr'),
+(6, 'Programi za skidanje kilograma', 'posebno izdvajamo', 'slider-3.jpg', '#', 'sr');
 
 -- --------------------------------------------------------
 
