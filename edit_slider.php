@@ -8,6 +8,15 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'config.php';
 
+// Set default language
+$lang = 'sr';
+if (isset($_GET['lang'])) {
+  $lang = $_GET['lang'];
+  $_SESSION['lang'] = $lang;
+} elseif (isset($_SESSION['lang'])) {
+  $lang = $_SESSION['lang'];
+}
+
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
@@ -21,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $title = $_POST['title'];
   $subtitle = $_POST['subtitle'];
   $link = $_POST['link'];
+  $language = $lang; // Use the selected language
 
   // Handle background image upload
   if ($_FILES['background_image']['name']) {
@@ -30,21 +40,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     move_uploaded_file($_FILES["background_image"]["tmp_name"], $target_file);
 
     // Update slider with new image
-    $sql = "UPDATE sliders SET title = ?, subtitle = ?, background_image = ?, link = ? WHERE id = ?";
+    $sql = "UPDATE sliders SET title = ?, subtitle = ?, background_image = ?, link = ?, language = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssi", $title, $subtitle, $background_image, $link, $id);
+    $stmt->bind_param("sssssi", $title, $subtitle, $background_image, $link, $language, $id);
   } else {
     // Update slider without new image
-    $sql = "UPDATE sliders SET title = ?, subtitle = ?, link = ? WHERE id = ?";
+    $sql = "UPDATE sliders SET title = ?, subtitle = ?, link = ?, language = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssi", $title, $subtitle, $link, $id);
+    $stmt->bind_param("sssii", $title, $subtitle, $link, $language, $id);
   }
 
   $stmt->execute();
   $stmt->close();
   $conn->close();
 
-  header("Location: view_sliders.php");
+  header("Location: view_sliders.php?lang=$lang");
   exit;
 }
 
@@ -67,7 +77,7 @@ $conn->close();
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>Edit Slider - My Website</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit-no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -84,7 +94,7 @@ $conn->close();
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Edit Slider</h1>
         </div>
-        <form method="POST" action="edit_slider.php" enctype="multipart/form-data">
+        <form method="POST" action="edit_slider.php?id=<?php echo $id; ?>&lang=<?php echo $lang; ?>" enctype="multipart/form-data">
           <input type="hidden" name="id" value="<?php echo $slider['id']; ?>">
           <div class="form-group">
             <label for="title">Title</label>

@@ -2,6 +2,15 @@
 // Include the configuration file
 require 'config.php';
 
+// Set default language
+$lang = 'sr';
+if (isset($_GET['lang'])) {
+  $lang = $_GET['lang'];
+  $_SESSION['lang'] = $lang;
+} elseif (isset($_SESSION['lang'])) {
+  $lang = $_SESSION['lang'];
+}
+
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
@@ -10,9 +19,17 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch sliders
-$sql = "SELECT id, title, subtitle, background_image, link FROM sliders";
-$result = $conn->query($sql);
+// Set the character set to utf8mb4
+if (!$conn->set_charset("utf8mb4")) {
+  die("Error loading character set utf8mb4: " . $conn->error);
+}
+
+// Fetch sliders for the selected language
+$sql = "SELECT id, title, subtitle, background_image, link FROM sliders WHERE language = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$result = $stmt->get_result();
 
 // Check if the query was successful
 if (!$result) {
@@ -26,6 +43,7 @@ if ($result->num_rows > 0) {
   }
 }
 
+$stmt->close();
 $conn->close();
 ?>
 

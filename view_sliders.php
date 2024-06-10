@@ -8,6 +8,15 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'config.php';
 
+// Set default language
+$lang = 'sr';
+if (isset($_GET['lang'])) {
+  $lang = $_GET['lang'];
+  $_SESSION['lang'] = $lang;
+} elseif (isset($_SESSION['lang'])) {
+  $lang = $_SESSION['lang'];
+}
+
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
@@ -16,16 +25,19 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch sliders
-$sql = "SELECT id, title, subtitle, background_image, link FROM sliders";
-$result = $conn->query($sql);
+// Fetch sliders for the selected language
+$sql = "SELECT id, title, subtitle, background_image, link FROM sliders WHERE language = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$result = $stmt->get_result();
 $sliders = [];
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
     $sliders[] = $row;
   }
 }
-
+$stmt->close();
 $conn->close();
 ?>
 
@@ -52,8 +64,12 @@ $conn->close();
       <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Sliders</h1>
+          <div>
+            <a href="?lang=en" class="btn <?php echo $lang === 'en' ? 'btn-primary' : 'btn-secondary'; ?>">English</a>
+            <a href="?lang=sr" class="btn <?php echo $lang === 'sr' ? 'btn-primary' : 'btn-secondary'; ?>">Serbian</a>
+          </div>
         </div>
-        <a href="add_slider.php" class="btn btn-primary mb-3">Add Slider</a>
+        <a href="add_slider.php?lang=<?php echo $lang; ?>" class="btn btn-primary mb-3">Add Slider</a>
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -69,11 +85,11 @@ $conn->close();
               <tr>
                 <td><?php echo htmlspecialchars($slider['title']); ?></td>
                 <td><?php echo htmlspecialchars($slider['subtitle']); ?></td>
-                <td><img src="uploads/<?php echo ($slider['background_image']); ?>" alt="" style="width: 100px;"></td>
+                <td><img src="uploads/<?php echo htmlspecialchars($slider['background_image']); ?>" alt="" style="width: 100px;"></td>
                 <td><?php echo htmlspecialchars($slider['link']); ?></td>
                 <td>
-                  <a href="edit_slider.php?id=<?php echo $slider['id']; ?>" class="btn btn-warning">Edit</a>
-                  <a href="delete_slider.php?id=<?php echo $slider['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this slider?');">Delete</a>
+                  <a href="edit_slider.php?id=<?php echo $slider['id']; ?>&lang=<?php echo $lang; ?>" class="btn btn-warning">Edit</a>
+                  <a href="delete_slider.php?id=<?php echo $slider['id']; ?>&lang=<?php echo $lang; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this slider?');">Delete</a>
                 </td>
               </tr>
             <?php endforeach; ?>
