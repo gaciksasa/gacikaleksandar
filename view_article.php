@@ -1,11 +1,6 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
-
 require 'config.php';
 
 if (!isset($_GET['slug'])) {
@@ -88,6 +83,7 @@ $conn->close();
 
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -105,6 +101,7 @@ $conn->close();
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/responsive.css">
 </head>
+
 <body>
     <div class="page-wrapper">
         <!-- Header Main Area -->
@@ -127,7 +124,7 @@ $conn->close();
                                         <div class="site-navigation">
                                             <nav class="main-menu navbar-expand-xl navbar-light">
                                                 <div class="navbar-header">
-                                                    <!-- Toggle Button --> 
+                                                    <!-- Toggle Button -->
                                                     <button class="navbar-toggler" type="button">
                                                         <i class="pbmit-gimox-icon-bars"></i>
                                                     </button>
@@ -237,7 +234,7 @@ $conn->close();
                                         <div class="blog-classic">
                                             <div class="pbmit-featured-img-wrapper">
                                                 <div class="pbmit-featured-wrapper">
-                                                    <?php if ($featured_image): ?>
+                                                    <?php if ($featured_image) : ?>
                                                         <img src="../<?php echo htmlspecialchars($featured_image); ?>" class="img-fluid w-100" alt="Featured Image" style="height: auto;">
                                                     <?php endif; ?>
                                                 </div>
@@ -272,8 +269,8 @@ $conn->close();
                                         <div class="pbmit-blog-meta pbmit-blog-meta-bottom">
                                             <div class="pbmit-blog-meta-bottom-left">
                                                 <span class="pbmit-meta pbmit-meta-tags">
-                                                    <?php foreach ($tags as $tag): ?>
-                                                    <a href="../tag.php?name=<?php echo urlencode($tag); ?>" rel="tag"><?php echo htmlspecialchars($tag); ?></a>
+                                                    <?php foreach ($tags as $tag) : ?>
+                                                        <a href="../tag.php?name=<?php echo urlencode($tag); ?>" rel="tag"><?php echo htmlspecialchars($tag); ?></a>
                                                     <?php endforeach; ?>
                                                 </span>
                                             </div>
@@ -328,17 +325,17 @@ $conn->close();
                                     </form>
                                 </aside>
                                 <aside class="widget widget-categories">
-                                  <h3 class="widget-title">Categories</h3>
-                                  <ul>
-                                      <?php foreach ($categories as $category): ?>
-                                      <li><a href="../category.php?id=<?php echo $category['id']; ?>"><?php echo htmlspecialchars($category['name']); ?></a></li>
-                                      <?php endforeach; ?>
-                                  </ul>
+                                    <h3 class="widget-title">Categories</h3>
+                                    <ul>
+                                        <?php foreach ($categories as $category) : ?>
+                                            <li><a href="../category.php?id=<?php echo $category['id']; ?>"><?php echo htmlspecialchars($category['name']); ?></a></li>
+                                        <?php endforeach; ?>
+                                    </ul>
                                 </aside>
                                 <aside class="widget widget-recent-post">
                                     <h2 class="widget-title">Recent posts</h2>
                                     <ul class="recent-post-list">
-                                        <?php foreach ($recent_articles as $article): ?>
+                                        <?php foreach ($recent_articles as $article) : ?>
                                             <li class="recent-post-list-li">
                                                 <a class="recent-post-thum" href="../article/<?php echo $article['slug']; ?>">
                                                     <img src="../<?php echo $article['featured_image']; ?>" class="img-fluid" style="width: 90px; height: 90px;" alt="Thumbnail">
@@ -352,7 +349,7 @@ $conn->close();
                                 <aside class="widget widget-tag-cloud">
                                     <h3 class="widget-title">Tags</h3>
                                     <div class="tagcloud">
-                                        <?php foreach ($all_tags as $tag): ?>
+                                        <?php foreach ($all_tags as $tag) : ?>
                                             <a href="../tag.php?name=<?php echo urlencode($tag); ?>" class="tag-cloud-link"><?php echo htmlspecialchars($tag); ?></a>
                                         <?php endforeach; ?>
                                     </div>
@@ -376,7 +373,7 @@ $conn->close();
     <!-- Search Box Start Here -->
     <div class="pbmit-search-overlay">
         <div class="pbmit-icon-close"></div>
-        <div class="pbmit-search-outer"> 
+        <div class="pbmit-search-outer">
             <div class="pbmit-search-logo">
                 <img src="../images/logo.png" alt="">
             </div>
@@ -399,7 +396,8 @@ $conn->close();
     <script src="../js/numinate.min.js"></script>
     <script src="../js/swiper.min.js"></script>
     <script src="../js/jquery.magnific-popup.min.js"></script>
-    <script src="../js/circle-progress.js"></script>  
+    <script src="../js/circle-progress.js"></script>
     <script src="../js/scripts.js"></script>
 </body>
+
 </html>
