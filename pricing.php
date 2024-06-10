@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 require 'config.php';
 
 // Set default language
-$lang = 'en';
+$lang = 'sr';
 if (isset($_GET['lang'])) {
   $lang = $_GET['lang'];
 }
