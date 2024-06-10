@@ -18,10 +18,14 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch section details
-$section_sql = "SELECT section_title, section_subtitle, section_content FROM services_section WHERE id = 1";
-$section_result = $conn->query($section_sql);
+// Fetch section details for the selected language
+$section_sql = "SELECT section_title, section_subtitle, section_content FROM services_section WHERE language = ?";
+$stmt = $conn->prepare($section_sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$section_result = $stmt->get_result();
 $section = $section_result->fetch_assoc();
+$stmt->close();
 
 // Fetch services for the selected language
 $sql = "SELECT title, icon, description, image, link FROM services WHERE language = ?";
@@ -71,7 +75,7 @@ function getExcerpt($str, $length = 70)
               <div class="pbmit-box-content">
                 <div class="pbmit-box-content-inner">
                   <div class="pbmit-pf-box-title">
-                    <div class="pbmit-ihbox-icon  pbmit-icon-skincolor">
+                    <div class="pbmit-ihbox-icon pbmit-icon-skincolor">
                       <i class="<?php echo htmlspecialchars($service['icon']); ?>"></i>
                     </div>
                   </div>
