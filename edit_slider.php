@@ -25,6 +25,11 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
+// Set the character set to utf8mb4
+if (!$conn->set_charset("utf8mb4")) {
+  die("Error loading character set utf8mb4: " . $conn->error);
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $id = $_POST['id'];
   $title = $_POST['title'];
@@ -47,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Update slider without new image
     $sql = "UPDATE sliders SET title = ?, subtitle = ?, link = ?, language = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssii", $title, $subtitle, $link, $language, $id);
+    $stmt->bind_param("ssssi", $title, $subtitle, $link, $language, $id);
   }
 
   $stmt->execute();
@@ -77,7 +82,7 @@ $conn->close();
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>Edit Slider - My Website</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit-no">
   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

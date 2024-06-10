@@ -25,6 +25,11 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
+// Set the character set to utf8mb4
+if (!$conn->set_charset("utf8mb4")) {
+  die("Error loading character set utf8mb4: " . $conn->error);
+}
+
 // Fetch sliders for the selected language
 $sql = "SELECT id, title, subtitle, background_image, link FROM sliders WHERE language = ?";
 $stmt = $conn->prepare($sql);

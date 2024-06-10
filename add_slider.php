@@ -37,6 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     die("Connection failed: " . $conn->connect_error);
   }
 
+  // Set the character set to utf8mb4
+  $conn->set_charset("utf8mb4");
+
   // Insert new slider
   $sql = "INSERT INTO sliders (title, subtitle, background_image, link, language) VALUES (?, ?, ?, ?, ?)";
   $stmt = $conn->prepare($sql);
@@ -57,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>Add Slider - My Website</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit-no">
   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
