@@ -8,6 +8,15 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'config.php';
 
+// Set default language
+$lang = 'sr';
+if (isset($_GET['lang'])) {
+    $lang = $_GET['lang'];
+    $_SESSION['lang'] = $lang;
+} elseif (isset($_SESSION['lang'])) {
+    $lang = $_SESSION['lang'];
+}
+
 $id = $_GET['id'];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -15,10 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $featured_image = '';
 
     // Handle file upload
-    if (isset($_FILES['featured_image']) && $_FILES['featured_image']['error'] == UPLOAD_ERR_OK) {
-        $upload_dir = 'uploads/';
-        $featured_image = $upload_dir . basename($_FILES['featured_image']['name']);
-        move_uploaded_file($_FILES['featured_image']['tmp_name'], $featured_image);
+    if (!empty($_FILES['featured_image']['name'])) {
+        $target_dir = "uploads/";
+        $target_file = $target_dir . basename($_FILES["featured_image"]["name"]);
+        if (move_uploaded_file($_FILES["featured_image"]["tmp_name"], $target_file)) {
+            $featured_image = $target_file;
+        }
     }
 
     // Connect to the database
@@ -31,13 +42,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Update category
     if ($featured_image) {
-        $sql = "UPDATE categories SET name = ?, featured_image = ? WHERE id = ?";
+        $sql = "UPDATE categories SET name = ?, featured_image = ?, language = ? WHERE id = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssi", $name, $featured_image, $id);
+        $stmt->bind_param("sssi", $name, $featured_image, $lang, $id);
     } else {
-        $sql = "UPDATE categories SET name = ? WHERE id = ?";
+        $sql = "UPDATE categories SET name = ?, language = ? WHERE id = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("si", $name, $id);
+        $stmt->bind_param("ssi", $name, $lang, $id);
     }
 
     $stmt->execute();
@@ -45,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $conn->close();
 
-    header("Location: categories.php");
+    header("Location: categories.php?lang=$lang");
     exit;
 } else {
     // Fetch category details
@@ -56,9 +67,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT name, featured_image FROM categories WHERE id = ?";
+    $sql = "SELECT name, featured_image FROM categories WHERE id = ? AND language = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id);
+    $stmt->bind_param("is", $id, $lang);
     $stmt->execute();
     $stmt->bind_result($name, $featured_image);
     $stmt->fetch();
@@ -99,12 +110,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                     <div class="form-group">
                         <label for="featured_image">Featured Image</label>
-                        <input type="file" class="form-control" id="featured_image" name="featured_image" accept="image/*">
+                        <input type="file" class="form-control" id="featured_image" name="featured_image">
                         <?php if ($featured_image) : ?>
-                            <img src="<?php echo htmlspecialchars($featured_image); ?>" alt="Current Featured Image" style="max-width: 100px; margin-top: 10px;">
+                            <img src="<?php echo htmlspecialchars($featured_image); ?>" alt="Featured Image" style="width: 100px; height: auto;">
                         <?php endif; ?>
                     </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary mt-4">Save</button>
                 </form>
             </main>
             <!-- Main Content End -->

@@ -8,7 +8,14 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'config.php';
 
-$category_id = $_GET['id'];
+// Set default language
+$lang = 'sr';
+if (isset($_GET['lang'])) {
+    $lang = $_GET['lang'];
+    $_SESSION['lang'] = $lang;
+} elseif (isset($_SESSION['lang'])) {
+    $lang = $_SESSION['lang'];
+}
 
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -18,21 +25,38 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+$category_id = isset($_GET['id']) ? $_GET['id'] : 0;
+
+// If category_id is not provided, fetch the first existing category ID for the selected language
+if ($category_id == 0) {
+    $sql = "SELECT id FROM categories WHERE language = ? LIMIT 1";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $lang);
+    $stmt->execute();
+    $stmt->bind_result($category_id);
+    $stmt->fetch();
+    $stmt->close();
+
+    if ($category_id == 0) {
+        die("No categories found for the selected language.");
+    }
+}
+
 // Fetch category name and featured image
 $category_name = '';
 $category_image = '';
-$sql = "SELECT name, featured_image FROM categories WHERE id = ?";
+$sql = "SELECT name, featured_image FROM categories WHERE id = ? AND language = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $category_id);
+$stmt->bind_param("is", $category_id, $lang);
 $stmt->execute();
 $stmt->bind_result($category_name, $category_image);
 $stmt->fetch();
 $stmt->close();
 
 // Fetch articles in the category
-$sql = "SELECT id, title, content, author, featured_image, published_date, slug FROM blog_posts WHERE category_id = ?";
+$sql = "SELECT id, title, content, author, featured_image, published_date, slug FROM blog_posts WHERE category_id = ? AND language = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $category_id);
+$stmt->bind_param("is", $category_id, $lang);
 $stmt->execute();
 $stmt->bind_result($id, $title, $content, $author, $featured_image, $published_date, $slug);
 $articles = [];
@@ -42,18 +66,25 @@ while ($stmt->fetch()) {
 $stmt->close();
 
 // Fetch all categories
-$sql = "SELECT id, name FROM categories";
-$result = $conn->query($sql);
+$sql = "SELECT id, name FROM categories WHERE language = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$result = $stmt->get_result();
 $categories = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $categories[] = $row;
     }
 }
+$stmt->close();
 
 // Fetch all tags
-$sql = "SELECT name FROM tags";
-$result = $conn->query($sql);
+$sql = "SELECT name FROM tags WHERE language = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$result = $stmt->get_result();
 $all_tags = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
@@ -64,7 +95,8 @@ if ($result->num_rows > 0) {
 $conn->close();
 
 // Function to create excerpt
-function create_excerpt($content, $length = 200) {
+function create_excerpt($content, $length = 200)
+{
     if (strlen($content) <= $length) {
         return $content;
     }
@@ -79,7 +111,7 @@ function create_excerpt($content, $length = 200) {
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Category: <?php echo htmlspecialchars($category_name); ?> – Gimox HTML Template</title>
+    <title><?php echo $translations['category']; ?>: <?php echo htmlspecialchars($category_name); ?></title>
     <meta name="robots" content="noindex, follow">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -111,7 +143,7 @@ function create_excerpt($content, $length = 200) {
         <!-- Header Main Area -->
         <header class="site-header header-style-1">
             <!-- Include Header -->
-			<?php include 'header.php'; ?>
+            <?php include 'header.php'; ?>
         </header>
         <!-- Header Main Area End Here -->
 
@@ -122,7 +154,7 @@ function create_excerpt($content, $length = 200) {
                     <div class="pbmit-title-bar-content-inner">
                         <div class="pbmit-tbar">
                             <div class="pbmit-tbar-inner container">
-                                <h1 class="pbmit-tbar-title">Category: <?php echo htmlspecialchars($category_name); ?></h1>
+                                <h1 class="pbmit-tbar-title"><?php echo $translations['category']; ?>: <?php echo htmlspecialchars($category_name); ?></h1>
                             </div>
                         </div>
                     </div>
@@ -131,7 +163,7 @@ function create_excerpt($content, $length = 200) {
         </div>
         <!-- Title Bar End-->
 
-        <!--Page Content -->
+        <!-- Page Content -->
         <div class="page-content">
             <!-- Blog Classic  -->
             <section class="overflow-hidden">
@@ -140,8 +172,8 @@ function create_excerpt($content, $length = 200) {
                         <div class="col-lg-9 blog-right-col">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <?php foreach ($articles as $article): ?>
-                                        <article class="post blog-classic">   
+                                    <?php foreach ($articles as $article) : ?>
+                                        <article class="post blog-classic">
                                             <div class="pbmit-featured-img-wrapper">
                                                 <div class="pbmit-featured-wrapper">
                                                     <a href="article/<?php echo $article['slug']; ?>">
@@ -152,7 +184,7 @@ function create_excerpt($content, $length = 200) {
                                             <div class="pbmit-blog-classic-inner">
                                                 <div class="pbmit-blog-meta-wrapper">
                                                     <h2 class="pbmit-post-title">
-                                                        <a href="article/<?php echo $article['slug']; ?>"><?php echo htmlspecialchars($article['title']); ?></a> 
+                                                        <a href="article/<?php echo $article['slug']; ?>"><?php echo htmlspecialchars($article['title']); ?></a>
                                                     </h2>
                                                     <div class="pbmit-classic-meta-date">
                                                         <a href="article/<?php echo $article['slug']; ?>">
@@ -161,9 +193,9 @@ function create_excerpt($content, $length = 200) {
                                                     </div>
                                                     <div class="pbmit-blog-meta pbmit-blog-meta-top">
                                                         <div class="pbmit-entry-meta-blogclassic">
-                                                            <span class="pbmit-meta-line byline">  
+                                                            <span class="pbmit-meta-line byline">
                                                                 <span class="author vcard">
-                                                                    <span class="screen-reader-text pbmit-hide">Author </span>By 
+                                                                    <span class="screen-reader-text pbmit-hide">Author </span>By
                                                                     <a class="url fn n" href="article/<?php echo $article['slug']; ?>"><?php echo htmlspecialchars($article['author']); ?></a>
                                                                 </span>
                                                             </span>
@@ -174,7 +206,7 @@ function create_excerpt($content, $length = 200) {
                                                         <div class="pbmit-box-blog">
                                                             <div class="pbmit-blogbox-readmore pbmit-vc_btn3">
                                                                 <div class="pbmit-blogbox-footer-left">
-                                                                    <a href="article/<?php echo $article['slug']; ?>">Read More</a>
+                                                                    <a href="article/<?php echo $article['slug']; ?>"><?php echo $translations['read-more']; ?></a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -183,7 +215,7 @@ function create_excerpt($content, $length = 200) {
                                             </div>
                                         </article>
                                     <?php endforeach; ?>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-3 blog-left-col">
@@ -195,18 +227,18 @@ function create_excerpt($content, $length = 200) {
                                     </form>
                                 </aside>
                                 <aside class="widget widget-categories">
-                                    <h3 class="widget-title">Categories</h3>
+                                    <h3 class="widget-title"><?php echo $translations['categories']; ?></h3>
                                     <ul>
-                                        <?php foreach ($categories as $category): ?>
-                                            <li><a href="category.php?id=<?php echo $category['id']; ?>"><?php echo htmlspecialchars($category['name']); ?></a></li>
+                                        <?php foreach ($categories as $category) : ?>
+                                            <li><a href="category.php?id=<?php echo $category['id']; ?>&lang=<?php echo $lang; ?>"><?php echo htmlspecialchars($category['name']); ?></a></li>
                                         <?php endforeach; ?>
                                     </ul>
                                 </aside>
                                 <aside class="widget widget-recent-post">
-                                    <h2 class="widget-title">Related posts</h2>
+                                    <h2 class="widget-title"><?php echo $translations['related-posts']; ?></h2>
                                     <ul class="recent-post-list">
-                                        <?php foreach ($articles as $article): ?>
-                                            <li class="recent-post-list-li"> 
+                                        <?php foreach ($articles as $article) : ?>
+                                            <li class="recent-post-list-li">
                                                 <a class="recent-post-thum" href="article/<?php echo $article['slug']; ?>">
                                                     <img src="<?php echo $article['featured_image']; ?>" class="img-fluid" alt="">
                                                 </a>
@@ -217,10 +249,10 @@ function create_excerpt($content, $length = 200) {
                                     </ul>
                                 </aside>
                                 <aside class="widget widget-tag-cloud">
-                                    <h3 class="widget-title">Tags</h3>
+                                    <h3 class="widget-title"><?php echo $translations['tags']; ?></h3>
                                     <div class="tagcloud">
-                                        <?php foreach ($all_tags as $tag): ?>
-                                            <a href="tag.php?name=<?php echo urlencode($tag); ?>" class="tag-cloud-link"><?php echo htmlspecialchars($tag); ?></a>
+                                        <?php foreach ($all_tags as $tag) : ?>
+                                            <a href="tag.php?name=<?php echo urlencode($tag); ?>&lang=<?php echo $lang; ?>" class="tag-cloud-link"><?php echo htmlspecialchars($tag); ?></a>
                                         <?php endforeach; ?>
                                     </div>
                                 </aside>
@@ -236,22 +268,22 @@ function create_excerpt($content, $length = 200) {
         <!-- Include footer -->
         <?php include 'footer.php'; ?>
 
-    <!-- Search Box Start Here -->
-    <div class="pbmit-search-overlay">
-        <div class="pbmit-icon-close"></div>
-        <div class="pbmit-search-outer"> 
-            <div class="pbmit-search-logo">
-                <img src="images/logo.png" alt="">
+        <!-- Search Box Start Here -->
+        <div class="pbmit-search-overlay">
+            <div class="pbmit-icon-close"></div>
+            <div class="pbmit-search-outer">
+                <div class="pbmit-search-logo">
+                    <img src="images/logo.png" alt="">
+                </div>
+                <form class="pbmit-site-searchform">
+                    <input type="search" class="form-control field searchform-s" name="s" placeholder="Type Word Then Press Enter">
+                    <button type="submit">
+                        <i class="pbmit-base-icon-search"></i>
+                    </button>
+                </form>
             </div>
-            <form class="pbmit-site-searchform">
-                <input type="search" class="form-control field searchform-s" name="s" placeholder="Type Word Then Press Enter">
-                <button type="submit">
-                    <i class="pbmit-base-icon-search"></i>
-                </button>
-            </form>
         </div>
-    </div>
-    <!-- Search Box End Here -->
+        <!-- Search Box End Here -->
 
     </div>
     <!-- Page Wrapper End -->
@@ -268,4 +300,5 @@ function create_excerpt($content, $length = 200) {
     <script src="js/circle-progress.js"></script>
     <script src="js/scripts.js"></script>
 </body>
+
 </html>

@@ -8,6 +8,15 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'config.php';
 
+// Set default language
+$lang = 'sr';
+if (isset($_GET['lang'])) {
+    $lang = $_GET['lang'];
+    $_SESSION['lang'] = $lang;
+} elseif (isset($_SESSION['lang'])) {
+    $lang = $_SESSION['lang'];
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     $featured_image = '';
@@ -28,15 +37,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Insert category
-    $sql = "INSERT INTO categories (name, featured_image) VALUES (?, ?)";
+    $sql = "INSERT INTO categories (name, featured_image, language) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $name, $featured_image);
+    $stmt->bind_param("sss", $name, $featured_image, $lang);
     $stmt->execute();
     $stmt->close();
 
     $conn->close();
 
-    header("Location: categories.php");
+    header("Location: categories.php?lang=$lang");
     exit;
 }
 ?>
@@ -64,6 +73,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Add Category</h1>
+                    <div>
+                        <a href="?lang=en" class="btn <?php echo $lang === 'en' ? 'btn-primary' : 'btn-secondary'; ?>">English</a>
+                        <a href="?lang=sr" class="btn <?php echo $lang === 'sr' ? 'btn-primary' : 'btn-secondary'; ?>">Serbian</a>
+                    </div>
                 </div>
                 <form method="post" enctype="multipart/form-data">
                     <div class="form-group">
@@ -72,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                     <div class="form-group">
                         <label for="featured_image">Featured Image</label>
-                        <input type="file" class="form-control" id="featured_image" name="featured_image" accept="image/*" required>
+                        <input type="file" class="form-control" id="featured_image" name="featured_image" accept="image/*">
                     </div>
                     <button type="submit" class="btn btn-primary">Add</button>
                 </form>
