@@ -1,6 +1,3 @@
-<?php
-// No need for language check here, it's already handled in config.php
-?>
 <div class="pbmit-header-overlay">
     <div class="site-header-menu">
         <div class="container-fluid p-0">
@@ -29,7 +26,7 @@
                                         <div class="pbmit-menu-wrap">
                                             <ul class="navigation clearfix">
                                                 <li class="dropdown active">
-                                                    <a href="http://localhost/gacikaleksandar/index.php"><?php echo $translations['home']; ?></a>
+                                                    <a href="index.php"><?php echo $translations['home']; ?></a>
                                                 </li>
                                                 <li class="dropdown">
                                                     <a href="#">Pages</a>
@@ -57,9 +54,9 @@
                                                     </ul>
                                                 </li>
                                                 <li class="dropdown">
-                                                    <a href="http://localhost/gacikaleksandar/blog-grid-view.php">Blog</a>
+                                                    <a href="blog-grid-view.php">Blog</a>
                                                 </li>
-                                                <li><a href="http://localhost/gacikaleksandar/contacts.php"><?php echo $translations['contact']; ?></a></li>
+                                                <li><a href="contacts.php"><?php echo $translations['contact']; ?></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -82,8 +79,8 @@
                                 </ul>
                             </div>
                             <div class="language-selector">
-                                <form method="get" action="" class="form-inline">
-                                    <select name="lang" onchange="this.form.submit()">
+                                <form method="post" action="" class="form-inline">
+                                    <select name="lang" onchange="updateLanguage(this.value)">
                                         <option value="en" <?php if ($lang == 'en') echo 'selected'; ?>>EN</option>
                                         <option value="sr" <?php if ($lang == 'sr') echo 'selected'; ?>>SR</option>
                                     </select>
@@ -101,3 +98,10 @@
         </div>
     </div>
 </div>
+
+<script>
+    function updateLanguage(lang) {
+        document.cookie = "lang=" + lang + "; path=/; max-age=" + (86400 * 30);
+        location.reload();
+    }
+</script>
