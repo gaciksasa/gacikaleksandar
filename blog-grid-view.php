@@ -11,7 +11,7 @@ if ($conn->connect_error) {
 }
 
 // Fetch all blog posts
-$sql = "SELECT id, title, content, featured_image, author, published_date FROM blog_posts ORDER BY published_date DESC";
+$sql = "SELECT id, title, content, featured_image, author, published_date, slug FROM blog_posts ORDER BY published_date DESC";
 $result = $conn->query($sql);
 
 $articles = [];
@@ -114,12 +114,12 @@ $conn->close();
 													<span class="pbmit-meta-line byline">
 														<span class="author vcard">
 															<span class="screen-reader-text pbmit-hide">Author </span>By
-															<a class="url fn n" href="blog-large-image.html"><?php echo htmlspecialchars($article['author']); ?></a>
+															<a class="url fn n" href="article/<?php echo urlencode($article['slug']); ?>"><?php echo htmlspecialchars($article['author']); ?></a>
 														</span>
 													</span>
 													<span class="pbmit-meta-line posted-on">
 														<span class="screen-reader-text">Posted on </span>
-														<a href="view_article.php?id=<?php echo $article['id']; ?>" rel="bookmark">
+														<a href="article/<?php echo urlencode($article['slug']); ?>" rel="bookmark">
 															<time class="entry-date published updated" datetime="<?php echo htmlspecialchars($article['published_date']); ?>"><?php echo date('F j, Y', strtotime($article['published_date'])); ?></time>
 														</a>
 													</span>
@@ -127,12 +127,12 @@ $conn->close();
 											</div>
 											<div class="pbmit-box-title">
 												<h2 class="pbmit-title">
-													<a href="view_article.php?id=<?php echo $article['id']; ?>"><?php echo htmlspecialchars($article['title']); ?></a>
+													<a href="article/<?php echo urlencode($article['slug']); ?>"><?php echo htmlspecialchars($article['title']); ?></a>
 												</h2>
 											</div>
 											<div class="pbmit-blogbox-readmore pbmit-vc_btn3">
 												<div class="pbmit-blogbox-footer-left">
-													<a href="view_article.php?id=<?php echo $article['id']; ?>">Read More</a>
+													<a href="article/<?php echo urlencode($article['slug']); ?>">Read More</a>
 												</div>
 											</div>
 										</div>
@@ -249,7 +249,6 @@ $conn->close();
 			</div>
 		</footer>
 		<!-- footer End -->
-
 	</div>
 	<!-- Page Wrapper End -->
 
@@ -271,7 +270,7 @@ $conn->close();
 	<!-- Search Box End Here -->
 
 	<!-- JS
-         ============================================ -->
+     ============================================ -->
 	<!-- jQuery JS -->
 	<script src="js/jquery.min.js"></script>
 	<!-- Popper JS -->
@@ -292,7 +291,6 @@ $conn->close();
 	<script src="js/circle-progress.js"></script>
 	<!-- Scripts JS -->
 	<script src="js/scripts.js"></script>
-
 </body>
 
 </html>
