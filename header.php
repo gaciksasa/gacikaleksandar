@@ -22,8 +22,8 @@ $translations = include "languages/$lang.php";
                             <div class="site-branding">
                                 <span class="site-title">
                                     <a href="index.php">
-                                        <img class="logo-img" src="images/homepage-1/logo.png" alt="Gimox">
-                                        <img class="sticky-logo" src="images/homepage-1/logo-dark.png" alt="Gimox">
+                                        <img class="logo-img" src="http://localhost/gacikaleksandar/images/homepage-1/logo.png" alt="Gacik Aleksandar logo">
+                                        <img class="sticky-logo" src="http://localhost/gacikaleksandar/images/homepage-1/logo-dark.png" alt="Gacik Aleksandar logo">
                                     </a>
                                 </span>
                             </div>
@@ -40,7 +40,7 @@ $translations = include "languages/$lang.php";
                                         <div class="pbmit-menu-wrap">
                                             <ul class="navigation clearfix">
                                                 <li class="dropdown active">
-                                                    <a href="index.php">Home</a>
+                                                    <a href="http://localhost/gacikaleksandar/index.php"><?php echo $translations['home']; ?></a>
                                                 </li>
                                                 <li class="dropdown">
                                                     <a href="#">Pages</a>
@@ -68,9 +68,9 @@ $translations = include "languages/$lang.php";
                                                     </ul>
                                                 </li>
                                                 <li class="dropdown">
-                                                    <a href="blog-grid-view.php">Blog</a>
+                                                    <a href="http://localhost/gacikaleksandar/blog-grid-view.php">Blog</a>
                                                 </li>
-                                                <li><a href="contacts.php">Contacts</a></li>
+                                                <li><a href="http://localhost/gacikaleksandar/contacts.php"><?php echo $translations['contact']; ?></a></li>
                                             </ul>
                                         </div>
                                     </div>

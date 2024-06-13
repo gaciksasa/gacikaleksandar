@@ -6,4 +6,7 @@ return [
     'tag' => 'Tag',
     'tags' => 'Tags',
     'related-posts' => 'Related Posts',
+    'recent-posts' => 'Recent Posts',
+    'home' => 'Home',
+    'contact' => 'Contact',
 ];
