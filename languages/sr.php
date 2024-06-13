@@ -9,4 +9,5 @@ return [
     'recent-posts' => 'Nedavni članci',
     'home' => 'Početna',
     'contact' => 'Kontakt',
+    'site-title' => 'Personalni trener',
 ];

@@ -1,14 +1,13 @@
 <?php
-
 // Handle language selection
 if (isset($_GET['lang'])) {
   $lang = $_GET['lang'];
-  $_SESSION['lang'] = $lang;
-} elseif (!isset($_SESSION['lang'])) {
-  $_SESSION['lang'] = 'sr'; // Default language
+  setcookie('lang', $lang, time() + (86400 * 30), "/"); // 86400 = 1 day
+} elseif (!isset($_COOKIE['lang'])) {
+  setcookie('lang', 'sr', time() + (86400 * 30), "/"); // Set default language to Serbian
 }
 
-$lang = $_SESSION['lang'];
+$lang = $_COOKIE['lang'] ?? 'sr'; // Default to Serbian if cookie is not set
 $translations = include "languages/$lang.php";
 
 // Database configuration

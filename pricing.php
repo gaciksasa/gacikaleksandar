@@ -2,12 +2,6 @@
 
 require 'config.php';
 
-// Set default language
-$lang = 'sr';
-if (isset($_GET['lang'])) {
-  $lang = $_GET['lang'];
-}
-
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 

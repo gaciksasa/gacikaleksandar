@@ -10,9 +10,12 @@ if ($conn->connect_error) {
 	die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch all blog posts
-$sql = "SELECT id, title, content, featured_image, author, published_date, slug FROM blog_posts ORDER BY published_date DESC";
-$result = $conn->query($sql);
+// Fetch all blog posts for the selected language
+$sql = "SELECT id, title, content, featured_image, author, published_date, slug FROM blog_posts WHERE language = ? ORDER BY published_date DESC";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$result = $stmt->get_result();
 
 $articles = [];
 if ($result->num_rows > 0) {
@@ -24,7 +27,6 @@ if ($result->num_rows > 0) {
 session_destroy();
 $conn->close();
 ?>
-
 
 <!doctype html>
 <html class="no-js" lang="en">
@@ -39,8 +41,7 @@ $conn->close();
 	<!-- Favicon -->
 	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
 
-	<!-- CSS
-        ============================================ -->
+	<!-- CSS ============================================ -->
 
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -98,49 +99,55 @@ $conn->close();
 			<!-- Blog Grid -->
 			<section class="section-md">
 				<div class="container">
-					<div class="row">
-						<?php foreach ($articles as $article) : ?>
-							<div class="col-md-6 col-lg-4">
-								<article class="pbmit-box-blog pbmit-blogbox-style-1">
-									<div class="post-item">
-										<div class="pbmit-blog-image-with-meta">
-											<div class="pbmit-featured-wrapper pbmit-post-featured-wrapper">
-												<img src="<?php echo htmlspecialchars($article['featured_image']); ?>" class="img-fluid" alt="Featured Image">
+					<?php if (empty($articles)) : ?>
+						<div class="alert alert-warning" role="alert">
+							No articles found for the selected language.
+						</div>
+					<?php else : ?>
+						<div class="row">
+							<?php foreach ($articles as $article) : ?>
+								<div class="col-md-6 col-lg-4">
+									<article class="pbmit-box-blog pbmit-blogbox-style-1">
+										<div class="post-item">
+											<div class="pbmit-blog-image-with-meta">
+												<div class="pbmit-featured-wrapper pbmit-post-featured-wrapper">
+													<img src="<?php echo htmlspecialchars($article['featured_image']); ?>" class="img-fluid" alt="Featured Image">
+												</div>
 											</div>
-										</div>
-										<div class="pbmit-box-content">
-											<div class="pbmit-entry-meta-wrapper">
-												<div class="entry-meta pbmit-entry-meta pbmit-entry-meta-blogclassic">
-													<span class="pbmit-meta-line byline">
-														<span class="author vcard">
-															<span class="screen-reader-text pbmit-hide">Author </span>By
-															<a class="url fn n" href="article/<?php echo urlencode($article['slug']); ?>"><?php echo htmlspecialchars($article['author']); ?></a>
+											<div class="pbmit-box-content">
+												<div class="pbmit-entry-meta-wrapper">
+													<div class="entry-meta pbmit-entry-meta pbmit-entry-meta-blogclassic">
+														<span class="pbmit-meta-line byline">
+															<span class="author vcard">
+																<span class="screen-reader-text pbmit-hide">Author </span>By
+																<a class="url fn n" href="article/<?php echo urlencode($article['slug']); ?>"><?php echo htmlspecialchars($article['author']); ?></a>
+															</span>
 														</span>
-													</span>
-													<span class="pbmit-meta-line posted-on">
-														<span class="screen-reader-text">Posted on </span>
-														<a href="article/<?php echo urlencode($article['slug']); ?>" rel="bookmark">
-															<time class="entry-date published updated" datetime="<?php echo htmlspecialchars($article['published_date']); ?>"><?php echo date('F j, Y', strtotime($article['published_date'])); ?></time>
-														</a>
-													</span>
+														<span class="pbmit-meta-line posted-on">
+															<span class="screen-reader-text">Posted on </span>
+															<a href="article/<?php echo urlencode($article['slug']); ?>" rel="bookmark">
+																<time class="entry-date published updated" datetime="<?php echo htmlspecialchars($article['published_date']); ?>"><?php echo date('F j, Y', strtotime($article['published_date'])); ?></time>
+															</a>
+														</span>
+													</div>
 												</div>
-											</div>
-											<div class="pbmit-box-title">
-												<h2 class="pbmit-title">
-													<a href="article/<?php echo urlencode($article['slug']); ?>"><?php echo htmlspecialchars($article['title']); ?></a>
-												</h2>
-											</div>
-											<div class="pbmit-blogbox-readmore pbmit-vc_btn3">
-												<div class="pbmit-blogbox-footer-left">
-													<a href="article/<?php echo urlencode($article['slug']); ?>"><?php echo $translations['read-more']; ?></a>
+												<div class="pbmit-box-title">
+													<h2 class="pbmit-title">
+														<a href="article/<?php echo urlencode($article['slug']); ?>"><?php echo htmlspecialchars($article['title']); ?></a>
+													</h2>
+												</div>
+												<div class="pbmit-blogbox-readmore pbmit-vc_btn3">
+													<div class="pbmit-blogbox-footer-left">
+														<a href="article/<?php echo urlencode($article['slug']); ?>"><?php echo $translations['read-more']; ?></a>
+													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-								</article>
-							</div>
-						<?php endforeach; ?>
-					</div>
+									</article>
+								</div>
+							<?php endforeach; ?>
+						</div>
+					<?php endif; ?>
 				</div>
 			</section>
 			<!-- Blog Grid End -->
@@ -171,27 +178,16 @@ $conn->close();
 	</div>
 	<!-- Search Box End Here -->
 
-	<!-- JS
-     ============================================ -->
-	<!-- jQuery JS -->
+	<!-- JS ============================================ -->
 	<script src="js/jquery.min.js"></script>
-	<!-- Popper JS -->
 	<script src="js/popper.min.js"></script>
-	<!-- Bootstrap JS -->
 	<script src="js/bootstrap.min.js"></script>
-	<!-- jquery Waypoints JS -->
 	<script src="js/jquery.waypoints.min.js"></script>
-	<!-- jquery Appear JS -->
 	<script src="js/jquery.appear.js"></script>
-	<!-- Numinate JS -->
 	<script src="js/numinate.min.js"></script>
-	<!-- Swiper JS -->
 	<script src="js/swiper.min.js"></script>
-	<!-- Magnific JS -->
 	<script src="js/jquery.magnific-popup.min.js"></script>
-	<!-- Circle Progress JS -->
 	<script src="js/circle-progress.js"></script>
-	<!-- Scripts JS -->
 	<script src="js/scripts.js"></script>
 </body>
 

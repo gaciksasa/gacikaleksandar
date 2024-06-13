@@ -3,6 +3,7 @@ session_start();
 
 require 'config.php';
 
+
 if (!isset($_GET['slug'])) {
     die('Article slug not specified.');
 }
@@ -17,10 +18,10 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch article using slug
-$sql = "SELECT title, content, author, category_id, featured_image, published_date FROM blog_posts WHERE slug = ?";
+// Fetch article using slug and language
+$sql = "SELECT title, content, author, category_id, featured_image, published_date FROM blog_posts WHERE slug = ? AND language = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $slug);
+$stmt->bind_param("ss", $slug, $lang);
 $stmt->execute();
 $stmt->bind_result($title, $content, $author, $category_id, $featured_image, $published_date);
 $stmt->fetch();
@@ -28,18 +29,18 @@ $stmt->close();
 
 // Fetch category
 $category_name = '';
-$sql = "SELECT name FROM categories WHERE id = ?";
+$sql = "SELECT name FROM categories WHERE id = ? AND language = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $category_id);
+$stmt->bind_param("is", $category_id, $lang);
 $stmt->execute();
 $stmt->bind_result($category_name);
 $stmt->fetch();
 $stmt->close();
 
 // Fetch article tags
-$sql = "SELECT t.name FROM tags t JOIN blog_post_tags bpt ON t.id = bpt.tag_id WHERE bpt.blog_post_id = (SELECT id FROM blog_posts WHERE slug = ?)";
+$sql = "SELECT t.name FROM tags t JOIN blog_post_tags bpt ON t.id = bpt.tag_id WHERE bpt.blog_post_id = (SELECT id FROM blog_posts WHERE slug = ? AND language = ?)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $slug);
+$stmt->bind_param("ss", $slug, $lang);
 $stmt->execute();
 $stmt->bind_result($tag_name);
 $tags = [];
@@ -49,34 +50,49 @@ while ($stmt->fetch()) {
 $stmt->close();
 
 // Fetch the 3 most recent articles
-$recent_sql = "SELECT slug, title, featured_image, published_date FROM blog_posts ORDER BY published_date DESC LIMIT 3";
-$recent_result = $conn->query($recent_sql);
+$recent_sql = "SELECT slug, title, featured_image, published_date FROM blog_posts WHERE language = ? ORDER BY published_date DESC LIMIT 3";
+$stmt = $conn->prepare($recent_sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$stmt->bind_result($recent_slug, $recent_title, $recent_featured_image, $recent_published_date);
 $recent_articles = [];
-if ($recent_result->num_rows > 0) {
-    while ($row = $recent_result->fetch_assoc()) {
-        $recent_articles[] = $row;
-    }
+while ($stmt->fetch()) {
+    $recent_articles[] = [
+        'slug' => $recent_slug,
+        'title' => $recent_title,
+        'featured_image' => $recent_featured_image,
+        'published_date' => $recent_published_date,
+    ];
 }
+$stmt->close();
 
 // Fetch all categories
-$sql = "SELECT id, name FROM categories";
-$result = $conn->query($sql);
+$sql = "SELECT id, name FROM categories WHERE language = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$result = $stmt->get_result();
 $categories = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $categories[] = $row;
     }
 }
+$stmt->close();
 
 // Fetch all tags
-$sql = "SELECT name FROM tags";
-$result = $conn->query($sql);
+$sql = "SELECT name FROM tags WHERE language = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $lang);
+$stmt->execute();
+$result = $stmt->get_result();
 $all_tags = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $all_tags[] = $row['name'];
     }
 }
+$stmt->close();
 
 $conn->close();
 ?>
@@ -177,7 +193,7 @@ $conn->close();
                                             <div class="pbmit-blog-meta-bottom-left">
                                                 <span class="pbmit-meta pbmit-meta-tags">
                                                     <?php foreach ($tags as $tag) : ?>
-                                                        <a href="../tag.php?name=<?php echo urlencode($tag); ?>" rel="tag"><?php echo htmlspecialchars($tag); ?></a>
+                                                        <a href="../tag.php?name=<?php echo urlencode($tag); ?>&lang=<?php echo $lang; ?>" rel="tag"><?php echo htmlspecialchars($tag); ?></a>
                                                     <?php endforeach; ?>
                                                 </span>
                                             </div>
@@ -235,7 +251,7 @@ $conn->close();
                                     <h3 class="widget-title"><?php echo $translations['categories']; ?></h3>
                                     <ul>
                                         <?php foreach ($categories as $category) : ?>
-                                            <li><a href="../category.php?id=<?php echo $category['id']; ?>"><?php echo htmlspecialchars($category['name']); ?></a></li>
+                                            <li><a href="../category.php?id=<?php echo $category['id']; ?>&lang=<?php echo $lang; ?>"><?php echo htmlspecialchars($category['name']); ?></a></li>
                                         <?php endforeach; ?>
                                     </ul>
                                 </aside>
@@ -244,11 +260,11 @@ $conn->close();
                                     <ul class="recent-post-list">
                                         <?php foreach ($recent_articles as $article) : ?>
                                             <li class="recent-post-list-li">
-                                                <a class="recent-post-thum" href="../article/<?php echo $article['slug']; ?>">
+                                                <a class="recent-post-thum" href="../article/<?php echo $article['slug']; ?>&lang=<?php echo $lang; ?>">
                                                     <img src="../<?php echo $article['featured_image']; ?>" class="img-fluid" style="width: 90px; height: 90px;" alt="Thumbnail">
                                                 </a>
                                                 <span class="post-date"><?php echo date('F j, Y', strtotime($article['published_date'])); ?></span>
-                                                <a href="../article/<?php echo $article['slug']; ?>"><?php echo htmlspecialchars($article['title']); ?></a>
+                                                <a href="../article/<?php echo $article['slug']; ?>&lang=<?php echo $lang; ?>"><?php echo htmlspecialchars($article['title']); ?></a>
                                             </li>
                                         <?php endforeach; ?>
                                     </ul>
@@ -257,7 +273,7 @@ $conn->close();
                                     <h3 class="widget-title"><?php echo $translations['tags']; ?></h3>
                                     <div class="tagcloud">
                                         <?php foreach ($all_tags as $tag) : ?>
-                                            <a href="../tag.php?name=<?php echo urlencode($tag); ?>" class="tag-cloud-link"><?php echo htmlspecialchars($tag); ?></a>
+                                            <a href="../tag.php?name=<?php echo urlencode($tag); ?>&lang=<?php echo $lang; ?>" class="tag-cloud-link"><?php echo htmlspecialchars($tag); ?></a>
                                         <?php endforeach; ?>
                                     </div>
                                 </aside>

@@ -1,3 +1,13 @@
+<?php
+require 'config.php'; // Include the config file at the very beginning
+
+// Redirect to the same page to set the cookie if it was not already set
+if (!isset($_COOKIE['lang'])) {
+	setcookie('lang', 'sr', time() + (86400 * 30), "/"); // Set default language to Serbian
+	header("Location: index.php");
+	exit();
+}
+?>
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -10,8 +20,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Favicon -->
 	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
-	<!-- CSS
-         ============================================ -->
+	<!-- CSS -->
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<!-- Fontawesome -->
@@ -39,52 +48,36 @@
 </head>
 
 <body>
-
 	<!-- page wrapper -->
 	<div class="page-wrapper">
-
 		<!-- Header Main Area -->
 		<header class="site-header header-style-1">
-			
 			<!-- Include Header -->
 			<?php include 'header.php'; ?>
-
 			<!-- Include Slider -->
 			<?php include 'slider.php'; ?>
-
 		</header>
 		<!-- Header Main Area End Here -->
-
 		<!-- Page Content -->
 		<div class="page-content">
-
 			<!-- Include Programs -->
 			<?php include 'programs.php'; ?>
-
 			<!-- Include About -->
 			<?php include 'about.php'; ?>
-
 			<!-- Include Sevices -->
 			<?php include 'services.php'; ?>
-
 			<!-- Include Pricing -->
 			<?php include 'pricing.php'; ?>
-
 			<!-- Include Testimonials -->
 			<?php include 'testimonials.php'; ?>
-
 			<!-- Include Latest Blog Posts -->
 			<?php include 'blog-posts.php'; ?>
-
 		</div>
 		<!-- Page Content End -->
-
 		<!-- Include Footer -->
 		<?php include 'footer.php'; ?>
-
 	</div>
 	<!-- page wrapper End -->
-
 	<!-- Search Box Start Here -->
 	<div class="pbmit-search-overlay">
 		<div class="pbmit-icon-close"></div>
@@ -101,9 +94,7 @@
 		</div>
 	</div>
 	<!-- Search Box End Here -->
-
-	<!-- JS
-         ============================================ -->
+	<!-- JS -->
 	<!-- jQuery JS -->
 	<script src="js/jquery.min.js"></script>
 	<!-- Popper JS -->

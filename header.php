@@ -1,17 +1,6 @@
 <?php
-
-if (isset($_GET['lang'])) {
-    $lang = $_GET['lang'];
-    $_SESSION['lang'] = $lang;
-} elseif (!isset($_SESSION['lang'])) {
-    $_SESSION['lang'] = 'sr'; // Default language
-}
-
-$lang = $_SESSION['lang'];
-$translations = include "languages/$lang.php";
-
+// No need for language check here, it's already handled in config.php
 ?>
-
 <div class="pbmit-header-overlay">
     <div class="site-header-menu">
         <div class="container-fluid p-0">

@@ -9,4 +9,5 @@ return [
     'recent-posts' => 'Recent Posts',
     'home' => 'Home',
     'contact' => 'Contact',
+    'site-title' => 'Personal Trainer',
 ];
