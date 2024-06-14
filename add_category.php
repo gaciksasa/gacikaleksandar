@@ -8,24 +8,20 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'config.php';
 
-// Set default language
-$lang = 'sr';
-if (isset($_GET['lang'])) {
-    $lang = $_GET['lang'];
-    $_SESSION['lang'] = $lang;
-} elseif (isset($_SESSION['lang'])) {
-    $lang = $_SESSION['lang'];
-}
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST['name'];
+    $name_sr = $_POST['name_sr'];
+    $name_en = $_POST['name_en'];
     $featured_image = '';
 
     // Handle file upload
-    if (isset($_FILES['featured_image']) && $_FILES['featured_image']['error'] == UPLOAD_ERR_OK) {
-        $upload_dir = 'uploads/';
-        $featured_image = $upload_dir . basename($_FILES['featured_image']['name']);
-        move_uploaded_file($_FILES['featured_image']['tmp_name'], $featured_image);
+    if (!empty($_FILES['featured_image']['name'])) {
+        $target_dir = "uploads/";
+        $target_file = $target_dir . basename($_FILES["featured_image"]["name"]);
+        if (move_uploaded_file($_FILES["featured_image"]["tmp_name"], $target_file)) {
+            $featured_image = $target_file;
+        } else {
+            echo "Sorry, there was an error uploading your file.";
+        }
     }
 
     // Connect to the database
@@ -36,16 +32,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Insert category
-    $sql = "INSERT INTO categories (name, featured_image, language) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sss", $name, $featured_image, $lang);
-    $stmt->execute();
-    $stmt->close();
+    // Generate a unique category_group_id
+    $category_group_id = uniqid();
 
+    // Insert category in Serbian
+    $sql = "INSERT INTO categories (category_group_id, name, featured_image, language) VALUES (?, ?, ?, 'sr')";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sss", $category_group_id, $name_sr, $featured_image);
+    $stmt->execute();
+
+    // Insert category in English
+    $sql = "INSERT INTO categories (category_group_id, name, featured_image, language) VALUES (?, ?, ?, 'en')";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sss", $category_group_id, $name_en, $featured_image);
+    $stmt->execute();
+
+    $stmt->close();
     $conn->close();
 
-    header("Location: categories.php?lang=$lang");
+    header("Location: categories.php");
     exit;
 }
 ?>
@@ -57,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Add Category - Gacik Aleksandar</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit-no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -73,15 +78,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Add Category</h1>
-                    <div>
-                        <a href="?lang=en" class="btn <?php echo $lang === 'en' ? 'btn-primary' : 'btn-secondary'; ?>">English</a>
-                        <a href="?lang=sr" class="btn <?php echo $lang === 'sr' ? 'btn-primary' : 'btn-secondary'; ?>">Serbian</a>
-                    </div>
                 </div>
                 <form method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="name">Category Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <label for="name_sr">Category Name (Serbian)</label>
+                        <input type="text" class="form-control" id="name_sr" name="name_sr" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name_en">Category Name (English)</label>
+                        <input type="text" class="form-control" id="name_en" name="name_en" required>
                     </div>
                     <div class="form-group">
                         <label for="featured_image">Featured Image</label>
