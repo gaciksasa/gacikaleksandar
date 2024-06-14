@@ -1044,7 +1044,6 @@
 .pbmit-entry-meta-blogclassic .pbmit-meta-line a{
 	color: var(--pbmit-global-color);
 }
-.pbmit-entry-meta-blogclassic .pbmit-meta-line.posted-on:before, 
 .pbmit-entry-meta-blogclassic .pbmit-meta-line.comments-link:before,
 .pbmit-entry-meta-blogclassic .pbmit-meta-line.cat-links:before{
 	content: '|';
@@ -1221,6 +1220,7 @@
 	padding-top: 10px;
 }
 .sidebar .recent-post-list li{
+    overflow: auto;
     width: 100%;
 	padding: 20px 0;
     padding-top: 0;

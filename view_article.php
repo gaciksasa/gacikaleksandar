@@ -3,6 +3,11 @@ session_start();
 
 require 'config.php';
 
+// Retrieve language from cookie
+$lang = 'sr'; // Default language
+if (isset($_COOKIE['lang'])) {
+    $lang = $_COOKIE['lang'];
+}
 
 if (!isset($_GET['slug'])) {
     die('Article slug not specified.');
@@ -19,11 +24,14 @@ if ($conn->connect_error) {
 }
 
 // Fetch article using slug and language
-$sql = "SELECT title, content, author, category_id, featured_image, published_date FROM blog_posts WHERE slug = ? AND language = ?";
+$sql = "SELECT title, content, category_id, featured_image, published_date FROM blog_posts WHERE slug = ? AND language = ?";
 $stmt = $conn->prepare($sql);
+if (!$stmt) {
+    die("Error preparing statement: " . $conn->error);
+}
 $stmt->bind_param("ss", $slug, $lang);
 $stmt->execute();
-$stmt->bind_result($title, $content, $author, $category_id, $featured_image, $published_date);
+$stmt->bind_result($title, $content, $category_id, $featured_image, $published_date);
 $stmt->fetch();
 $stmt->close();
 
@@ -31,27 +39,21 @@ $stmt->close();
 $category_name = '';
 $sql = "SELECT name FROM categories WHERE id = ? AND language = ?";
 $stmt = $conn->prepare($sql);
+if (!$stmt) {
+    die("Error preparing statement: " . $conn->error);
+}
 $stmt->bind_param("is", $category_id, $lang);
 $stmt->execute();
 $stmt->bind_result($category_name);
 $stmt->fetch();
 $stmt->close();
 
-// Fetch article tags
-$sql = "SELECT t.name FROM tags t JOIN blog_post_tags bpt ON t.id = bpt.tag_id WHERE bpt.blog_post_id = (SELECT id FROM blog_posts WHERE slug = ? AND language = ?)";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("ss", $slug, $lang);
-$stmt->execute();
-$stmt->bind_result($tag_name);
-$tags = [];
-while ($stmt->fetch()) {
-    $tags[] = $tag_name;
-}
-$stmt->close();
-
 // Fetch the 3 most recent articles
 $recent_sql = "SELECT slug, title, featured_image, published_date FROM blog_posts WHERE language = ? ORDER BY published_date DESC LIMIT 3";
 $stmt = $conn->prepare($recent_sql);
+if (!$stmt) {
+    die("Error preparing statement: " . $conn->error);
+}
 $stmt->bind_param("s", $lang);
 $stmt->execute();
 $stmt->bind_result($recent_slug, $recent_title, $recent_featured_image, $recent_published_date);
@@ -69,6 +71,9 @@ $stmt->close();
 // Fetch all categories
 $sql = "SELECT id, name FROM categories WHERE language = ?";
 $stmt = $conn->prepare($sql);
+if (!$stmt) {
+    die("Error preparing statement: " . $conn->error);
+}
 $stmt->bind_param("s", $lang);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -80,19 +85,17 @@ if ($result->num_rows > 0) {
 }
 $stmt->close();
 
-// Fetch all tags
-$sql = "SELECT name FROM tags WHERE language = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $lang);
-$stmt->execute();
-$result = $stmt->get_result();
-$all_tags = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $all_tags[] = $row['name'];
-    }
+// Fetch section details based on language
+$section_sql = "SELECT section_title, section_subtitle, section_title_en, section_subtitle_en FROM blog_section WHERE id = 1";
+$section_result = $conn->query($section_sql);
+if (!$section_result) {
+    die("Section query failed: " . $conn->error);
 }
-$stmt->close();
+$section = $section_result->fetch_assoc();
+
+// Determine which language to use for section titles
+$section_title = $lang == 'en' ? $section['section_title_en'] : $section['section_title'];
+$section_subtitle = $lang == 'en' ? $section['section_subtitle_en'] : $section['section_subtitle'];
 
 $conn->close();
 ?>
@@ -165,12 +168,6 @@ $conn->close();
                                             <div class="pbmit-blog-classic-inner">
                                                 <div class="pbmit-blog-meta pbmit-blog-meta-top">
                                                     <div class="pbmit-entry-meta-blogclassic">
-                                                        <span class="pbmit-meta-line byline">
-                                                            <span class="author vcard">
-                                                                <span class="screen-reader-text pbmit-hide">Author </span>By
-                                                                <a class="url fn n" href="#"><?php echo htmlspecialchars($author); ?></a>
-                                                            </span>
-                                                        </span>
                                                         <span class="pbmit-meta-line posted-on">
                                                             <span class="screen-reader-text">Posted on </span>
                                                             <a href="#" rel="bookmark">
@@ -190,13 +187,6 @@ $conn->close();
                                             </div>
                                         </div>
                                         <div class="pbmit-blog-meta pbmit-blog-meta-bottom">
-                                            <div class="pbmit-blog-meta-bottom-left">
-                                                <span class="pbmit-meta pbmit-meta-tags">
-                                                    <?php foreach ($tags as $tag) : ?>
-                                                        <a href="../tag.php?name=<?php echo urlencode($tag); ?>&lang=<?php echo $lang; ?>" rel="tag"><?php echo htmlspecialchars($tag); ?></a>
-                                                    <?php endforeach; ?>
-                                                </span>
-                                            </div>
                                             <div class="pbmit-blog-meta-bottom-right">
                                                 <div class="pbmit-social-share">
                                                     <ul>
@@ -224,17 +214,6 @@ $conn->close();
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="pbmit-author-box">
-                                            <div class="pbmit-author-image">
-                                                <img alt="" src="../images/img-01.png" class="img-fluid">
-                                            </div>
-                                            <div class="pbmit-author-content">
-                                                <h2 class="author-title"><span class="author-heading">Author:</span> <?php echo htmlspecialchars($author); ?></h2>
-                                                <p class="pbmit-author-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
-                                                    <a href="#">View all posts by <?php echo htmlspecialchars($author); ?></a>
-                                                </p>
-                                            </div>
-                                        </div>
                                     </article>
                                 </div>
                             </div>
@@ -251,7 +230,7 @@ $conn->close();
                                     <h3 class="widget-title"><?php echo $translations['categories']; ?></h3>
                                     <ul>
                                         <?php foreach ($categories as $category) : ?>
-                                            <li><a href="../category.php?id=<?php echo $category['id']; ?>&lang=<?php echo $lang; ?>"><?php echo htmlspecialchars($category['name']); ?></a></li>
+                                            <li><a href="../category.php?id=<?php echo $category['id']; ?>"><?php echo htmlspecialchars($category['name']); ?></a></li>
                                         <?php endforeach; ?>
                                     </ul>
                                 </aside>
@@ -260,22 +239,14 @@ $conn->close();
                                     <ul class="recent-post-list">
                                         <?php foreach ($recent_articles as $article) : ?>
                                             <li class="recent-post-list-li">
-                                                <a class="recent-post-thum" href="../article/<?php echo $article['slug']; ?>&lang=<?php echo $lang; ?>">
+                                                <a class="recent-post-thum" href="../article/<?php echo $article['slug']; ?>">
                                                     <img src="../<?php echo $article['featured_image']; ?>" class="img-fluid" style="width: 90px; height: 90px;" alt="Thumbnail">
                                                 </a>
                                                 <span class="post-date"><?php echo date('F j, Y', strtotime($article['published_date'])); ?></span>
-                                                <a href="../article/<?php echo $article['slug']; ?>&lang=<?php echo $lang; ?>"><?php echo htmlspecialchars($article['title']); ?></a>
+                                                <a href="../article/<?php echo $article['slug']; ?>"><?php echo htmlspecialchars($article['title']); ?></a>
                                             </li>
                                         <?php endforeach; ?>
                                     </ul>
-                                </aside>
-                                <aside class="widget widget-tag-cloud">
-                                    <h3 class="widget-title"><?php echo $translations['tags']; ?></h3>
-                                    <div class="tagcloud">
-                                        <?php foreach ($all_tags as $tag) : ?>
-                                            <a href="../tag.php?name=<?php echo urlencode($tag); ?>&lang=<?php echo $lang; ?>" class="tag-cloud-link"><?php echo htmlspecialchars($tag); ?></a>
-                                        <?php endforeach; ?>
-                                    </div>
                                 </aside>
                             </aside>
                         </div>
