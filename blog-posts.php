@@ -2,6 +2,12 @@
 
 require 'config.php';
 
+// Retrieve language from cookie
+$lang = 'sr'; // Default language
+if (isset($_COOKIE['lang'])) {
+    $lang = $_COOKIE['lang'];
+}
+
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
@@ -10,23 +16,43 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Debug: Verify the language value
+error_log("Language: " . $lang);
+
 // Fetch the latest 4 articles along with their categories
 $sql = "SELECT b.title, b.slug, c.name AS category, b.featured_image, b.published_date 
         FROM blog_posts b 
         JOIN categories c ON b.category_id = c.id 
+        WHERE b.language = ? AND c.language = ?
         ORDER BY b.published_date DESC LIMIT 4";
-$result = $conn->query($sql);
+$stmt = $conn->prepare($sql);
+if (!$stmt) {
+    die("Prepare failed: " . $conn->error);
+}
+$stmt->bind_param("ss", $lang, $lang);
+$stmt->execute();
+$result = $stmt->get_result();
 $articles = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $articles[] = $row;
     }
+} else {
+    // Debug: Log if no articles found
+    error_log("No articles found for language: " . $lang);
 }
 
-// Fetch section details
-$section_sql = "SELECT section_title, section_subtitle FROM blog_section WHERE id = 1";
+// Fetch section details based on language
+$section_sql = "SELECT section_title, section_subtitle, section_title_en, section_subtitle_en FROM blog_section WHERE id = 1";
 $section_result = $conn->query($section_sql);
+if (!$section_result) {
+    die("Section query failed: " . $conn->error);
+}
 $section = $section_result->fetch_assoc();
+
+// Determine which language to use for section titles
+$section_title = $lang == 'en' ? $section['section_title_en'] : $section['section_title'];
+$section_subtitle = $lang == 'en' ? $section['section_subtitle_en'] : $section['section_subtitle'];
 
 $conn->close();
 ?>
@@ -35,8 +61,8 @@ $conn->close();
 <section class="section-lg pbmit-bg-color-light">
     <div class="container">
         <div class="pbmit-heading-subheading text-center">
-            <h4 class="pbmit-subtitle"><?php echo htmlspecialchars($section['section_subtitle'] ?? 'LATEST BLOG POSTS'); ?></h4>
-            <h2 class="pbmit-title"><?php echo htmlspecialchars($section['section_title'] ?? 'See what’s happening around Gym'); ?></h2>
+            <h4 class="pbmit-subtitle"><?php echo htmlspecialchars($section_subtitle ?? 'LATEST BLOG POSTS'); ?></h4>
+            <h2 class="pbmit-title"><?php echo htmlspecialchars($section_title ?? 'See what’s happening around Gym'); ?></h2>
         </div>
         <div class="row g-0">
             <?php foreach ($articles as $index => $article) : ?>

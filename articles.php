@@ -19,29 +19,35 @@ if ($conn->connect_error) {
 // Initialize variables for the section
 $section_title = '';
 $section_subtitle = '';
+$section_title_en = '';
+$section_subtitle_en = '';
 
 // Fetch section details
-$section_sql = "SELECT section_title, section_subtitle FROM blog_section WHERE id = 1";
+$section_sql = "SELECT section_title, section_subtitle, section_title_en, section_subtitle_en FROM blog_section WHERE id = 1";
 $section_result = $conn->query($section_sql);
 if ($section_result && $section_result->num_rows > 0) {
     $section = $section_result->fetch_assoc();
     $section_title = $section['section_title'];
     $section_subtitle = $section['section_subtitle'];
+    $section_title_en = $section['section_title_en'];
+    $section_subtitle_en = $section['section_subtitle_en'];
 }
 
 // Handle form submission for updating section details
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_section'])) {
     $section_title = $_POST['section_title'];
     $section_subtitle = $_POST['section_subtitle'];
+    $section_title_en = $_POST['section_title_en'];
+    $section_subtitle_en = $_POST['section_subtitle_en'];
 
     // Update section details
     if ($section_result->num_rows > 0) {
-        $update_section_sql = "UPDATE blog_section SET section_title = ?, section_subtitle = ? WHERE id = 1";
+        $update_section_sql = "UPDATE blog_section SET section_title = ?, section_subtitle = ?, section_title_en = ?, section_subtitle_en = ? WHERE id = 1";
     } else {
-        $update_section_sql = "INSERT INTO blog_section (section_title, section_subtitle) VALUES (?, ?)";
+        $update_section_sql = "INSERT INTO blog_section (section_title, section_subtitle, section_title_en, section_subtitle_en) VALUES (?, ?, ?, ?)";
     }
     $stmt = $conn->prepare($update_section_sql);
-    $stmt->bind_param("ss", $section_title, $section_subtitle);
+    $stmt->bind_param("ssss", $section_title, $section_subtitle, $section_title_en, $section_subtitle_en);
     $stmt->execute();
     $stmt->close();
 
@@ -99,12 +105,20 @@ $conn->close();
                     <form method="POST" action="articles.php">
                         <button type="submit" class="btn btn-primary mb-3" name="save_section">Save Section</button>
                         <div class="form-group">
-                            <label for="section_subtitle">Section Subtitle</label>
+                            <label for="section_subtitle">Section Subtitle (Serbian)</label>
                             <input type="text" class="form-control" id="section_subtitle" name="section_subtitle" value="<?php echo htmlspecialchars($section_subtitle); ?>">
                         </div>
                         <div class="form-group">
-                            <label for="section_title">Section Title</label>
+                            <label for="section_title">Section Title (Serbian)</label>
                             <input type="text" class="form-control" id="section_title" name="section_title" value="<?php echo htmlspecialchars($section_title); ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="section_subtitle_en">Section Subtitle (English)</label>
+                            <input type="text" class="form-control" id="section_subtitle_en" name="section_subtitle_en" value="<?php echo htmlspecialchars($section_subtitle_en); ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="section_title_en">Section Title (English)</label>
+                            <input type="text" class="form-control" id="section_title_en" name="section_title_en" value="<?php echo htmlspecialchars($section_title_en); ?>">
                         </div>
                     </form>
                 </div>
