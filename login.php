@@ -1,7 +1,14 @@
 <?php
-// Start the session
+require 'config.php';
+
+// Rate limiting
 session_start();
-require 'config.php'; // Include your database connection settings
+if (!isset($_SESSION['login_attempts'])) {
+    $_SESSION['login_attempts'] = 0;
+}
+if ($_SESSION['login_attempts'] >= 5) {
+    die("Too many login attempts. Please try again later.");
+}
 
 // Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -22,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die("Prepare failed: " . $conn->error);
     }
     $stmt->bind_param("s", $username);
-
     $stmt->execute();
     $stmt->store_result();
 
@@ -33,15 +39,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Verify the password
         if (password_verify($password, $hashed_password)) {
             // Password is correct, start a new session
+            session_regenerate_id(true); // Regenerate session ID to prevent session fixation
             $_SESSION['user_id'] = $id;
             $_SESSION['username'] = $username;
+            $_SESSION['login_attempts'] = 0; // Reset login attempts
             header("Location: dashboard.php"); // Redirect to a protected page
             exit;
         } else {
-            $error = "Invalid password.";
+            $error = "Invalid username or password.";
+            $_SESSION['login_attempts']++;
         }
     } else {
-        $error = "No user found with that username.";
+        $error = "Invalid username or password.";
+        $_SESSION['login_attempts']++;
     }
 
     $stmt->close();
