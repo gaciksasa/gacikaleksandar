@@ -8,21 +8,32 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'config.php';
 
-// Set default language
-$lang = 'sr';
-if (isset($_GET['lang'])) {
-    $lang = $_GET['lang'];
-    $_SESSION['lang'] = $lang;
-} elseif (isset($_SESSION['lang'])) {
-    $lang = $_SESSION['lang'];
+$tag_group_id = $_GET['id'];
+
+// Connect to the database
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
-$id = $_GET['id'];
+// Fetch tag details
+$sql = "SELECT name, featured_image, language FROM tags WHERE tag_group_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $tag_group_id);
+$stmt->execute();
+$stmt->bind_result($name, $featured_image, $language);
+$tags = [];
+while ($stmt->fetch()) {
+    $tags[$language] = ['name' => $name, 'featured_image' => $featured_image];
+}
+$stmt->close();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST['name'];
-    $featured_image = '';
-    $language = $lang; // Use the selected language
+    $name_sr = $_POST['name_sr'];
+    $name_en = $_POST['name_en'];
+    $featured_image = $tags['sr']['featured_image']; // Assuming both languages use the same image
 
     // Handle file upload
     if (!empty($_FILES['featured_image']['name'])) {
@@ -30,54 +41,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $target_file = $target_dir . basename($_FILES["featured_image"]["name"]);
         if (move_uploaded_file($_FILES["featured_image"]["tmp_name"], $target_file)) {
             $featured_image = $target_file;
+        } else {
+            echo "Sorry, there was an error uploading your file.";
         }
     }
 
-    // Connect to the database
-    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Update tag
-    if ($featured_image) {
-        $sql = "UPDATE tags SET name = ?, featured_image = ?, language = ? WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssi", $name, $featured_image, $language, $id);
-    } else {
-        $sql = "UPDATE tags SET name = ?, language = ? WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssi", $name, $language, $id);
-    }
-
-    $stmt->execute();
-    $stmt->close();
-
-    $conn->close();
-
-    header("Location: tags.php?lang=$lang");
-    exit;
-} else {
-    // Fetch tag details
-    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " .
-            $conn->connect_error);
-    }
-
-    $sql = "SELECT name, featured_image FROM tags WHERE id = ?";
+    // Update tag in Serbian
+    $sql = "UPDATE tags SET name = ?, featured_image = ? WHERE tag_group_id = ? AND language = 'sr'";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id);
+    $stmt->bind_param("sss", $name_sr, $featured_image, $tag_group_id);
     $stmt->execute();
-    $stmt->bind_result($name, $featured_image);
-    $stmt->fetch();
-    $stmt->close();
 
+    // Update tag in English
+    $sql = "UPDATE tags SET name = ?, featured_image = ? WHERE tag_group_id = ? AND language = 'en'";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sss", $name_en, $featured_image, $tag_group_id);
+    $stmt->execute();
+
+    $stmt->close();
     $conn->close();
+
+    header("Location: tags.php");
+    exit;
 }
 ?>
 
@@ -88,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Edit Tag - Gacik Aleksandar</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit-no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -107,17 +92,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <form method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="name">Tag Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required>
+                        <label for="name_sr">Tag Name (Serbian)</label>
+                        <input type="text" class="form-control" id="name_sr" name="name_sr" value="<?php echo htmlspecialchars($tags['sr']['name']); ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name_en">Tag Name (English)</label>
+                        <input type="text" class="form-control" id="name_en" name="name_en" value="<?php echo htmlspecialchars($tags['en']['name']); ?>" required>
                     </div>
                     <div class="form-group">
                         <label for="featured_image">Featured Image</label>
-                        <input type="file" class="form-control" id="featured_image" name="featured_image">
-                        <?php if ($featured_image) : ?>
-                            <img src="<?php echo htmlspecialchars($featured_image); ?>" alt="Featured Image" style="width: 100px; height: auto;">
+                        <input type="file" class="form-control" id="featured_image" name="featured_image" accept="image/*">
+                        <?php if ($tags['sr']['featured_image']) : ?>
+                            <img src="<?php echo htmlspecialchars($tags['sr']['featured_image']); ?>" class="img-fluid mt-2" alt="Featured Image">
                         <?php endif; ?>
                     </div>
-                    <button type="submit" class="btn btn-primary mt-4">Update tag</button>
+                    <button type="submit" class="btn btn-primary mt-4">Update</button>
                 </form>
             </main>
             <!-- Main Content End -->

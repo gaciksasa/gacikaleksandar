@@ -9,13 +9,8 @@ if (!isset($_SESSION['user_id'])) {
 require 'config.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['name']) && !empty($_POST['name'])) {
-        $name = $_POST['name'];
-    } else {
-        $name = null;
-        echo "Tag name is required.";
-    }
-
+    $name_sr = $_POST['name_sr'];
+    $name_en = $_POST['name_en'];
     $featured_image = '';
 
     // Handle file upload
@@ -37,32 +32,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Insert tag if name is not null
-    if ($name !== null) {
-        $sql = "INSERT INTO tags (name, featured_image, language) VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        if ($stmt === false) {
-            die("Prepare failed: " . $conn->error);
-        }
-        $stmt->bind_param("sss", $name, $featured_image, $lang);
-        if ($stmt->execute() === false) {
-            die("Execute failed: " . $stmt->error);
-        }
-        $stmt->close();
-    }
+    // Generate a unique tag_group_id
+    $tag_group_id = uniqid();
 
+    // Insert tag in Serbian
+    $sql = "INSERT INTO tags (tag_group_id, name, featured_image, language) VALUES (?, ?, ?, 'sr')";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sss", $tag_group_id, $name_sr, $featured_image);
+    $stmt->execute();
+
+    // Insert tag in English
+    $sql = "INSERT INTO tags (tag_group_id, name, featured_image, language) VALUES (?, ?, ?, 'en')";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sss", $tag_group_id, $name_en, $featured_image);
+    $stmt->execute();
+
+    $stmt->close();
     $conn->close();
 
     header("Location: tags.php");
     exit;
-} else {
-    $lang = 'sr';
-    if (isset($_GET['lang'])) {
-        $lang = $_GET['lang'];
-        $_SESSION['lang'] = $lang;
-    } elseif (isset($_SESSION['lang'])) {
-        $lang = $_SESSION['lang'];
-    }
 }
 ?>
 
@@ -73,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Add Tag - Gacik Aleksandar</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit-no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -89,19 +78,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Add Tag</h1>
-                    <div>
-                        <a href="?lang=en" class="btn <?php echo $lang === 'en' ? 'btn-primary' : 'btn-secondary'; ?>">English</a>
-                        <a href="?lang=sr" class="btn <?php echo $lang === 'sr' ? 'btn-primary' : 'btn-secondary'; ?>">Serbian</a>
-                    </div>
                 </div>
                 <form method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="name">Tag Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <label for="name_sr">Tag Name (Serbian)</label>
+                        <input type="text" class="form-control" id="name_sr" name="name_sr" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name_en">Tag Name (English)</label>
+                        <input type="text" class="form-control" id="name_en" name="name_en" required>
                     </div>
                     <div class="form-group">
                         <label for="featured_image">Featured Image</label>
-                        <input type="file" class="form-control" id="featured_image" name="featured_image">
+                        <input type="file" class="form-control" id="featured_image" name="featured_image" accept="image/*">
                     </div>
                     <button type="submit" class="btn btn-primary">Add</button>
                 </form>
