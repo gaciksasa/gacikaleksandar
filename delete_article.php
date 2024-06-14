@@ -8,28 +8,32 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'config.php';
 
-$id = $_GET['id'];
+if (isset($_GET['id'])) {
+    $article_group_id = $_GET['id'];
 
-// Connect to the database
-$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+    // Connect to the database
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
-// Delete article
-$sql = "DELETE FROM blog_posts WHERE id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $id);
+    // Delete article group
+    $sql = "DELETE FROM blog_posts WHERE article_group_id = ?";
+    $stmt = $conn->prepare($sql);
+    if ($stmt) {
+        $stmt->bind_param("s", $article_group_id);
+        $stmt->execute();
+        $stmt->close();
+    } else {
+        echo "Error preparing statement: " . $conn->error;
+    }
 
-if ($stmt->execute()) {
+    $conn->close();
+
     header("Location: articles.php");
     exit;
 } else {
-    echo "Error: " . $stmt->error;
+    echo "No article group ID specified.";
 }
-
-$stmt->close();
-$conn->close();
-?>

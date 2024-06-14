@@ -2,7 +2,7 @@
     <div class="position-sticky">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" target="_blank" href="index.php?lang=sr">
+                <a class="nav-link active" target="_blank" href="index.php">
                     <i class="fa fa-eye"></i>
                     View website
                 </a>
@@ -11,19 +11,19 @@
                 Blog
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="articles.php?lang=sr">
+                <a class="nav-link" href="articles.php">
                     <i class="fa fa-newspaper-o"></i>
                     Articles
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="tags.php?lang=sr">
+                <a class="nav-link" href="tags.php">
                     <i class="fa fa-tags"></i>
                     Tags
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="categories.php?lang=sr">
+                <a class="nav-link" href="categories.php">
                     <i class="fa fa-folder-open"></i>
                     Categories
                 </a>
@@ -32,37 +32,37 @@
                 Sections
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="view_sliders.php?lang=sr">
+                <a class="nav-link" href="view_sliders.php">
                     <i class="fa fa-sliders"></i>
                     Slider
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="view_about.php?lang=sr">
+                <a class="nav-link" href="view_about.php">
                     <i class="fa fa-info-circle"></i>
                     About
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="view_programs.php?lang=sr">
+                <a class="nav-link" href="view_programs.php">
                     <i class="fa fa-tasks"></i>
                     Programs
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="view_pricing.php?lang=sr">
+                <a class="nav-link" href="view_pricing.php">
                     <i class="fa fa-dollar"></i>
                     Pricing
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="view_services.php?lang=sr">
+                <a class="nav-link" href="view_services.php">
                     <i class="fa fa-cogs"></i>
                     Services
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="view_testimonials.php?lang=sr">
+                <a class="nav-link" href="view_testimonials.php">
                     <i class="fa fa-comments"></i>
                     Testimonials
                 </a>

@@ -50,8 +50,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_section'])) {
 }
 
 // Fetch articles
-$sql = "SELECT id, title, slug, created_at FROM blog_posts";
+$sql = "SELECT b1.article_group_id, b1.title AS title_sr, b1.slug AS slug_sr, b1.published_date AS published_date_sr, 
+               b2.title AS title_en, b2.slug AS slug_en, b2.published_date AS published_date_en, 
+               c.name AS category, b1.featured_image 
+        FROM blog_posts b1
+        LEFT JOIN blog_posts b2 ON b1.article_group_id = b2.article_group_id AND b2.language = 'en'
+        LEFT JOIN categories c ON b1.category_id = c.id
+        WHERE b1.language = 'sr'";
 $result = $conn->query($sql);
+
+$articles = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $articles[] = $row;
+    }
+}
+
+$conn->close();
 ?>
 
 <!doctype html>
@@ -91,7 +106,6 @@ $result = $conn->query($sql);
                             <label for="section_title">Section Title</label>
                             <input type="text" class="form-control" id="section_title" name="section_title" value="<?php echo htmlspecialchars($section_title); ?>">
                         </div>
-
                     </form>
                 </div>
 
@@ -100,29 +114,40 @@ $result = $conn->query($sql);
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Title</th>
-                                <th>Created At</th>
+                                <th>Title (Languages)</th>
+                                <th>Category</th>
+                                <th>Featured Image</th>
+                                <th>Published Date</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if ($result->num_rows > 0) : ?>
-                                <?php while ($row = $result->fetch_assoc()) : ?>
+                            <?php if (!empty($articles)) : ?>
+                                <?php foreach ($articles as $article) : ?>
                                     <tr>
-                                        <td><?php echo $row['id']; ?></td>
-                                        <td><?php echo htmlspecialchars($row['title']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['created_at']); ?></td>
                                         <td>
-                                            <a href="article/<?php echo htmlspecialchars($row['slug']); ?>" class="btn btn-info btn-sm">View</a>
-                                            <a href="edit_article.php?id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                            <a href="delete_article.php?id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this article?');">Delete</a>
+                                            <?php echo htmlspecialchars($article['title_sr']); ?> (sr)<br>
+                                            <?php echo htmlspecialchars($article['title_en']); ?> (en)
+                                        </td>
+                                        <td><?php echo htmlspecialchars($article['category']) ?: 'Unknown'; ?></td>
+                                        <td>
+                                            <?php if ($article['featured_image']) : ?>
+                                                <img src="<?php echo htmlspecialchars($article['featured_image']); ?>" alt="Featured Image" style="width: 50px; height: auto;">
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo htmlspecialchars($article['published_date_sr']); ?><br>
+                                            <?php echo htmlspecialchars($article['published_date_en']); ?>
+                                        </td>
+                                        <td>
+                                            <a href="edit_article.php?id=<?php echo $article['article_group_id']; ?>" class="btn btn-warning">Edit</a>
+                                            <a href="delete_article.php?id=<?php echo $article['article_group_id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this article?');">Delete</a>
                                         </td>
                                     </tr>
-                                <?php endwhile; ?>
+                                <?php endforeach; ?>
                             <?php else : ?>
                                 <tr>
-                                    <td colspan="4">No articles found</td>
+                                    <td colspan="5">No articles found</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
@@ -139,7 +164,3 @@ $result = $conn->query($sql);
 </body>
 
 </html>
-
-<?php
-$conn->close();
-?>
