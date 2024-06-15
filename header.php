@@ -102,6 +102,22 @@
 <script>
     function updateLanguage(lang) {
         document.cookie = "lang=" + lang + "; path=/; max-age=" + (86400 * 30);
-        location.reload();
+        var currentSlug = '<?php echo $slug; ?>';
+
+        // Make an AJAX request to fetch the corresponding article slug for the selected language
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '../get_corresponding_article.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    window.location.href = 'http://localhost/gacikaleksandar/article/' + response.slug;
+                } else {
+                    alert('Article not found in the selected language.');
+                }
+            }
+        };
+        xhr.send('currentSlug=' + encodeURIComponent(currentSlug) + '&lang=' + encodeURIComponent(lang));
     }
 </script>
