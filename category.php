@@ -7,9 +7,9 @@ require 'config.php';
 $lang = 'sr';
 if (isset($_GET['lang'])) {
     $lang = $_GET['lang'];
-    $_SESSION['lang'] = $lang;
-} elseif (isset($_SESSION['lang'])) {
-    $lang = $_SESSION['lang'];
+    setcookie('lang', $lang, time() + (86400 * 30), "/"); // 86400 = 1 day
+} elseif (isset($_COOKIE['lang'])) {
+    $lang = $_COOKIE['lang'];
 }
 
 // Connect to the database
@@ -25,12 +25,15 @@ $category_id = isset($_GET['id']) ? $_GET['id'] : 0;
 // If category_id is not provided, fetch the first existing category ID for the selected language
 if ($category_id == 0) {
     $sql = "SELECT id FROM categories WHERE language = ? LIMIT 1";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $lang);
-    $stmt->execute();
-    $stmt->bind_result($category_id);
-    $stmt->fetch();
-    $stmt->close();
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param("s", $lang);
+        $stmt->execute();
+        $stmt->bind_result($category_id);
+        $stmt->fetch();
+        $stmt->close();
+    } else {
+        die("Error preparing statement: " . $conn->error);
+    }
 
     if ($category_id == 0) {
         die("No categories found for the selected language.");
@@ -41,53 +44,47 @@ if ($category_id == 0) {
 $category_name = '';
 $category_image = '';
 $sql = "SELECT name, featured_image FROM categories WHERE id = ? AND language = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("is", $category_id, $lang);
-$stmt->execute();
-$stmt->bind_result($category_name, $category_image);
-$stmt->fetch();
-$stmt->close();
+if ($stmt = $conn->prepare($sql)) {
+    $stmt->bind_param("is", $category_id, $lang);
+    $stmt->execute();
+    $stmt->bind_result($category_name, $category_image);
+    $stmt->fetch();
+    $stmt->close();
+} else {
+    die("Error preparing statement: " . $conn->error);
+}
 
 // Fetch articles in the category
-$sql = "SELECT id, title, content, author, featured_image, published_date, slug FROM blog_posts WHERE category_id = ? AND language = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("is", $category_id, $lang);
-$stmt->execute();
-$stmt->bind_result($id, $title, $content, $author, $featured_image, $published_date, $slug);
-$articles = [];
-while ($stmt->fetch()) {
-    $articles[] = ['id' => $id, 'title' => $title, 'content' => $content, 'author' => $author, 'featured_image' => $featured_image, 'published_date' => $published_date, 'slug' => $slug];
+$sql = "SELECT id, title, content, featured_image, published_date, slug FROM blog_posts WHERE category_id = ? AND language = ?";
+if ($stmt = $conn->prepare($sql)) {
+    $stmt->bind_param("is", $category_id, $lang);
+    $stmt->execute();
+    $stmt->bind_result($id, $title, $content, $featured_image, $published_date, $slug);
+    $articles = [];
+    while ($stmt->fetch()) {
+        $articles[] = ['id' => $id, 'title' => $title, 'content' => $content, 'featured_image' => $featured_image, 'published_date' => $published_date, 'slug' => $slug];
+    }
+    $stmt->close();
+} else {
+    die("Error preparing statement: " . $conn->error);
 }
-$stmt->close();
 
 // Fetch all categories
 $sql = "SELECT id, name FROM categories WHERE language = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $lang);
-$stmt->execute();
-$result = $stmt->get_result();
-$categories = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $categories[] = $row;
+if ($stmt = $conn->prepare($sql)) {
+    $stmt->bind_param("s", $lang);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $categories = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $categories[] = $row;
+        }
     }
+    $stmt->close();
+} else {
+    die("Error preparing statement: " . $conn->error);
 }
-$stmt->close();
-
-// Fetch all tags
-$sql = "SELECT name FROM tags WHERE language = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $lang);
-$stmt->execute();
-$result = $stmt->get_result();
-$all_tags = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $all_tags[] = $row['name'];
-    }
-}
-
-$conn->close();
 
 // Function to create excerpt
 function create_excerpt($content, $length = 200)
@@ -167,49 +164,43 @@ function create_excerpt($content, $length = 200)
                         <div class="col-lg-9 blog-right-col">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <?php foreach ($articles as $article) : ?>
-                                        <article class="post blog-classic">
-                                            <div class="pbmit-featured-img-wrapper">
-                                                <div class="pbmit-featured-wrapper">
-                                                    <a href="article/<?php echo $article['slug']; ?>">
-                                                        <img src="<?php echo htmlspecialchars($article['featured_image']); ?>" class="img-fluid w-100" alt="">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="pbmit-blog-classic-inner">
-                                                <div class="pbmit-blog-meta-wrapper">
-                                                    <h2 class="pbmit-post-title">
-                                                        <a href="article/<?php echo $article['slug']; ?>"><?php echo htmlspecialchars($article['title']); ?></a>
-                                                    </h2>
-                                                    <div class="pbmit-classic-meta-date">
+                                    <?php if (!empty($articles)) : ?>
+                                        <?php foreach ($articles as $article) : ?>
+                                            <article class="post blog-classic">
+                                                <div class="pbmit-featured-img-wrapper">
+                                                    <div class="pbmit-featured-wrapper">
                                                         <a href="article/<?php echo $article['slug']; ?>">
-                                                            <span><?php echo date('F j, Y', strtotime($article['published_date'])); ?></span>
+                                                            <img src="<?php echo htmlspecialchars($article['featured_image']); ?>" class="img-fluid w-100" alt="">
                                                         </a>
                                                     </div>
-                                                    <div class="pbmit-blog-meta pbmit-blog-meta-top">
-                                                        <div class="pbmit-entry-meta-blogclassic">
-                                                            <span class="pbmit-meta-line byline">
-                                                                <span class="author vcard">
-                                                                    <span class="screen-reader-text pbmit-hide">Author </span>By
-                                                                    <a class="url fn n" href="article/<?php echo $article['slug']; ?>"><?php echo htmlspecialchars($article['author']); ?></a>
-                                                                </span>
-                                                            </span>
+                                                </div>
+                                                <div class="pbmit-blog-classic-inner">
+                                                    <div class="pbmit-blog-meta-wrapper">
+                                                        <h2 class="pbmit-post-title">
+                                                            <a href="article/<?php echo $article['slug']; ?>"><?php echo htmlspecialchars($article['title']); ?></a>
+                                                        </h2>
+                                                        <div class="pbmit-classic-meta-date">
+                                                            <a href="article/<?php echo $article['slug']; ?>">
+                                                                <span><?php echo date('F j, Y', strtotime($article['published_date'])); ?></span>
+                                                            </a>
                                                         </div>
-                                                    </div>
-                                                    <div class="pbmit-entry-content">
-                                                        <p><?php echo create_excerpt($article['content']); ?></p>
-                                                        <div class="pbmit-box-blog">
-                                                            <div class="pbmit-blogbox-readmore pbmit-vc_btn3">
-                                                                <div class="pbmit-blogbox-footer-left">
-                                                                    <a href="article/<?php echo $article['slug']; ?>"><?php echo $translations['read-more']; ?></a>
+                                                        <div class="pbmit-entry-content">
+                                                            <p><?php echo create_excerpt($article['content']); ?></p>
+                                                            <div class="pbmit-box-blog">
+                                                                <div class="pbmit-blogbox-readmore pbmit-vc_btn3">
+                                                                    <div class="pbmit-blogbox-footer-left">
+                                                                        <a href="article/<?php echo $article['slug']; ?>"><?php echo $translations['read-more']; ?></a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </article>
-                                    <?php endforeach; ?>
+                                            </article>
+                                        <?php endforeach; ?>
+                                    <?php else : ?>
+                                        <p>No articles found for this category.</p>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -225,7 +216,7 @@ function create_excerpt($content, $length = 200)
                                     <h3 class="widget-title"><?php echo $translations['categories']; ?></h3>
                                     <ul>
                                         <?php foreach ($categories as $category) : ?>
-                                            <li><a href="category.php?id=<?php echo $category['id']; ?>&lang=<?php echo $lang; ?>"><?php echo htmlspecialchars($category['name']); ?></a></li>
+                                            <li><a href="category.php?id=<?php echo $category['id']; ?>"><?php echo htmlspecialchars($category['name']); ?></a></li>
                                         <?php endforeach; ?>
                                     </ul>
                                 </aside>
@@ -242,14 +233,6 @@ function create_excerpt($content, $length = 200)
                                             </li>
                                         <?php endforeach; ?>
                                     </ul>
-                                </aside>
-                                <aside class="widget widget-tag-cloud">
-                                    <h3 class="widget-title"><?php echo $translations['tags']; ?></h3>
-                                    <div class="tagcloud">
-                                        <?php foreach ($all_tags as $tag) : ?>
-                                            <a href="tag.php?name=<?php echo urlencode($tag); ?>&lang=<?php echo $lang; ?>" class="tag-cloud-link"><?php echo htmlspecialchars($tag); ?></a>
-                                        <?php endforeach; ?>
-                                    </div>
                                 </aside>
                             </aside>
                         </div>
