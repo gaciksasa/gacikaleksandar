@@ -1,3 +1,15 @@
+<?php
+$current_page = basename($_SERVER['REQUEST_URI'], ".php");
+$current_slug = '';
+
+// Check if the current URL is an article
+if (strpos($_SERVER['REQUEST_URI'], '/article/') !== false) {
+    $current_page = 'article';
+    $parts = explode('/', $_SERVER['REQUEST_URI']);
+    $current_slug = end($parts);
+}
+?>
+
 <div class="pbmit-header-overlay">
     <div class="site-header-menu">
         <div class="container-fluid p-0">
@@ -25,38 +37,40 @@
                                     <div class="collapse navbar-collapse clearfix show" id="pbmit-menu">
                                         <div class="pbmit-menu-wrap">
                                             <ul class="navigation clearfix">
-                                                <li class="dropdown active">
-                                                    <a href="index.php"><?php echo $translations['home']; ?></a>
+                                                <li class="<?php echo $current_page == 'index' ? 'active' : ''; ?>">
+                                                    <a href="http://localhost/gacikaleksandar/index.php"><?php echo $translations['home']; ?></a>
                                                 </li>
-                                                <li class="dropdown">
+                                                <li class="dropdown <?php echo in_array($current_page, ['about-us', 'our-services', 'our-pricing', 'our-trainers', 'trainer-details', 'faq']) ? 'active' : ''; ?>">
                                                     <a href="#">Pages</a>
                                                     <ul>
-                                                        <li><a href="about-us.php">About us</a></li>
-                                                        <li><a href="our-services.php">Our Services</a></li>
-                                                        <li><a href="our-pricing.php">Our Pricing</a></li>
-                                                        <li><a href="our-trainers.php">Our Trainers</a></li>
-                                                        <li><a href="trainer-details.php">Trainer Details</a></li>
-                                                        <li><a href="faq.php">Faq</a></li>
+                                                        <li><a href="about-us.php" class="<?php echo $current_page == 'about-us' ? 'active' : ''; ?>">About us</a></li>
+                                                        <li><a href="our-services.php" class="<?php echo $current_page == 'our-services' ? 'active' : ''; ?>">Our Services</a></li>
+                                                        <li><a href="our-pricing.php" class="<?php echo $current_page == 'our-pricing' ? 'active' : ''; ?>">Our Pricing</a></li>
+                                                        <li><a href="our-trainers.php" class="<?php echo $current_page == 'our-trainers' ? 'active' : ''; ?>">Our Trainers</a></li>
+                                                        <li><a href="trainer-details.php" class="<?php echo $current_page == 'trainer-details' ? 'active' : ''; ?>">Trainer Details</a></li>
+                                                        <li><a href="faq.php" class="<?php echo $current_page == 'faq' ? 'active' : ''; ?>">Faq</a></li>
                                                     </ul>
                                                 </li>
-                                                <li class="dropdown">
+                                                <li class="dropdown <?php echo in_array($current_page, ['portfolio-style-1', 'portfolio-style-2', 'portfolio-single']) ? 'active' : ''; ?>">
                                                     <a href="#">Portfolio</a>
                                                     <ul>
-                                                        <li><a href="portfolio-style-1.php">Portfolio Style 1</a></li>
-                                                        <li><a href="portfolio-style-2.php">Portfolio Style 2</a></li>
-                                                        <li><a href="portfolio-single.php">Portfolio Single</a></li>
+                                                        <li><a href="portfolio-style-1.php" class="<?php echo $current_page == 'portfolio-style-1' ? 'active' : ''; ?>">Portfolio Style 1</a></li>
+                                                        <li><a href="portfolio-style-2.php" class="<?php echo $current_page == 'portfolio-style-2' ? 'active' : ''; ?>">Portfolio Style 2</a></li>
+                                                        <li><a href="portfolio-single.php" class="<?php echo $current_page == 'portfolio-single' ? 'active' : ''; ?>">Portfolio Single</a></li>
                                                     </ul>
                                                 </li>
-                                                <li class="dropdown">
+                                                <li class="dropdown <?php echo $current_page == 'classes' ? 'active' : ''; ?>">
                                                     <a href="classes.php">Classes</a>
                                                     <ul>
-                                                        <li><a href="classes-details.php">Classes Details</a></li>
+                                                        <li><a href="classes-details.php" class="<?php echo $current_page == 'classes-details' ? 'active' : ''; ?>">Classes Details</a></li>
                                                     </ul>
                                                 </li>
-                                                <li class="dropdown">
-                                                    <a href="blog-grid-view.php">Blog</a>
+                                                <li class="dropdown <?php echo $current_page == 'blog-grid-view' || $current_page == 'article' ? 'active' : ''; ?>">
+                                                    <a href="http://localhost/gacikaleksandar/blog-grid-view.php">Blog</a>
                                                 </li>
-                                                <li><a href="contacts.php"><?php echo $translations['contact']; ?></a></li>
+                                                <li class="<?php echo $current_page == 'contacts' ? 'active' : ''; ?>">
+                                                    <a href="http://localhost/gacikaleksandar/contacts.php"><?php echo $translations['contact']; ?></a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -102,22 +116,26 @@
 <script>
     function updateLanguage(lang) {
         document.cookie = "lang=" + lang + "; path=/; max-age=" + (86400 * 30);
-        var currentSlug = '<?php echo $slug; ?>';
+        var currentSlug = '<?php echo $current_slug; ?>';
 
-        // Make an AJAX request to fetch the corresponding article slug for the selected language
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '../get_corresponding_article.php', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                var response = JSON.parse(xhr.responseText);
-                if (response.success) {
-                    window.location.href = 'http://localhost/gacikaleksandar/article/' + response.slug;
-                } else {
-                    alert('Article not found in the selected language.');
+        if (currentSlug) {
+            // Make an AJAX request to fetch the corresponding article slug for the selected language
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '../get_corresponding_article.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        window.location.href = 'http://localhost/gacikaleksandar/article/' + response.slug;
+                    } else {
+                        alert('Article not found in the selected language.');
+                    }
                 }
-            }
-        };
-        xhr.send('currentSlug=' + encodeURIComponent(currentSlug) + '&lang=' + encodeURIComponent(lang));
+            };
+            xhr.send('currentSlug=' + encodeURIComponent(currentSlug) + '&lang=' + encodeURIComponent(lang));
+        } else {
+            location.reload();
+        }
     }
 </script>
