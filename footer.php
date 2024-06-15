@@ -5,7 +5,7 @@
                 <div class="footer-widget-col-1">
                     <div class="widget">
                         <div class="textwidget widget-text">
-                            <img class="pbmit-footerlogo" src="../images/footer-logo.png" alt="">
+                            <img class="pbmit-footerlogo" src="images/footer-logo.png" alt="">
                             <p>There are many variations of passages of lorem ipsum available, but the majority have suffered alteration in some form by injected.</p>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                             <form>
                                 <input type="email" name="EMAIL" placeholder="Email address" required="">
                                 <button type="submit">Subscribe</button>
-                            </form>					
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                         <div class="widget-as-link">
                             <p>Copyright © 2023 All Rights<br>Reserved.</p>
                         </div>
-                    </div>	
+                    </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="widget-as-link">
                             <ul class="pbmit_contact_widget_wrapper">
@@ -91,9 +91,9 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>		
+                    </div>
                 </div>
-            </div>	
+            </div>
         </div>
-    </div>	
+    </div>
 </footer>

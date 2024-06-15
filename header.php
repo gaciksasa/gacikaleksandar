@@ -3,7 +3,7 @@ $current_page = basename($_SERVER['REQUEST_URI'], ".php");
 $current_slug = '';
 
 // Check if the current URL is an article
-if (strpos($_SERVER['REQUEST_URI'], '/article/') !== false) {
+if (strpos($_SERVER['REQUEST_URI'], '/') !== false) {
     $current_page = 'article';
     $parts = explode('/', $_SERVER['REQUEST_URI']);
     $current_slug = end($parts);
@@ -121,13 +121,13 @@ if (strpos($_SERVER['REQUEST_URI'], '/article/') !== false) {
         if (currentSlug) {
             // Make an AJAX request to fetch the corresponding article slug for the selected language
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', '../get_corresponding_article.php', true);
+            xhr.open('POST', 'get_corresponding_article.php', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                     var response = JSON.parse(xhr.responseText);
                     if (response.success) {
-                        window.location.href = 'http://localhost/gacikaleksandar/article/' + response.slug;
+                        window.location.href = 'http://localhost/gacikaleksandar/' + response.slug;
                     } else {
                         alert('Article not found in the selected language.');
                     }

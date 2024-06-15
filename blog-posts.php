@@ -89,13 +89,13 @@ $conn->close();
                                 </div>
                                 <div class="pbmit-box-title">
                                     <h2 class="pbmit-title">
-                                        <a href="article/<?php echo urlencode($article['slug']); ?>"><?php echo htmlspecialchars($article['title']); ?></a>
+                                        <a href="<?php echo urlencode($article['slug']); ?>"><?php echo htmlspecialchars($article['title']); ?></a>
                                     </h2>
                                 </div>
                                 <div class="pbmit-blogbox-footer">
                                     <div class="pbmit-blogbox-readmore pbmit-vc_btn3">
                                         <div class="pbmit-blogbox-footer-left">
-                                            <a href="article/<?php echo urlencode($article['slug']); ?>"><?php echo $translations['read-more']; ?></a>
+                                            <a href="<?php echo urlencode($article['slug']); ?>"><?php echo $translations['read-more']; ?></a>
                                         </div>
                                     </div>
                                 </div>

@@ -120,12 +120,12 @@ $conn->close();
 														<span class="pbmit-meta-line byline">
 															<span class="author vcard">
 																<span class="screen-reader-text pbmit-hide">Author </span>By
-																<a class="url fn n" href="article/<?php echo urlencode($article['slug']); ?>"><?php echo htmlspecialchars($article['author']); ?></a>
+																<a class="url fn n" href="<?php echo urlencode($article['slug']); ?>"><?php echo htmlspecialchars($article['author']); ?></a>
 															</span>
 														</span>
 														<span class="pbmit-meta-line posted-on">
 															<span class="screen-reader-text">Posted on </span>
-															<a href="article/<?php echo urlencode($article['slug']); ?>" rel="bookmark">
+															<a href="<?php echo urlencode($article['slug']); ?>" rel="bookmark">
 																<time class="entry-date published updated" datetime="<?php echo htmlspecialchars($article['published_date']); ?>"><?php echo date('F j, Y', strtotime($article['published_date'])); ?></time>
 															</a>
 														</span>
@@ -133,12 +133,12 @@ $conn->close();
 												</div>
 												<div class="pbmit-box-title">
 													<h2 class="pbmit-title">
-														<a href="article/<?php echo urlencode($article['slug']); ?>"><?php echo htmlspecialchars($article['title']); ?></a>
+														<a href="<?php echo urlencode($article['slug']); ?>"><?php echo htmlspecialchars($article['title']); ?></a>
 													</h2>
 												</div>
 												<div class="pbmit-blogbox-readmore pbmit-vc_btn3">
 													<div class="pbmit-blogbox-footer-left">
-														<a href="article/<?php echo urlencode($article['slug']); ?>"><?php echo $translations['read-more']; ?></a>
+														<a href="<?php echo urlencode($article['slug']); ?>"><?php echo $translations['read-more']; ?></a>
 													</div>
 												</div>
 											</div>

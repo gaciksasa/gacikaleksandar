@@ -169,7 +169,7 @@ function create_excerpt($content, $length = 200)
                                             <article class="post blog-classic">
                                                 <div class="pbmit-featured-img-wrapper">
                                                     <div class="pbmit-featured-wrapper">
-                                                        <a href="article/<?php echo $article['slug']; ?>">
+                                                        <a href="<?php echo $article['slug']; ?>">
                                                             <img src="<?php echo htmlspecialchars($article['featured_image']); ?>" class="img-fluid w-100" alt="">
                                                         </a>
                                                     </div>
@@ -177,10 +177,10 @@ function create_excerpt($content, $length = 200)
                                                 <div class="pbmit-blog-classic-inner">
                                                     <div class="pbmit-blog-meta-wrapper">
                                                         <h2 class="pbmit-post-title">
-                                                            <a href="article/<?php echo $article['slug']; ?>"><?php echo htmlspecialchars($article['title']); ?></a>
+                                                            <a href="<?php echo $article['slug']; ?>"><?php echo htmlspecialchars($article['title']); ?></a>
                                                         </h2>
                                                         <div class="pbmit-classic-meta-date">
-                                                            <a href="article/<?php echo $article['slug']; ?>">
+                                                            <a href="<?php echo $article['slug']; ?>">
                                                                 <span><?php echo date('F j, Y', strtotime($article['published_date'])); ?></span>
                                                             </a>
                                                         </div>
@@ -189,7 +189,7 @@ function create_excerpt($content, $length = 200)
                                                             <div class="pbmit-box-blog">
                                                                 <div class="pbmit-blogbox-readmore pbmit-vc_btn3">
                                                                     <div class="pbmit-blogbox-footer-left">
-                                                                        <a href="article/<?php echo $article['slug']; ?>"><?php echo $translations['read-more']; ?></a>
+                                                                        <a href="<?php echo $article['slug']; ?>"><?php echo $translations['read-more']; ?></a>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -225,11 +225,11 @@ function create_excerpt($content, $length = 200)
                                     <ul class="recent-post-list">
                                         <?php foreach ($articles as $article) : ?>
                                             <li class="recent-post-list-li">
-                                                <a class="recent-post-thum" href="article/<?php echo $article['slug']; ?>">
+                                                <a class="recent-post-thum" href="<?php echo $article['slug']; ?>">
                                                     <img src="<?php echo $article['featured_image']; ?>" class="img-fluid" alt="">
                                                 </a>
                                                 <span class="post-date"><?php echo date('F j, Y', strtotime($article['published_date'])); ?></span>
-                                                <a href="article/<?php echo $article['slug']; ?>"><?php echo htmlspecialchars($article['title']); ?></a>
+                                                <a href="<?php echo $article['slug']; ?>"><?php echo htmlspecialchars($article['title']); ?></a>
                                             </li>
                                         <?php endforeach; ?>
                                     </ul>
