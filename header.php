@@ -20,8 +20,8 @@ if (strpos($_SERVER['REQUEST_URI'], '/') !== false) {
                             <div class="site-branding">
                                 <span class="site-title">
                                     <a href="index.php">
-                                        <img class="logo-img" src="http://localhost/gacikaleksandar/images/homepage-1/logo.png" alt="Gacik Aleksandar logo">
-                                        <img class="sticky-logo" src="http://localhost/gacikaleksandar/images/homepage-1/logo-dark.png" alt="Gacik Aleksandar logo">
+                                        <img class="logo-img" src="images/homepage-1/logo.png" alt="Gacik Aleksandar logo">
+                                        <img class="sticky-logo" src="images/homepage-1/logo-dark.png" alt="Gacik Aleksandar logo">
                                     </a>
                                 </span>
                             </div>
@@ -38,7 +38,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/') !== false) {
                                         <div class="pbmit-menu-wrap">
                                             <ul class="navigation clearfix">
                                                 <li class="<?php echo $current_page == 'index' ? 'active' : ''; ?>">
-                                                    <a href="http://localhost/gacikaleksandar/index.php"><?php echo $translations['home']; ?></a>
+                                                    <a href="index.php"><?php echo $translations['home']; ?></a>
                                                 </li>
                                                 <li class="dropdown <?php echo in_array($current_page, ['about-us', 'our-services', 'our-pricing', 'our-trainers', 'trainer-details', 'faq']) ? 'active' : ''; ?>">
                                                     <a href="#">Pages</a>
@@ -66,10 +66,10 @@ if (strpos($_SERVER['REQUEST_URI'], '/') !== false) {
                                                     </ul>
                                                 </li>
                                                 <li class="dropdown <?php echo $current_page == 'blog-grid-view' || $current_page == 'article' ? 'active' : ''; ?>">
-                                                    <a href="http://localhost/gacikaleksandar/blog-grid-view.php">Blog</a>
+                                                    <a href="blog-grid-view.php">Blog</a>
                                                 </li>
                                                 <li class="<?php echo $current_page == 'contacts' ? 'active' : ''; ?>">
-                                                    <a href="http://localhost/gacikaleksandar/contacts.php"><?php echo $translations['contact']; ?></a>
+                                                    <a href="contacts.php"><?php echo $translations['contact']; ?></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -116,9 +116,10 @@ if (strpos($_SERVER['REQUEST_URI'], '/') !== false) {
 <script>
     function updateLanguage(lang) {
         document.cookie = "lang=" + lang + "; path=/; max-age=" + (86400 * 30);
-        var currentSlug = '<?php echo $current_slug; ?>';
+        var currentPath = window.location.pathname.split("/").pop();
 
-        if (currentSlug) {
+        // Check if currentPath matches an article slug
+        if (currentPath) {
             // Make an AJAX request to fetch the corresponding article slug for the selected language
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'get_corresponding_article.php', true);
@@ -127,14 +128,16 @@ if (strpos($_SERVER['REQUEST_URI'], '/') !== false) {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                     var response = JSON.parse(xhr.responseText);
                     if (response.success) {
-                        window.location.href = 'http://localhost/gacikaleksandar/' + response.slug;
+                        window.location.href = response.slug;
                     } else {
-                        alert('Article not found in the selected language.');
+                        // If no corresponding article, reload the page to change language
+                        location.reload();
                     }
                 }
             };
-            xhr.send('currentSlug=' + encodeURIComponent(currentSlug) + '&lang=' + encodeURIComponent(lang));
+            xhr.send('currentSlug=' + encodeURIComponent(currentPath) + '&lang=' + encodeURIComponent(lang));
         } else {
+            // If not an article page, reload to change language
             location.reload();
         }
     }
