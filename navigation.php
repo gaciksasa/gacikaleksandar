@@ -17,12 +17,6 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="tags.php">
-                    <i class="fa fa-tags"></i>
-                    Tags
-                </a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="categories.php">
                     <i class="fa fa-folder-open"></i>
                     Categories
