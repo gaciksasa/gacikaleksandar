@@ -3,6 +3,12 @@ session_start();
 
 require 'config.php';
 
+// Retrieve language from cookie
+$lang = 'sr'; // Default language
+if (isset($_COOKIE['lang'])) {
+	$lang = $_COOKIE['lang'];
+}
+
 // Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
@@ -11,8 +17,11 @@ if ($conn->connect_error) {
 }
 
 // Fetch all blog posts for the selected language
-$sql = "SELECT id, title, content, featured_image, author, published_date, slug FROM blog_posts WHERE language = ? ORDER BY published_date DESC";
+$sql = "SELECT id, title, content, featured_image, published_date, slug FROM blog_posts WHERE language = ? ORDER BY published_date DESC";
 $stmt = $conn->prepare($sql);
+if (!$stmt) {
+	die("Error preparing statement: " . $conn->error);
+}
 $stmt->bind_param("s", $lang);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -23,8 +32,7 @@ if ($result->num_rows > 0) {
 		$articles[] = $row;
 	}
 }
-
-session_destroy();
+$stmt->close();
 $conn->close();
 ?>
 
@@ -96,7 +104,7 @@ $conn->close();
 		<!-- Page Content -->
 		<div class="page-content">
 
-			<!-- Blog Grid -->
+			<!-- Blog Classic -->
 			<section class="section-md">
 				<div class="container">
 					<?php if (empty($articles)) : ?>
@@ -109,20 +117,11 @@ $conn->close();
 								<div class="col-md-6 col-lg-4">
 									<article class="pbmit-box-blog pbmit-blogbox-style-1">
 										<div class="post-item">
-											<div class="pbmit-blog-image-with-meta">
-												<div class="pbmit-featured-wrapper pbmit-post-featured-wrapper">
-													<img src="<?php echo htmlspecialchars($article['featured_image']); ?>" class="img-fluid" alt="Featured Image">
-												</div>
+											<div class="pbmit-blog-image-with-meta" style="background-image: url('<?php echo htmlspecialchars($article['featured_image']); ?>')">
 											</div>
 											<div class="pbmit-box-content">
 												<div class="pbmit-entry-meta-wrapper">
 													<div class="entry-meta pbmit-entry-meta pbmit-entry-meta-blogclassic">
-														<span class="pbmit-meta-line byline">
-															<span class="author vcard">
-																<span class="screen-reader-text pbmit-hide">Author </span>By
-																<a class="url fn n" href="<?php echo urlencode($article['slug']); ?>"><?php echo htmlspecialchars($article['author']); ?></a>
-															</span>
-														</span>
 														<span class="pbmit-meta-line posted-on">
 															<span class="screen-reader-text">Posted on </span>
 															<a href="<?php echo urlencode($article['slug']); ?>" rel="bookmark">

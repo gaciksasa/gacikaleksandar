@@ -66,7 +66,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/') !== false) {
                                                     </ul>
                                                 </li>
                                                 <li class="dropdown <?php echo $current_page == 'blog-grid-view' || $current_page == 'article' ? 'active' : ''; ?>">
-                                                    <a href="blog-grid-view.php">Blog</a>
+                                                    <a href="blog.php">Blog</a>
                                                 </li>
                                                 <li class="<?php echo $current_page == 'contacts' ? 'active' : ''; ?>">
                                                     <a href="contacts.php"><?php echo $translations['contact']; ?></a>

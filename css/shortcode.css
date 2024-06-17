@@ -1216,6 +1216,10 @@ body {
 }
 .pbmit-blogbox-style-1 .pbmit-blog-image-with-meta{
      position: relative;
+     height: 370px;
+     background-size: cover;
+     background-repeat: no-repeat;
+     background-position: center center;
 }
 .pbmit-blogbox-style-1 .pbmit-meta-date{
     padding: 5px 15px;
@@ -1253,12 +1257,6 @@ body {
 	display: inline-block;
 	margin-right: 10px;
 	color: var(--pbmit-global-color);
-}
-.pbmit-blogbox-style-1 .pbmit-meta-line.posted-on:before,
-.pbmit-blogbox-style-1 .pbmit-meta-line.comments-link:before{
-	content: '|';
-    display: inline-block;
-    margin: 0 5px 2px 0;
 }
 .pbmit-blogbox-style-1 .pbmit-meta-line a{
 	color: var(--pbmit-global-color);
