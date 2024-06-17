@@ -3,10 +3,9 @@ $current_page = basename($_SERVER['REQUEST_URI'], ".php");
 $current_slug = '';
 
 // Check if the current URL is an article
-if (strpos($_SERVER['REQUEST_URI'], '/') !== false) {
+if (!in_array($current_page, ['index', 'about-us', 'our-services', 'our-pricing', 'our-trainers', 'trainer-details', 'faq', 'portfolio-style-1', 'portfolio-style-2', 'portfolio-single', 'classes', 'classes-details', 'blog', 'contacts'])) {
     $current_page = 'article';
-    $parts = explode('/', $_SERVER['REQUEST_URI']);
-    $current_slug = end($parts);
+    $current_slug = basename($_SERVER['REQUEST_URI']);
 }
 ?>
 
@@ -65,7 +64,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/') !== false) {
                                                         <li><a href="classes-details.php" class="<?php echo $current_page == 'classes-details' ? 'active' : ''; ?>">Classes Details</a></li>
                                                     </ul>
                                                 </li>
-                                                <li class="dropdown <?php echo $current_page == 'blog-grid-view' || $current_page == 'article' ? 'active' : ''; ?>">
+                                                <li class="dropdown <?php echo $current_page == 'blog' || $current_page == 'article' ? 'active' : ''; ?>">
                                                     <a href="blog.php">Blog</a>
                                                 </li>
                                                 <li class="<?php echo $current_page == 'contacts' ? 'active' : ''; ?>">
@@ -112,14 +111,13 @@ if (strpos($_SERVER['REQUEST_URI'], '/') !== false) {
         </div>
     </div>
 </div>
-
 <script>
     function updateLanguage(lang) {
         document.cookie = "lang=" + lang + "; path=/; max-age=" + (86400 * 30);
         var currentPath = window.location.pathname.split("/").pop();
 
         // Check if currentPath matches an article slug
-        if (currentPath) {
+        if (currentPath && currentPath !== 'index.php') {
             // Make an AJAX request to fetch the corresponding article slug for the selected language
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'get_corresponding_article.php', true);
