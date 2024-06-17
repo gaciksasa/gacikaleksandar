@@ -1,45 +1,58 @@
+<?php
+session_start();
+
+require 'config.php';
+
+// Retrieve language from cookie
+$lang = 'sr'; // Default language
+if (isset($_COOKIE['lang'])) {
+	$lang = $_COOKIE['lang'];
+}
+
+?>
+
 <!doctype html>
 <html class="no-js" lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Contacts – Gimox HTML Template</title>
-    <meta name="robots" content="noindex, follow">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>Contacts – Gacik Aleksandar</title>
+	<meta name="robots" content="noindex, follow">
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Favicon -->
+	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
 
-    <!-- CSS
+	<!-- CSS
         ============================================ -->
 
-      <!-- Bootstrap CSS -->
-      <link rel="stylesheet" href="css/bootstrap.min.css">
-      <!-- Fontawesome -->
-      <link rel="stylesheet" href="css/fontawesome.css">
-      <!-- Flaticon -->
-      <link rel="stylesheet" href="css/flaticon.css">
-      <!-- Base Icons -->
-      <link rel="stylesheet" href="css/pbminfotech-base-icons.css"> 
-      <!-- Swiper -->
-      <link rel="stylesheet" href="css/swiper.min.css">
-      <!-- Magnific -->
-      <link rel="stylesheet" href="css/magnific-popup.css"> 
-      <!-- Shortcode CSS -->
-      <link rel="stylesheet" href="css/shortcode.css">
-      <!-- Base CSS -->
-      <link rel="stylesheet" href="css/base.css">
-      <!-- Style CSS -->
-      <link rel="stylesheet" href="css/style.css">
-      <!-- Responsive CSS -->
-      <link rel="stylesheet" href="css/responsive.css">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<!-- Fontawesome -->
+	<link rel="stylesheet" href="css/fontawesome.css">
+	<!-- Flaticon -->
+	<link rel="stylesheet" href="css/flaticon.css">
+	<!-- Base Icons -->
+	<link rel="stylesheet" href="css/pbminfotech-base-icons.css">
+	<!-- Swiper -->
+	<link rel="stylesheet" href="css/swiper.min.css">
+	<!-- Magnific -->
+	<link rel="stylesheet" href="css/magnific-popup.css">
+	<!-- Shortcode CSS -->
+	<link rel="stylesheet" href="css/shortcode.css">
+	<!-- Base CSS -->
+	<link rel="stylesheet" href="css/base.css">
+	<!-- Style CSS -->
+	<link rel="stylesheet" href="css/style.css">
+	<!-- Responsive CSS -->
+	<link rel="stylesheet" href="css/responsive.css">
 </head>
 
 <body>
 
-    <!-- Page Wrapper -->
-    <div class="page-wrapper">
+	<!-- Page Wrapper -->
+	<div class="page-wrapper">
 
 		<!-- Header Main Area -->
 		<header class="site-header header-style-1">
@@ -55,7 +68,7 @@
 					<div class="pbmit-title-bar-content-inner">
 						<div class="pbmit-tbar">
 							<div class="pbmit-tbar-inner container">
-								<h1 class="pbmit-tbar-title">Contact</h1>
+								<h1 class="pbmit-tbar-title"><?php echo $translations['contact']; ?></h1>
 							</div>
 						</div>
 					</div>
@@ -65,17 +78,17 @@
 		<!-- Title Bar End-->
 
 		<!-- Page Content -->
-		<div class="page-content"> 
+		<div class="page-content">
 
 			<!-- Contact -->
 			<section class="contact-section">
 				<div class="container">
-					<div class="row g-0"> 
-						<div class="col-md-6"> 
-							<div class="contact-left-box"> 
+					<div class="row g-0">
+						<div class="col-md-6">
+							<div class="contact-left-box">
 								<div class="pbmit-heading-subheading">
-									<h4 class="pbmit-subtitle">Know About ME</h4>
-									<h2 class="pbmit-title">GET IN TOUCH</h2>
+									<h4 class="pbmit-subtitle"><?php echo $translations['contact-subtitle']; ?></h4>
+									<h2 class="pbmit-title"><?php echo $translations['contact-title']; ?></h2>
 								</div>
 								<div class="pbmit-ihbox-style-1">
 									<div class="pbmit-ihbox-inner">
@@ -88,13 +101,13 @@
 											<div class="pbmit-ihbox-heading">
 												<div class="pbmit-vc_general pbmit-vc_cta3">
 													<div class="pbmit-vc_cta3_content-container">
-													<div class="pbmit-vc_cta3-content">
-														<div class="pbmit-vc_cta3-content-header pbmit-wrap">
-															<div class="pbmit-vc_cta3-headers pbmit-wrap-cell">
-																<h2 class="pbmit-custom-heading ">Our Address</h2>
+														<div class="pbmit-vc_cta3-content">
+															<div class="pbmit-vc_cta3-content-header pbmit-wrap">
+																<div class="pbmit-vc_cta3-headers pbmit-wrap-cell">
+																	<h2 class="pbmit-custom-heading "><?php echo $translations['contact-address']; ?></h2>
+																</div>
 															</div>
 														</div>
-													</div>
 													</div>
 												</div>
 												<div class="pbmit-ihbox-contents">
@@ -115,17 +128,17 @@
 											<div class="pbmit-ihbox-heading">
 												<div class="pbmit-vc_general pbmit-vc_cta3">
 													<div class="pbmit-vc_cta3_content-container">
-													<div class="pbmit-vc_cta3-content">
-														<div class="pbmit-vc_cta3-content-header pbmit-wrap">
-															<div class="pbmit-vc_cta3-headers pbmit-wrap-cell">
-																<h2 class="pbmit-custom-heading ">Phone Number</h2>
+														<div class="pbmit-vc_cta3-content">
+															<div class="pbmit-vc_cta3-content-header pbmit-wrap">
+																<div class="pbmit-vc_cta3-headers pbmit-wrap-cell">
+																	<h2 class="pbmit-custom-heading "><?php echo $translations['contact-phone']; ?></h2>
+																</div>
 															</div>
 														</div>
 													</div>
-													</div>
 												</div>
 												<div class="pbmit-ihbox-contents">
-													<div class="pbmit-cta3-content-wrapper">Mobile: 060 44 94 033</div>
+													<div class="pbmit-cta3-content-wrapper">Mob: 060 44 94 033</div>
 												</div>
 											</div>
 										</div>
@@ -142,13 +155,13 @@
 											<div class="pbmit-ihbox-heading">
 												<div class="pbmit-vc_general pbmit-vc_cta3">
 													<div class="pbmit-vc_cta3_content-container">
-													<div class="pbmit-vc_cta3-content">
-														<div class="pbmit-vc_cta3-content-header pbmit-wrap">
-															<div class="pbmit-vc_cta3-headers pbmit-wrap-cell">
-																<h2 class="pbmit-custom-heading ">Email Address</h2>
+														<div class="pbmit-vc_cta3-content">
+															<div class="pbmit-vc_cta3-content-header pbmit-wrap">
+																<div class="pbmit-vc_cta3-headers pbmit-wrap-cell">
+																	<h2 class="pbmit-custom-heading "><?php echo $translations['contact-email']; ?></h2>
+																</div>
 															</div>
 														</div>
-													</div>
 													</div>
 												</div>
 												<div class="pbmit-ihbox-contents">
@@ -160,33 +173,30 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-6"> 
+						<div class="col-md-6">
 							<div class="contact-form">
 								<div class="pbmit-heading-subheading">
-									<h4 class="pbmit-subtitle">Contact Us</h4>
-									<h2 class="pbmit-title text-white">Do You Have Any Questions?</h2>
+									<h4 class="pbmit-subtitle"><?php echo $translations['contact-form-subtitle']; ?></h4>
+									<h2 class="pbmit-title text-white"><?php echo $translations['contact-form-title']; ?></h2>
 								</div>
-								<form  method="post" id="contact-form" action="send.php">
-									<div class="row"> 
-										<div class="col-md-12 col-lg-6">
-											<input type="text" name="your-name" class="form-control" placeholder="Name" required>
-										</div>
-										<div class="col-md-12 col-lg-6">
-											<input type="email" name="your-email" class="form-control" placeholder="Email" required>
-										</div>
-										<div class="col-md-12 col-lg-6">
-											<input type="text" name="your-number" class="form-control" placeholder="Phone" required>
-										</div>
-										<div class="col-md-12 col-lg-6">
-											<input type="text" name="subject" class="form-control" placeholder="Subject" required>
+								<form method="post" id="contact-form" action="send.php">
+									<div class="row">
+										<div class="col-md-12">
+											<input type="text" name="your-name" class="form-control" placeholder="<?php echo $translations['contact-placeholder-name']; ?>" required>
 										</div>
 										<div class="col-md-12">
-											<textarea name="message" cols="40" rows="4" class="form-control" placeholder="Message" required></textarea>
+											<input type="email" name="your-email" class="form-control" placeholder="<?php echo $translations['contact-placeholder-email']; ?>" required>
+										</div>
+										<div class="col-md-12">
+											<input type="text" name="your-number" class="form-control" placeholder="<?php echo $translations['contact-placeholder-phone']; ?>" required>
+										</div>
+										<div class="col-md-12">
+											<textarea name="message" cols="40" rows="4" class="form-control" placeholder="<?php echo $translations['contact-placeholder-message']; ?>" required></textarea>
 										</div>
 										<div class="col-md-12 col-lg-6">
 											<button type="submit" class="pbmit-btn pbmit-btn-global">
 												<i class="form-btn-loader fa fa-circle-o-notch fa-spin fa-fw margin-bottom d-none"></i>
-												Send Message
+												<?php echo $translations['contact-btn']; ?>
 											</button>
 										</div>
 										<div class="col-md-12 col-lg-12 message-status"></div>
@@ -205,17 +215,17 @@
 
 		</div>
 		<!-- Page Content End -->
-		
+
 		<!-- Include Footer -->
-		<?php include 'footer.php'; ?> 
+		<?php include 'footer.php'; ?>
 
 	</div>
 	<!-- Page Wrapper End -->
 
-   	<!-- Search Box Start Here -->
+	<!-- Search Box Start Here -->
 	<div class="pbmit-search-overlay">
 		<div class="pbmit-icon-close"></div>
-		<div class="pbmit-search-outer"> 
+		<div class="pbmit-search-outer">
 			<div class="pbmit-search-logo">
 				<img src="images/logo.png" alt="">
 			</div>
@@ -227,33 +237,33 @@
 			</form>
 		</div>
 	</div>
-   	<!-- Search Box End Here -->
- 
-     <!-- JS
+	<!-- Search Box End Here -->
+
+	<!-- JS
          ============================================ -->
-      <!-- jQuery JS -->
-      <script src="js/jquery.min.js"></script>
-      <!-- Popper JS -->
-      <script src="js/popper.min.js"></script>
-      <!-- Bootstrap JS -->
-      <script src="js/bootstrap.min.js"></script> 
-      <!-- jquery Waypoints JS -->
-      <script src="js/jquery.waypoints.min.js"></script>
-      <!-- jquery Appear JS -->
-      <script src="js/jquery.appear.js"></script>
-      <!-- Numinate JS -->
-      <script src="js/numinate.min.js"></script>
-      <!-- Swiper JS -->
-      <script src="js/swiper.min.js"></script>
-      <!-- Magnific JS -->
-      <script src="js/jquery.magnific-popup.min.js"></script>
-      <!-- Circle Progress JS -->
-      <script src="js/circle-progress.js"></script>  
-	  <!-- Form Validator -->
-	  <script src="js/jquery-validate/jquery.validate.min.js"></script>
-      <!-- Scripts JS -->
-      <script src="js/scripts.js"></script>       
-	  
+	<!-- jQuery JS -->
+	<script src="js/jquery.min.js"></script>
+	<!-- Popper JS -->
+	<script src="js/popper.min.js"></script>
+	<!-- Bootstrap JS -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- jquery Waypoints JS -->
+	<script src="js/jquery.waypoints.min.js"></script>
+	<!-- jquery Appear JS -->
+	<script src="js/jquery.appear.js"></script>
+	<!-- Numinate JS -->
+	<script src="js/numinate.min.js"></script>
+	<!-- Swiper JS -->
+	<script src="js/swiper.min.js"></script>
+	<!-- Magnific JS -->
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<!-- Circle Progress JS -->
+	<script src="js/circle-progress.js"></script>
+	<!-- Form Validator -->
+	<script src="js/jquery-validate/jquery.validate.min.js"></script>
+	<!-- Scripts JS -->
+	<script src="js/scripts.js"></script>
+
 </body>
 
 </html>
