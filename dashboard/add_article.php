@@ -26,10 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Handle file upload
     if (!empty($_FILES['featured_image']['name'])) {
-        $target_dir = "uploads/";
+        $target_dir = "../uploads/"; // Updated to go one level up from the dashboard folder
         $target_file = $target_dir . basename($_FILES["featured_image"]["name"]);
         if (move_uploaded_file($_FILES["featured_image"]["tmp_name"], $target_file)) {
-            $featured_image = $target_file;
+            $featured_image = 'uploads/' . basename($_FILES["featured_image"]["name"]); // Save the correct relative path
         } else {
             echo "Sorry, there was an error uploading your file.";
         }
@@ -68,14 +68,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     $stmt->close();
 
+    // Debug: Check if category IDs are fetched correctly
+    if (!$category_id_sr || !$category_id_en) {
+        die("Category IDs not found for the selected languages.");
+    }
+
     // Insert article in Serbian
     $sql_sr = "INSERT INTO blog_posts (article_group_id, title, content, category_id, featured_image, language, slug, published_date, created_at) 
                VALUES (?, ?, ?, ?, ?, 'sr', ?, NOW(), NOW())";
     $stmt_sr = $conn->prepare($sql_sr);
     $stmt_sr->bind_param("sssiss", $article_group_id, $title_sr, $content_sr, $category_id_sr, $featured_image, $slug_sr);
     if (!$stmt_sr->execute()) {
-        echo "Error: " . $stmt_sr->error;
+        echo "Error inserting Serbian article: " . $stmt_sr->error;
     }
+    $stmt_sr->close();
 
     // Insert article in English
     $sql_en = "INSERT INTO blog_posts (article_group_id, title, content, category_id, featured_image, language, slug, published_date, created_at) 
@@ -83,12 +89,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt_en = $conn->prepare($sql_en);
     $stmt_en->bind_param("sssiss", $article_group_id, $title_en, $content_en, $category_id_en, $featured_image, $slug_en);
     if (!$stmt_en->execute()) {
-        echo "Error: " . $stmt_en->error;
+        echo "Error inserting English article: " . $stmt_en->error;
     }
-
-    // Close the statements and the connection
-    $stmt_sr->close();
     $stmt_en->close();
+
     $conn->close();
 
     header("Location: view_articles.php");

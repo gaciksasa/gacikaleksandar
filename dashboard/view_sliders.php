@@ -90,7 +90,7 @@ $conn->close();
               <tr>
                 <td><?php echo htmlspecialchars($slider['title']); ?></td>
                 <td><?php echo htmlspecialchars($slider['subtitle']); ?></td>
-                <td><img src="uploads/<?php echo htmlspecialchars($slider['background_image']); ?>" alt="" style="width: 100px;"></td>
+                <td><img src="../uploads/<?php echo htmlspecialchars($slider['background_image']); ?>" alt="" style="width: 100px;"></td>
                 <td><?php echo htmlspecialchars($slider['link']); ?></td>
                 <td>
                   <a href="edit_slider.php?id=<?php echo $slider['id']; ?>&lang=<?php echo $lang; ?>" class="btn btn-warning">Edit</a>

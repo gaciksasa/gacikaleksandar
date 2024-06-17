@@ -112,7 +112,7 @@ $conn->close();
           <div class="form-group">
             <label for="background_image">Background Image (1900 x 900)</label>
             <input type="file" class="form-control" id="background_image" name="background_image">
-            <img src="uploads/<?php echo htmlspecialchars($slider['background_image']); ?>" alt="" style="width: 100px;">
+            <img src="../uploads/<?php echo htmlspecialchars($slider['background_image']); ?>" alt="" style="width: 100px;">
           </div>
           <div class="form-group">
             <label for="link">Link</label>
