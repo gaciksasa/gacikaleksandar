@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Handle file upload
     if (!empty($_FILES['featured_image']['name'])) {
-        $target_dir = "../uploads/";
+        $target_dir = "uploads/";
         $target_file = $target_dir . basename($_FILES["featured_image"]["name"]);
         if (move_uploaded_file($_FILES["featured_image"]["tmp_name"], $target_file)) {
             $featured_image = $target_file;
