@@ -2,8 +2,13 @@
     RewriteEngine On
     RewriteBase /gacikaleksandar/
 
-    # Redirect to clean URL
+    # Redirect to clean URL for articles
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^([a-zA-Z0-9_-]+)$ view_article.php?slug=$1 [L]
+
+    # Redirect to clean URL for pages
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^page/([a-zA-Z0-9_-]+)$ page.php?slug=$1 [L]
 </IfModule>

@@ -23,6 +23,15 @@
                 </a>
             </li>
             <li class="nav-item my-2 py-2 px-3 bg-primary text-white">
+                Pages
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="view_pages.php">
+                    <i class="fa fa-file"></i>
+                    Pages
+                </a>
+            </li>
+            <li class="nav-item my-2 py-2 px-3 bg-primary text-white">
                 Sections
             </li>
             <li class="nav-item">
@@ -62,7 +71,7 @@
                 </a>
             </li>
             <li class="nav-item my-2 py-2 px-3 bg-primary text-white">
-                Pages
+                Other
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="../logout.php">

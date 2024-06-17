@@ -95,30 +95,17 @@ $conn->close();
   <script src="https://cdn.tiny.cloud/1/2d8d0z568l75o82jphit2mlssygij2v5xxuk0ev3ai9lv60g/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
   <script>
     tinymce.init({
-      selector: 'textarea#content',
+      selector: 'textarea',
+      plugins: 'lists link image table code',
+      toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | forecolor backcolor | table | code',
       menubar: false,
-      setup: function(editor) {
-        editor.on('change', function() {
-          editor.save();
-          enableSaveButton();
-        });
-      }
+      branding: false,
+      height: 300
     });
 
     function syncEditorContent() {
       tinymce.triggerSave();
     }
-
-    function enableSaveButton() {
-      document.getElementById('saveButton').disabled = false;
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-      const formElements = document.querySelectorAll("input, textarea");
-      formElements.forEach(element => {
-        element.addEventListener("change", enableSaveButton);
-      });
-    });
   </script>
 </head>
 
@@ -160,7 +147,7 @@ $conn->close();
               <img src="../uploads/<?php echo htmlspecialchars($image); ?>" alt="Current Image" style="max-width: 200px; margin-top: 10px;">
             <?php endif; ?>
           </div>
-          <button type="submit" class="btn btn-primary mt-3" id="saveButton" disabled>Save</button>
+          <button type="submit" class="btn btn-primary mt-3">Save</button>
         </form>
       </main>
       <!-- Main Content End -->
