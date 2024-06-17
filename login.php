@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['user_id'] = $id;
             $_SESSION['username'] = $username;
             $_SESSION['login_attempts'] = 0; // Reset login attempts
-            header("Location: dashboard.php"); // Redirect to a protected page
+            header("Location: dashboard/index.php"); // Redirect to a protected page
             exit;
         } else {
             $error = "Invalid username or password.";
