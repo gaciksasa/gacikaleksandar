@@ -3,12 +3,6 @@ session_start();
 
 require 'config.php';
 
-// Retrieve language from cookie
-$lang = 'sr'; // Default language
-if (isset($_COOKIE['lang'])) {
-  $lang = $_COOKIE['lang'];
-}
-
 if (!isset($_GET['slug'])) {
   die('Content slug not specified.');
 }
@@ -23,21 +17,36 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch content using slug and language
+// Fetch content using slug
 $sql = "
-    (SELECT 'article' AS content_type, title, content, category_id, featured_image, published_date FROM blog_posts WHERE slug = ? AND language = ?)
+    (SELECT 'article' AS content_type, title, content, category_id, featured_image, published_date, language FROM blog_posts WHERE slug = ?)
     UNION
-    (SELECT 'page' AS content_type, title, content, NULL AS category_id, NULL AS featured_image, NULL AS published_date FROM pages WHERE slug = ? AND language = ?)
+    (SELECT 'page' AS content_type, title, content, NULL AS category_id, NULL AS featured_image, NULL AS published_date, language FROM pages WHERE slug = ?)
 ";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
   die("Error preparing statement: " . $conn->error);
 }
-$stmt->bind_param("ssss", $slug, $lang, $slug, $lang);
+$stmt->bind_param("ss", $slug, $slug);
 $stmt->execute();
-$stmt->bind_result($content_type, $title, $content, $category_id, $featured_image, $published_date);
+$stmt->bind_result($content_type, $title, $content, $category_id, $featured_image, $published_date, $content_language);
 $stmt->fetch();
 $stmt->close();
+
+if (!$content_language) {
+  die('Content not found.');
+}
+
+// Check and set language cookie
+$lang = 'sr'; // Default language
+if (isset($_COOKIE['lang'])) {
+  $lang = $_COOKIE['lang'];
+}
+if ($lang !== $content_language) {
+  setcookie('lang', $content_language, time() + (86400 * 30), '/');
+  header("Location: {$_SERVER['REQUEST_URI']}");
+  exit();
+}
 
 $category_name = '';
 if ($content_type == 'article' && $category_id !== NULL) {
