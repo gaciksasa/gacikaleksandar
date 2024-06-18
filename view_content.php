@@ -23,15 +23,11 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch article or page using slug and language
+// Fetch content using slug and language
 $sql = "
-    SELECT title, content, NULL AS category_id, NULL AS featured_image, NULL AS published_date, 'page' AS type
-    FROM pages
-    WHERE slug = ? AND language = ?
+    (SELECT 'article' AS content_type, title, content, category_id, featured_image, published_date FROM blog_posts WHERE slug = ? AND language = ?)
     UNION
-    SELECT title, content, category_id, featured_image, published_date, 'article' AS type
-    FROM blog_posts
-    WHERE slug = ? AND language = ?
+    (SELECT 'page' AS content_type, title, content, NULL AS category_id, NULL AS featured_image, NULL AS published_date FROM pages WHERE slug = ? AND language = ?)
 ";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
@@ -39,13 +35,13 @@ if (!$stmt) {
 }
 $stmt->bind_param("ssss", $slug, $lang, $slug, $lang);
 $stmt->execute();
-$stmt->bind_result($title, $content, $category_id, $featured_image, $published_date, $type);
+$stmt->bind_result($content_type, $title, $content, $category_id, $featured_image, $published_date);
 $stmt->fetch();
 $stmt->close();
 
-// Fetch category name if it's an article
 $category_name = '';
-if ($type == 'article' && $category_id !== null) {
+if ($content_type == 'article' && $category_id !== NULL) {
+  // Fetch category
   $sql = "SELECT name FROM categories WHERE id = ? AND language = ?";
   $stmt = $conn->prepare($sql);
   if (!$stmt) {
@@ -104,7 +100,7 @@ $conn->close();
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title><?php echo htmlspecialchars($title); ?> - Blog</title>
+  <title><?php echo htmlspecialchars($title); ?></title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
   <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -146,6 +142,8 @@ $conn->close();
 
     <!-- Page Content -->
     <div class="page-content">
+
+      <!-- Blog Details -->
       <section class="overflow-hidden">
         <div class="container">
           <div class="row blog-section">
@@ -154,15 +152,15 @@ $conn->close();
                 <div class="col-md-12">
                   <article class="post blog-details">
                     <div class="blog-classic">
-                      <div class="pbmit-featured-img-wrapper">
-                        <div class="pbmit-featured-wrapper">
-                          <?php if ($featured_image) : ?>
+                      <?php if ($content_type == 'article' && $featured_image) : ?>
+                        <div class="pbmit-featured-img-wrapper">
+                          <div class="pbmit-featured-wrapper">
                             <img src="<?php echo htmlspecialchars($featured_image); ?>" class="img-fluid w-100" alt="Featured Image" style="height: auto;">
-                          <?php endif; ?>
+                          </div>
                         </div>
-                      </div>
+                      <?php endif; ?>
                       <div class="pbmit-blog-classic-inner">
-                        <?php if ($type == 'article') : ?>
+                        <?php if ($content_type == 'article') : ?>
                           <div class="pbmit-blog-meta pbmit-blog-meta-top">
                             <div class="pbmit-entry-meta-blogclassic">
                               <span class="pbmit-meta-line posted-on">
@@ -184,7 +182,7 @@ $conn->close();
                         <p><?php echo $content; ?></p>
                       </div>
                     </div>
-                    <?php if ($type == 'article') : ?>
+                    <?php if ($content_type == 'article') : ?>
                       <div class="pbmit-blog-meta pbmit-blog-meta-bottom">
                         <div class="pbmit-blog-meta-bottom-right">
                           <div class="pbmit-social-share">
@@ -226,37 +224,35 @@ $conn->close();
                     <a href="#"><i class="pbmit-base-icon-search"></i></a>
                   </form>
                 </aside>
-                <?php if (!empty($categories)) : ?>
-                  <aside class="widget widget-categories">
-                    <h3 class="widget-title"><?php echo $translations['categories']; ?></h3>
-                    <ul>
-                      <?php foreach ($categories as $category) : ?>
-                        <li><a href="category.php?id=<?php echo $category['id']; ?>"><?php echo htmlspecialchars($category['name']); ?></a></li>
-                      <?php endforeach; ?>
-                    </ul>
-                  </aside>
-                <?php endif; ?>
-                <?php if (!empty($recent_articles)) : ?>
-                  <aside class="widget widget-recent-post">
-                    <h2 class="widget-title"><?php echo $translations['recent-posts']; ?></h2>
-                    <ul class="recent-post-list">
-                      <?php foreach ($recent_articles as $article) : ?>
-                        <li class="recent-post-list-li">
-                          <a class="recent-post-thum" href="/<?php echo $article['slug']; ?>">
-                            <img src="<?php echo $article['featured_image']; ?>" class="img-fluid" style="width: 90px; height: 90px;" alt="Thumbnail">
-                          </a>
-                          <span class="post-date"><?php echo date('F j, Y', strtotime($article['published_date'])); ?></span>
-                          <a href="<?php echo $article['slug']; ?>"><?php echo htmlspecialchars($article['title']); ?></a>
-                        </li>
-                      <?php endforeach; ?>
-                    </ul>
-                  </aside>
-                <?php endif; ?>
+                <aside class="widget widget-categories">
+                  <h3 class="widget-title"><?php echo $translations['categories']; ?></h3>
+                  <ul>
+                    <?php foreach ($categories as $category) : ?>
+                      <li><a href="category.php?id=<?php echo $category['id']; ?>"><?php echo htmlspecialchars($category['name']); ?></a></li>
+                    <?php endforeach; ?>
+                  </ul>
+                </aside>
+                <aside class="widget widget-recent-post">
+                  <h2 class="widget-title"><?php echo $translations['recent-posts']; ?></h2>
+                  <ul class="recent-post-list">
+                    <?php foreach ($recent_articles as $article) : ?>
+                      <li class="recent-post-list-li">
+                        <a class="recent-post-thum" href="/<?php echo $article['slug']; ?>">
+                          <img src="<?php echo $article['featured_image']; ?>" class="img-fluid" style="width: 90px; height: 90px;" alt="Thumbnail">
+                        </a>
+                        <span class="post-date"><?php echo date('F j, Y', strtotime($article['published_date'])); ?></span>
+                        <a href="<?php echo $article['slug']; ?>"><?php echo htmlspecialchars($article['title']); ?></a>
+                      </li>
+                    <?php endforeach; ?>
+                  </ul>
+                </aside>
               </aside>
             </div>
           </div>
         </div>
       </section>
+      <!-- Blog Details End -->
+
     </div>
     <!-- Page Content End -->
 
