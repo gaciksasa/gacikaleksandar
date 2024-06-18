@@ -2,10 +2,10 @@
 $current_page = basename($_SERVER['REQUEST_URI'], ".php");
 $current_slug = '';
 
-// Check if the current URL is an article
+// Check if the current URL is a page or article
 if (!in_array($current_page, ['index', 'about-us', 'our-services', 'our-pricing', 'our-trainers', 'trainer-details', 'faq', 'portfolio-style-1', 'portfolio-style-2', 'portfolio-single', 'classes', 'classes-details', 'blog', 'contacts'])) {
-    $current_page = 'article';
     $current_slug = basename($_SERVER['REQUEST_URI']);
+    $current_page = 'content'; // Generic identifier for content (article or page)
 }
 ?>
 
@@ -116,26 +116,26 @@ if (!in_array($current_page, ['index', 'about-us', 'our-services', 'our-pricing'
         document.cookie = "lang=" + lang + "; path=/; max-age=" + (86400 * 30);
         var currentPath = window.location.pathname.split("/").pop();
 
-        // Check if currentPath matches an article slug
+        // Check if currentPath matches a content slug
         if (currentPath && currentPath !== 'index.php') {
-            // Make an AJAX request to fetch the corresponding article slug for the selected language
+            // Make an AJAX request to fetch the corresponding content slug for the selected language
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'get_corresponding_article.php', true);
+            xhr.open('POST', 'get_corresponding_content.php', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                     var response = JSON.parse(xhr.responseText);
                     if (response.success) {
-                        window.location.href = response.slug;
+                        window.location.href = '/gacikaleksandar/' + response.slug;
                     } else {
-                        // If no corresponding article, reload the page to change language
+                        // If no corresponding content, reload the page to change language
                         location.reload();
                     }
                 }
             };
             xhr.send('currentSlug=' + encodeURIComponent(currentPath) + '&lang=' + encodeURIComponent(lang));
         } else {
-            // If not an article page, reload to change language
+            // If not a content page, reload to change language
             location.reload();
         }
     }

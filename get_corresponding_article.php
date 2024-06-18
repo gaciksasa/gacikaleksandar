@@ -1,39 +1,46 @@
 <?php
 require 'config.php';
 
-if (!isset($_POST['currentSlug']) || !isset($_POST['lang'])) {
-  echo json_encode(['success' => false]);
-  exit;
+$lang = isset($_POST['lang']) ? $_POST['lang'] : 'sr';
+$currentSlug = isset($_POST['currentSlug']) ? $_POST['currentSlug'] : '';
+
+// Connect to the database
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+// Check connection
+if ($conn->connect_error) {
+  die(json_encode(['success' => false, 'message' => 'Database connection failed']));
 }
 
-$currentSlug = $_POST['currentSlug'];
-$newLang = $_POST['lang'];
+// Determine if the slug belongs to an article or a page
+$article_query = "SELECT slug FROM blog_posts WHERE slug = ? AND language = ?";
+$page_query = "SELECT slug FROM pages WHERE slug = ? AND language = ?";
 
-// Fetch the article group ID for the current article
-$sql = "SELECT article_group_id FROM blog_posts WHERE slug = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $currentSlug);
-$stmt->execute();
-$stmt->bind_result($articleGroupId);
-$stmt->fetch();
-$stmt->close();
+$found = false;
+$response = ['success' => false, 'message' => 'Content not found'];
 
-if (!$articleGroupId) {
-  echo json_encode(['success' => false, 'error' => 'Article group ID not found']);
-  exit;
-}
-
-// Fetch the corresponding article slug for the new language
-$sql = "SELECT slug FROM blog_posts WHERE article_group_id = ? AND language = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("ss", $articleGroupId, $newLang);
+$stmt = $conn->prepare($article_query);
+$stmt->bind_param('ss', $currentSlug, $lang);
 $stmt->execute();
 $stmt->bind_result($newSlug);
-$stmt->fetch();
+if ($stmt->fetch()) {
+  $found = true;
+  $response = ['success' => true, 'slug' => '/' . $newSlug];
+}
 $stmt->close();
 
-if ($newSlug) {
-  echo json_encode(['success' => true, 'slug' => $newSlug]);
-} else {
-  echo json_encode(['success' => false, 'error' => 'Corresponding article not found']);
+if (!$found) {
+  $stmt = $conn->prepare($page_query);
+  $stmt->bind_param('ss', $currentSlug, $lang);
+  $stmt->execute();
+  $stmt->bind_result($newSlug);
+  if ($stmt->fetch()) {
+    $found = true;
+    $response = ['success' => true, 'slug' => '/' . $newSlug];
+  }
+  $stmt->close();
 }
+
+$conn->close();
+
+echo json_encode($response);
