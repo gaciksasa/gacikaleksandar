@@ -2000,10 +2000,10 @@ body {
 	margin: 50px 0 0;
 }
 .pbmit-footer-text-inner .pbmit_contact_widget_wrapper{
-	margin-top: -15px;
+	margin-top: 0;
 }
 .pbmit-footer-text-inner .pbmit_contact_widget_wrapper li{
-	padding: 5px 0 0 45px;
+	padding: 0 0 0 45px;
 }
 .pbmit-footer-text-inner .pbmit_contact_widget_wrapper li a{
 	color: rgba(255,255,255,.9);

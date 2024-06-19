@@ -56,28 +56,28 @@
                 <div class="row">
                     <div class="col-md-6 col-lg-3">
                         <div class="widget-as-link">
-                            <p>Copyright © 2023 All Rights<br>Reserved.</p>
+                            <p>Copyright © 2024 All Rights<br>Reserved.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="widget-as-link">
                             <ul class="pbmit_contact_widget_wrapper">
-                                <li>(+01) 123 456 7890</li>
-                                <li><a href="mailto:info@example.com">info@example.com</a></li>
+                                <li><a href="tel:+381604494033">(+381) 060 44 94 033</a></li>
+                                <li><a href="mailto:info@gacikaleksandar.com">info@gacikaleksandar.com</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="widget-as-link">
                             <ul class="pbmit_contact_widget_wrapper">
-                                <li>51 Somestreet Cambridge,<br>CB4 3AA, United Kingdom</li>
+                                <li>Dušanova 58/601,<br>18000 Niš, Serbia</li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="widget-as-link">
                             <div class="pbmit-social-links-wrapper">
-                                <ul class="social-icons">
+                                <ul class="social-icons mt-3">
                                     <li class="pbmit-social-facebook">
                                         <a class=" tooltip-top" target="_blank" href="https://www.facebook.com/gacik.alexandar.5" data-tooltip="Facebook" rel="noopener">
                                             <i class="pbmit-base-icon-facebook"></i>
