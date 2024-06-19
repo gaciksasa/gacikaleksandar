@@ -65,10 +65,10 @@ if (!in_array($current_page, ['index', 'about-us', 'our-services', 'our-pricing'
                                                     </ul>
                                                 </li>
                                                 <li class="dropdown <?php echo $current_page == 'blog' || $current_page == 'article' ? 'active' : ''; ?>">
-                                                    <a href="blog.php">Blog</a>
+                                                    <a href="blog">Blog</a>
                                                 </li>
                                                 <li class="<?php echo $current_page == 'contacts' ? 'active' : ''; ?>">
-                                                    <a href="contacts.php"><?php echo $translations['contact']; ?></a>
+                                                    <a href="contact"><?php echo $translations['contact']; ?></a>
                                                 </li>
                                             </ul>
                                         </div>

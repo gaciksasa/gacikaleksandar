@@ -47,7 +47,7 @@ $conn->close();
             <h2 class="pbmit-title"><?php echo htmlspecialchars($title); ?></h2>
           </div>
           <div><?php echo ($content); ?></div>
-          <a href="<?php echo htmlspecialchars($link); ?>" class="pbmit-btn">
+          <a href="<?php echo htmlspecialchars($link); ?>" class="pbmit-btn mt-4">
             <span><?php echo $translations['read-more']; ?></span>
           </a>
         </div>
