@@ -3,7 +3,7 @@ $current_page = basename($_SERVER['REQUEST_URI'], ".php");
 $current_slug = '';
 
 // Check if the current URL is a page or article
-if (!in_array($current_page, ['index', 'about-us', 'our-services', 'our-pricing', 'our-trainers', 'trainer-details', 'faq', 'portfolio-style-1', 'portfolio-style-2', 'portfolio-single', 'classes', 'classes-details', 'blog', 'contacts'])) {
+if (!in_array($current_page, ['index', 'about-me', 'o-meni', 'our-services', 'our-pricing', 'our-trainers', 'trainer-details', 'faq', 'portfolio-style-1', 'portfolio-style-2', 'portfolio-single', 'classes', 'classes-details', 'blog', 'contact'])) {
     $current_slug = basename($_SERVER['REQUEST_URI']);
     $current_page = 'content'; // Generic identifier for content (article or page)
 }
@@ -39,13 +39,12 @@ if (!in_array($current_page, ['index', 'about-us', 'our-services', 'our-pricing'
                                                 <li class="<?php echo $current_page == 'index' ? 'active' : ''; ?>">
                                                     <a href="index.php"><?php echo $translations['home']; ?></a>
                                                 </li>
-                                                <li class="<?php echo $current_page == 'about-me' ? 'active' : ''; ?>">
-                                                    <a href="about-me"><?php echo $translations['about']; ?></a>
+                                                <li class="<?php echo in_array($current_page, ['about-me', 'o-meni']) ? 'active' : ''; ?>">
+                                                    <a href="<?php echo $lang == 'sr' ? 'o-meni' : 'about-me'; ?>"><?php echo $translations['about']; ?></a>
                                                 </li>
                                                 <li class="dropdown <?php echo in_array($current_page, ['about-us', 'our-services', 'our-pricing', 'our-trainers', 'trainer-details', 'faq']) ? 'active' : ''; ?>">
                                                     <a href="#">Pages</a>
                                                     <ul>
-                                                        <li><a href="about-us.php" class="<?php echo $current_page == 'about-us' ? 'active' : ''; ?>">About us</a></li>
                                                         <li><a href="our-services.php" class="<?php echo $current_page == 'our-services' ? 'active' : ''; ?>">Our Services</a></li>
                                                         <li><a href="our-pricing.php" class="<?php echo $current_page == 'our-pricing' ? 'active' : ''; ?>">Our Pricing</a></li>
                                                         <li><a href="our-trainers.php" class="<?php echo $current_page == 'our-trainers' ? 'active' : ''; ?>">Our Trainers</a></li>
@@ -62,7 +61,7 @@ if (!in_array($current_page, ['index', 'about-us', 'our-services', 'our-pricing'
                                                 <li class="dropdown <?php echo $current_page == 'blog' || $current_page == 'article' ? 'active' : ''; ?>">
                                                     <a href="blog">Blog</a>
                                                 </li>
-                                                <li class="<?php echo $current_page == 'contacts' ? 'active' : ''; ?>">
+                                                <li class="<?php echo $current_page == 'contact' ? 'active' : ''; ?>">
                                                     <a href="contact"><?php echo $translations['contact']; ?></a>
                                                 </li>
                                             </ul>
