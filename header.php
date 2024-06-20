@@ -39,10 +39,10 @@ if (!in_array($current_page, ['index', 'about-me', 'o-meni', 'our-services', 'ou
                                                 <li class="<?php echo $current_page == 'index' ? 'active' : ''; ?>">
                                                     <a href="index.php"><?php echo $translations['home']; ?></a>
                                                 </li>
-                                                <li class="<?php echo in_array($current_page, ['about-me', 'o-meni']) ? 'active' : ''; ?>">
+                                                <li class="<?php echo in_array($current_page, ['o-meni', 'about-me']) ? 'active' : ''; ?>">
                                                     <a href="<?php echo $lang == 'sr' ? 'o-meni' : 'about-me'; ?>"><?php echo $translations['about']; ?></a>
                                                 </li>
-                                                <li class="dropdown <?php echo in_array($current_page, ['about-us', 'our-services', 'our-pricing', 'our-trainers', 'trainer-details', 'faq']) ? 'active' : ''; ?>">
+                                                <li class="dropdown <?php echo in_array($current_page, ['our-services', 'our-pricing', 'our-trainers', 'trainer-details', 'faq']) ? 'active' : ''; ?>">
                                                     <a href="#">Pages</a>
                                                     <ul>
                                                         <li><a href="our-services.php" class="<?php echo $current_page == 'our-services' ? 'active' : ''; ?>">Our Services</a></li>
@@ -58,7 +58,7 @@ if (!in_array($current_page, ['index', 'about-me', 'o-meni', 'our-services', 'ou
                                                         <li><a href="classes-details.php" class="<?php echo $current_page == 'classes-details' ? 'active' : ''; ?>">Classes Details</a></li>
                                                     </ul>
                                                 </li>
-                                                <li class="dropdown <?php echo $current_page == 'blog' || $current_page == 'article' ? 'active' : ''; ?>">
+                                                <li class="<?php echo in_array($current_page, ['content', 'blog', 'article']) ? 'active' : ''; ?>">
                                                     <a href="blog">Blog</a>
                                                 </li>
                                                 <li class="<?php echo $current_page == 'contact' ? 'active' : ''; ?>">
