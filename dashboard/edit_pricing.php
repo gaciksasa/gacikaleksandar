@@ -110,7 +110,7 @@ $conn->close();
           </div>
           <div class="form-group">
             <label for="features">Features</label>
-            <textarea class="form-control" id="features" name="features" required><?php echo htmlspecialchars($features); ?></textarea>
+            <textarea class="form-control" id="features" name="features"><?php echo htmlspecialchars($features); ?></textarea>
           </div>
           <div class="form-group form-check">
             <input type="checkbox" class="form-check-input" id="is_featured" name="is_featured" <?php echo $is_featured ? 'checked' : ''; ?>>

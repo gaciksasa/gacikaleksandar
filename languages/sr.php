@@ -7,6 +7,8 @@ return [
     'related-posts' => 'Povezani članci',
     'recent-posts' => 'Nedavni članci',
     'home' => 'Početna',
+    'about' => 'O meni',
+    'programs' => 'Programi',
     'contact' => 'Kontakt',
     'contact-title' => 'Kontakt',
     'contact-subtitle' => 'Kako do mene?',

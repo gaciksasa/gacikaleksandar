@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </div>
           <div class="form-group">
             <label for="content">Content</label>
-            <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+            <textarea class="form-control" id="content" name="content" rows="4"></textarea>
           </div>
           <button type="submit" class="btn btn-primary">Add Program</button>
         </form>

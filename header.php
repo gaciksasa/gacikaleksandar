@@ -39,6 +39,9 @@ if (!in_array($current_page, ['index', 'about-us', 'our-services', 'our-pricing'
                                                 <li class="<?php echo $current_page == 'index' ? 'active' : ''; ?>">
                                                     <a href="index.php"><?php echo $translations['home']; ?></a>
                                                 </li>
+                                                <li class="<?php echo $current_page == 'about-me' ? 'active' : ''; ?>">
+                                                    <a href="about-me"><?php echo $translations['about']; ?></a>
+                                                </li>
                                                 <li class="dropdown <?php echo in_array($current_page, ['about-us', 'our-services', 'our-pricing', 'our-trainers', 'trainer-details', 'faq']) ? 'active' : ''; ?>">
                                                     <a href="#">Pages</a>
                                                     <ul>
@@ -48,14 +51,6 @@ if (!in_array($current_page, ['index', 'about-us', 'our-services', 'our-pricing'
                                                         <li><a href="our-trainers.php" class="<?php echo $current_page == 'our-trainers' ? 'active' : ''; ?>">Our Trainers</a></li>
                                                         <li><a href="trainer-details.php" class="<?php echo $current_page == 'trainer-details' ? 'active' : ''; ?>">Trainer Details</a></li>
                                                         <li><a href="faq.php" class="<?php echo $current_page == 'faq' ? 'active' : ''; ?>">Faq</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="dropdown <?php echo in_array($current_page, ['portfolio-style-1', 'portfolio-style-2', 'portfolio-single']) ? 'active' : ''; ?>">
-                                                    <a href="#">Portfolio</a>
-                                                    <ul>
-                                                        <li><a href="portfolio-style-1.php" class="<?php echo $current_page == 'portfolio-style-1' ? 'active' : ''; ?>">Portfolio Style 1</a></li>
-                                                        <li><a href="portfolio-style-2.php" class="<?php echo $current_page == 'portfolio-style-2' ? 'active' : ''; ?>">Portfolio Style 2</a></li>
-                                                        <li><a href="portfolio-single.php" class="<?php echo $current_page == 'portfolio-single' ? 'active' : ''; ?>">Portfolio Single</a></li>
                                                     </ul>
                                                 </li>
                                                 <li class="dropdown <?php echo $current_page == 'classes' ? 'active' : ''; ?>">

@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           </div>
           <div class="form-group">
             <label for="content_sr">Content (Serbian)</label>
-            <textarea class="form-control" id="content_sr" name="content_sr" rows="10" required></textarea>
+            <textarea class="form-control" id="content_sr" name="content_sr" rows="10"></textarea>
           </div>
 
           <h3>English</h3>
@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           </div>
           <div class="form-group">
             <label for="content_en">Content (English)</label>
-            <textarea class="form-control" id="content_en" name="content_en" rows="10" required></textarea>
+            <textarea class="form-control" id="content_en" name="content_en" rows="10"></textarea>
           </div>
 
           <button type="submit" class="btn btn-primary mt-4">Add</button>

@@ -102,10 +102,6 @@ $conn->close();
       branding: false,
       height: 300
     });
-
-    function syncEditorContent() {
-      tinymce.triggerSave();
-    }
   </script>
 </head>
 
@@ -123,7 +119,7 @@ $conn->close();
             <a href="?lang=sr" class="btn <?php echo $lang === 'sr' ? 'btn-primary' : 'btn-secondary'; ?>">Serbian</a>
           </div>
         </div>
-        <form method="POST" action="view_about.php?lang=<?php echo $lang; ?>" enctype="multipart/form-data" onsubmit="syncEditorContent()">
+        <form method="POST" action="view_about.php?lang=<?php echo $lang; ?>" enctype="multipart/form-data">
           <div class="form-group">
             <label for="title">Title</label>
             <input type="text" class="form-control" id="title" name="title" value="<?php echo htmlspecialchars($title); ?>" required>
@@ -134,7 +130,7 @@ $conn->close();
           </div>
           <div class="form-group">
             <label for="content">Content</label>
-            <textarea class="form-control" id="content" name="content" required><?php echo htmlspecialchars($content); ?></textarea>
+            <textarea class="form-control" id="content" name="content"><?php echo htmlspecialchars($content); ?></textarea>
           </div>
           <div class="form-group">
             <label for="link">Link</label>

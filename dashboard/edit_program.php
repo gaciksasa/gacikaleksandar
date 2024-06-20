@@ -122,7 +122,7 @@ $conn->close();
           </div>
           <div class="form-group">
             <label for="content">Content</label>
-            <textarea class="form-control" id="content" name="content" rows="4" required><?php echo htmlspecialchars($program['content']); ?></textarea>
+            <textarea class="form-control" id="content" name="content" rows="4"><?php echo htmlspecialchars($program['content']); ?></textarea>
           </div>
           <button type="submit" class="btn btn-primary">Update Program</button>
         </form>

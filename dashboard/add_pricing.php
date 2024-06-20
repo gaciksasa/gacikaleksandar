@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </div>
           <div class="form-group">
             <label for="features">Features</label>
-            <textarea class="form-control" id="features" name="features" required></textarea>
+            <textarea class="form-control" id="features" name="features"></textarea>
           </div>
           <div class="form-group form-check">
             <input type="checkbox" class="form-check-input" id="is_featured" name="is_featured">

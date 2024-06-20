@@ -85,7 +85,7 @@ $conn->close();
           </div>
           <div class="mb-3">
             <label for="testimonial_text" class="form-label">Testimonial</label>
-            <textarea class="form-control" id="testimonial_text" name="testimonial_text" rows="3" required><?php echo htmlspecialchars($testimonial_text); ?></textarea>
+            <textarea class="form-control" id="testimonial_text" name="testimonial_text" rows="3"><?php echo htmlspecialchars($testimonial_text); ?></textarea>
           </div>
           <div class="mb-3">
             <label for="rating" class="form-label">Rating</label>

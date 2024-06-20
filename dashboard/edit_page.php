@@ -128,7 +128,7 @@ $conn->close();
           </div>
           <div class="form-group">
             <label for="content_sr">Content (Serbian)</label>
-            <textarea class="form-control" id="content_sr" name="content_sr" rows="10" required><?php echo htmlspecialchars($page_sr['content']); ?></textarea>
+            <textarea class="form-control" id="content_sr" name="content_sr" rows="10"><?php echo htmlspecialchars($page_sr['content']); ?></textarea>
           </div>
 
           <h3>English</h3>
@@ -138,7 +138,7 @@ $conn->close();
           </div>
           <div class="form-group">
             <label for="content_en">Content (English)</label>
-            <textarea class="form-control" id="content_en" name="content_en" rows="10" required><?php echo htmlspecialchars($page_en['content']); ?></textarea>
+            <textarea class="form-control" id="content_en" name="content_en" rows="10"><?php echo htmlspecialchars($page_en['content']); ?></textarea>
           </div>
 
           <button type="submit" class="btn btn-primary mt-4">Update</button>

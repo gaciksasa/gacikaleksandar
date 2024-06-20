@@ -117,7 +117,7 @@ $conn->close();
           </div>
           <div class="form-group">
             <label for="content">Section Content</label>
-            <textarea class="form-control" id="content" name="content" required><?php echo htmlspecialchars($content); ?></textarea>
+            <textarea class="form-control" id="content" name="content"><?php echo htmlspecialchars($content); ?></textarea>
           </div>
         </form>
 

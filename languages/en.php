@@ -6,6 +6,8 @@ return [
     'related-posts' => 'Related Posts',
     'recent-posts' => 'Recent Posts',
     'home' => 'Home',
+    'about' => 'About',
+    'programs' => 'Programs',
     'contact' => 'Contact',
     'site-title' => 'Personal Trainer',
     'contact' => 'Contact',
