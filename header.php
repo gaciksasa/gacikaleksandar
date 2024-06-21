@@ -1,12 +1,26 @@
 <?php
+require 'config.php';
+
 $current_page = basename($_SERVER['REQUEST_URI'], ".php");
 $current_slug = '';
 
 // Check if the current URL is a page or article
-if (!in_array($current_page, ['index', 'about-me', 'o-meni', 'our-services', 'our-pricing', 'our-trainers', 'trainer-details', 'faq', 'portfolio-style-1', 'portfolio-style-2', 'portfolio-single', 'classes', 'classes-details', 'blog', 'contact'])) {
+if (!in_array($current_page, ['index', 'about-us', 'our-services', 'our-pricing', 'our-trainers', 'trainer-details', 'faq', 'portfolio-style-1', 'portfolio-style-2', 'portfolio-single', 'classes', 'classes-details', 'blog', 'contacts'])) {
     $current_slug = basename($_SERVER['REQUEST_URI']);
     $current_page = 'content'; // Generic identifier for content (article or page)
 }
+
+// Fetch menu items from the database
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+$sql = "SELECT title_sr, title_en, link_sr, link_en, is_custom FROM menu_items ORDER BY `order`";
+$result = $conn->query($sql);
+$menu_items = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $menu_items[] = $row;
+    }
+}
+$conn->close();
 ?>
 
 <div class="pbmit-header-overlay">
@@ -36,34 +50,21 @@ if (!in_array($current_page, ['index', 'about-me', 'o-meni', 'our-services', 'ou
                                     <div class="collapse navbar-collapse clearfix show" id="pbmit-menu">
                                         <div class="pbmit-menu-wrap">
                                             <ul class="navigation clearfix">
-                                                <li class="<?php echo $current_page == 'index' ? 'active' : ''; ?>">
-                                                    <a href="index.php"><?php echo $translations['home']; ?></a>
-                                                </li>
-                                                <li class="<?php echo in_array($current_page, ['o-meni', 'about-me']) ? 'active' : ''; ?>">
-                                                    <a href="<?php echo $lang == 'sr' ? 'o-meni' : 'about-me'; ?>"><?php echo $translations['about']; ?></a>
-                                                </li>
-                                                <li class="dropdown <?php echo in_array($current_page, ['our-services', 'our-pricing', 'our-trainers', 'trainer-details', 'faq']) ? 'active' : ''; ?>">
-                                                    <a href="#">Pages</a>
-                                                    <ul>
-                                                        <li><a href="our-services.php" class="<?php echo $current_page == 'our-services' ? 'active' : ''; ?>">Our Services</a></li>
-                                                        <li><a href="our-pricing.php" class="<?php echo $current_page == 'our-pricing' ? 'active' : ''; ?>">Our Pricing</a></li>
-                                                        <li><a href="our-trainers.php" class="<?php echo $current_page == 'our-trainers' ? 'active' : ''; ?>">Our Trainers</a></li>
-                                                        <li><a href="trainer-details.php" class="<?php echo $current_page == 'trainer-details' ? 'active' : ''; ?>">Trainer Details</a></li>
-                                                        <li><a href="faq.php" class="<?php echo $current_page == 'faq' ? 'active' : ''; ?>">Faq</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="dropdown <?php echo $current_page == 'classes' ? 'active' : ''; ?>">
-                                                    <a href="classes.php">Classes</a>
-                                                    <ul>
-                                                        <li><a href="classes-details.php" class="<?php echo $current_page == 'classes-details' ? 'active' : ''; ?>">Classes Details</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="<?php echo in_array($current_page, ['content', 'blog', 'article']) ? 'active' : ''; ?>">
-                                                    <a href="blog">Blog</a>
-                                                </li>
-                                                <li class="<?php echo $current_page == 'contact' ? 'active' : ''; ?>">
-                                                    <a href="contact"><?php echo $translations['contact']; ?></a>
-                                                </li>
+                                                <?php foreach ($menu_items as $item) : ?>
+                                                    <?php if ($item['is_custom']) : ?>
+                                                        <li class="<?php echo $current_page == basename($item['link_sr'], ".php") ? 'active' : ''; ?>">
+                                                            <a href="<?php echo $lang == 'en' ? $item['link_en'] : $item['link_sr']; ?>">
+                                                                <?php echo $lang == 'en' ? $item['title_en'] : $item['title_sr']; ?>
+                                                            </a>
+                                                        </li>
+                                                    <?php else : ?>
+                                                        <li class="<?php echo $current_slug == $item['link_sr'] ? 'active' : ''; ?>">
+                                                            <a href="<?php echo $lang == 'en' ? $item['link_en'] : $item['link_sr']; ?>">
+                                                                <?php echo $lang == 'en' ? $item['title_en'] : $item['title_sr']; ?>
+                                                            </a>
+                                                        </li>
+                                                    <?php endif; ?>
+                                                <?php endforeach; ?>
                                             </ul>
                                         </div>
                                     </div>

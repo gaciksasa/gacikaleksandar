@@ -8,6 +8,15 @@
                 </a>
             </li>
             <li class="nav-item my-2 py-2 px-3 bg-primary text-white">
+                Menu
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="view_menu_items.php">
+                    <i class="fa fa-list"></i>
+                    Header
+                </a>
+            </li>
+            <li class="nav-item my-2 py-2 px-3 bg-primary text-white">
                 Blog
             </li>
             <li class="nav-item">
