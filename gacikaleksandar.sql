@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 21, 2024 at 12:45 PM
+-- Generation Time: Jun 21, 2024 at 06:07 PM
 -- Server version: 5.7.36
 -- PHP Version: 7.4.26
 
@@ -130,6 +130,37 @@ INSERT INTO `categories` (`id`, `category_group_id`, `name`, `featured_image`, `
 (12, '666c37775b621', 'Ishrana', 'uploads/diet-1.jpg', 'sr'),
 (9, '666c35e4a2116', 'Running', 'uploads/bulletproof_runners-knee-1920x1080.jpg', 'en'),
 (8, '666c35e4a2116', 'TrÄanje', 'uploads/bulletproof_runners-knee-1920x1080.jpg', 'sr');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `menu_items`
+--
+
+DROP TABLE IF EXISTS `menu_items`;
+CREATE TABLE IF NOT EXISTS `menu_items` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title_sr` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title_en` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `link_sr` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `link_en` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order` int(11) NOT NULL DEFAULT '0',
+  `is_custom` tinyint(1) NOT NULL DEFAULT '0',
+  `parent_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `menu_items`
+--
+
+INSERT INTO `menu_items` (`id`, `title_sr`, `title_en`, `link_sr`, `link_en`, `order`, `is_custom`, `parent_id`) VALUES
+(1, 'PoÄetna', 'Home', 'index.php', 'index.php', 1, 1, NULL),
+(2, 'Kontakt', 'Contact', 'contact.php', 'contact.php', 5, 1, NULL),
+(3, 'Blog', 'Blog', 'blog.php', 'blog.php', 4, 1, NULL),
+(4, 'O meni', 'About me', 'o-meni', 'about-me', 2, 0, NULL),
+(5, 'Programi', 'Programs', 'strana-na-srpskom', 'english-page', 3, 0, NULL),
+(6, 'Program 1', 'Program 1', 'strana-na-srpskom', 'english-page', 1, 0, 5);
 
 -- --------------------------------------------------------
 
