@@ -130,9 +130,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               <option value="index.php" <?php echo $menu_item['link_sr'] == 'index.php' ? 'selected' : ''; ?>>Home</option>
               <option value="contact.php" <?php echo $menu_item['link_sr'] == 'contact.php' ? 'selected' : ''; ?>>Contact</option>
               <option value="blog.php" <?php echo $menu_item['link_sr'] == 'blog.php' ? 'selected' : ''; ?>>Blog</option>
-              <!-- Add custom PHP code to dynamically load pages from the database -->
               <?php foreach ($pages_sr as $page) : ?>
-                <option value="<?php echo $page['slug']; ?>" <?php echo $menu_item['link_sr'] == $page['slug'] ? 'selected' : ''; ?>><?php echo $page['title']; ?></option>
+                <option value="<?php echo htmlspecialchars($page['slug']); ?>" <?php echo $menu_item['link_sr'] == $page['slug'] ? 'selected' : ''; ?>><?php echo htmlspecialchars($page['title']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
@@ -143,17 +142,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               <option value="index.php" <?php echo $menu_item['link_en'] == 'index.php' ? 'selected' : ''; ?>>Home</option>
               <option value="contact.php" <?php echo $menu_item['link_en'] == 'contact.php' ? 'selected' : ''; ?>>Contact</option>
               <option value="blog.php" <?php echo $menu_item['link_en'] == 'blog.php' ? 'selected' : ''; ?>>Blog</option>
-              <!-- Add custom PHP code to dynamically load pages from the database -->
               <?php foreach ($pages_en as $page) : ?>
-                <option value="<?php echo $page['slug']; ?>" <?php echo $menu_item['link_en'] == $page['slug'] ? 'selected' : ''; ?>><?php echo $page['title']; ?></option>
+                <option value="<?php echo htmlspecialchars($page['slug']); ?>" <?php echo $menu_item['link_en'] == $page['slug'] ? 'selected' : ''; ?>><?php echo htmlspecialchars($page['title']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
           <div class="form-group">
             <label for="order">Order</label>
-            <input type="number" class="form-control" id="order" name="order" value="<?php echo $menu_item['order']; ?>" required>
+            <input type="number" class="form-control" id="order" name="order" value="<?php echo htmlspecialchars($menu_item['order']); ?>" required>
           </div>
-          <button type="submit" class="btn btn-primary mt-4">Update</button>
+          <button type="submit" class="btn btn-primary mt-4">Save</button>
         </form>
       </main>
       <!-- Main Content End -->
@@ -164,17 +162,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
   <script>
-    document.getElementById('is_custom').addEventListener('change', function() {
+    function updateDropdowns() {
       const linkSr = document.getElementById('link_sr');
       const linkEn = document.getElementById('link_en');
-      if (this.checked) {
-        linkSr.innerHTML = '<option value="index.php" <?php echo $menu_item['link_sr'] == 'index.php' ? 'selected' : ''; ?>>Home</option><option value="contact.php" <?php echo $menu_item['link_sr'] == 'contact.php' ? 'selected' : ''; ?>>Contact</option><option value="blog.php" <?php echo $menu_item['link_sr'] == 'blog.php' ? 'selected' : ''; ?>>Blog</option>';
-        linkEn.innerHTML = '<option value="index.php" <?php echo $menu_item['link_en'] == 'index.php' ? 'selected' : ''; ?>>Home</option><option value="contact.php" <?php echo $menu_item['link_en'] == 'contact.php' ? 'selected' : ''; ?>>Contact</option><option value="blog.php" <?php echo $menu_item['link_en'] == 'blog.php' ? 'selected' : ''; ?>>Blog</option>';
+      const isCustom = document.getElementById('is_custom').checked;
+
+      if (isCustom) {
+        linkSr.innerHTML = '<option value="index.php">Početna</option><option value="contact.php">Kontakt</option><option value="blog.php">Blog</option>';
+        linkEn.innerHTML = '<option value="index.php">Home</option><option value="contact.php">Contact</option><option value="blog.php">Blog</option>';
       } else {
-        linkSr.innerHTML = '<?php foreach ($pages_sr as $page) : ?><option value="<?php echo $page['slug']; ?>" <?php echo $menu_item['link_sr'] == $page['slug'] ? 'selected' : ''; ?>><?php echo $page['title']; ?></option><?php endforeach; ?>';
-        linkEn.innerHTML = '<?php foreach ($pages_en as $page) : ?><option value="<?php echo $page['slug']; ?>" <?php echo $menu_item['link_en'] == $page['slug'] ? 'selected' : ''; ?>><?php echo $page['title']; ?></option><?php endforeach; ?>';
+        linkSr.innerHTML = '<option value="">Select Page</option><?php foreach ($pages_sr as $page) : ?><option value="<?php echo htmlspecialchars($page['slug']); ?>"><?php echo htmlspecialchars($page['title']); ?></option><?php endforeach; ?>';
+        linkEn.innerHTML = '<option value="">Select Page</option><?php foreach ($pages_en as $page) : ?><option value="<?php echo htmlspecialchars($page['slug']); ?>"><?php echo htmlspecialchars($page['title']); ?></option><?php endforeach; ?>';
       }
-    });
+
+      // Re-select the previously selected option
+      linkSr.value = "<?php echo htmlspecialchars($menu_item['link_sr']); ?>";
+      linkEn.value = "<?php echo htmlspecialchars($menu_item['link_en']); ?>";
+    }
+
+    document.getElementById('is_custom').addEventListener('change', updateDropdowns);
+
+    // Initialize dropdowns on page load
+    window.onload = updateDropdowns;
   </script>
 </body>
 

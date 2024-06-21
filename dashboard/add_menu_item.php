@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="title_en">Title (English)</label>
             <input type="text" class="form-control" id="title_en" name="title_en" required>
           </div>
-          <div class="form-group">
+          <div class="form-group mb-4">
             <label for="is_custom">Is Custom Link</label>
             <input type="checkbox" id="is_custom" name="is_custom" value="1">
           </div>
@@ -103,10 +103,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="link_sr">Link (Serbian)</label>
             <select class="form-control" id="link_sr" name="link_sr" required>
               <option value="">Select Page</option>
-              <option value="index.php">Home</option>
-              <option value="contact.php">Contact</option>
-              <option value="blog.php">Blog</option>
-              <!-- Add custom PHP code to dynamically load pages from the database -->
               <?php foreach ($pages_sr as $page) : ?>
                 <option value="<?php echo $page['slug']; ?>"><?php echo $page['title']; ?></option>
               <?php endforeach; ?>
@@ -116,10 +112,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="link_en">Link (English)</label>
             <select class="form-control" id="link_en" name="link_en" required>
               <option value="">Select Page</option>
-              <option value="index.php">Home</option>
-              <option value="contact.php">Contact</option>
-              <option value="blog.php">Blog</option>
-              <!-- Add custom PHP code to dynamically load pages from the database -->
               <?php foreach ($pages_en as $page) : ?>
                 <option value="<?php echo $page['slug']; ?>"><?php echo $page['title']; ?></option>
               <?php endforeach; ?>
@@ -144,8 +136,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       const linkSr = document.getElementById('link_sr');
       const linkEn = document.getElementById('link_en');
       if (this.checked) {
-        linkSr.innerHTML = '<option value="index.php">Home</option><option value="contact.php">Contact</option><option value="blog.php">Blog</option>';
-        linkEn.innerHTML = '<option value="index.php">Home</option><option value="contact.php">Contact</option><option value="blog.php">Blog</option>';
+        linkSr.innerHTML = '<option value="">Select Page</option><option value="index.php">Početna</option><option value="blog.php">Blog</option><option value="contact.php">Kontakt</option>';
+        linkEn.innerHTML = '<option value="">Select Page</option><option value="index.php">Home</option><option value="blog.php">Blog</option><option value="contact.php">Contact</option>';
       } else {
         linkSr.innerHTML = '<?php foreach ($pages_sr as $page) : ?><option value="<?php echo $page['slug']; ?>"><?php echo $page['title']; ?></option><?php endforeach; ?>';
         linkEn.innerHTML = '<?php foreach ($pages_en as $page) : ?><option value="<?php echo $page['slug']; ?>"><?php echo $page['title']; ?></option><?php endforeach; ?>';
