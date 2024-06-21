@@ -12,7 +12,7 @@ if (!in_array($current_page, ['index', 'about-us', 'our-services', 'our-pricing'
 
 // Fetch menu items from the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-$sql = "SELECT title_sr, title_en, link_sr, link_en, is_custom FROM menu_items ORDER BY `order`";
+$sql = "SELECT id, title_sr, title_en, link_sr, link_en, is_custom, parent_id FROM menu_items ORDER BY `order`";
 $result = $conn->query($sql);
 $menu_items = [];
 if ($result->num_rows > 0) {
@@ -21,6 +21,25 @@ if ($result->num_rows > 0) {
     }
 }
 $conn->close();
+
+// Function to build the menu tree
+function buildMenuTree($menu_items, $parent_id = null)
+{
+    $branch = [];
+    foreach ($menu_items as $item) {
+        if ($item['parent_id'] == $parent_id) {
+            $children = buildMenuTree($menu_items, $item['id']);
+            if ($children) {
+                $item['children'] = $children;
+            }
+            $branch[] = $item;
+        }
+    }
+    return $branch;
+}
+
+// Build the menu tree
+$menu_tree = buildMenuTree($menu_items);
 ?>
 
 <div class="pbmit-header-overlay">
@@ -50,21 +69,26 @@ $conn->close();
                                     <div class="collapse navbar-collapse clearfix show" id="pbmit-menu">
                                         <div class="pbmit-menu-wrap">
                                             <ul class="navigation clearfix">
-                                                <?php foreach ($menu_items as $item) : ?>
-                                                    <?php if ($item['is_custom']) : ?>
-                                                        <li class="<?php echo $current_page == basename($item['link_sr'], ".php") ? 'active' : ''; ?>">
-                                                            <a href="<?php echo $lang == 'en' ? $item['link_en'] : $item['link_sr']; ?>">
-                                                                <?php echo $lang == 'en' ? $item['title_en'] : $item['title_sr']; ?>
-                                                            </a>
-                                                        </li>
-                                                    <?php else : ?>
-                                                        <li class="<?php echo $current_slug == $item['link_sr'] ? 'active' : ''; ?>">
-                                                            <a href="<?php echo $lang == 'en' ? $item['link_en'] : $item['link_sr']; ?>">
-                                                                <?php echo $lang == 'en' ? $item['title_en'] : $item['title_sr']; ?>
-                                                            </a>
-                                                        </li>
-                                                    <?php endif; ?>
-                                                <?php endforeach; ?>
+                                                <?php
+                                                function renderMenu($items, $current_page, $current_slug, $lang)
+                                                {
+                                                    foreach ($items as $item) {
+                                                        $active_class = ($current_page == basename($item['link_sr'], ".php") || $current_slug == $item['link_sr']) ? 'active' : '';
+                                                        $link = $lang == 'en' ? $item['link_en'] : $item['link_sr'];
+                                                        $title = $lang == 'en' ? $item['title_en'] : $item['title_sr'];
+
+                                                        echo '<li class="dropdown ' . $active_class . '">';
+                                                        echo '<a href="' . $link . '">' . $title . '</a>';
+                                                        if (isset($item['children'])) {
+                                                            echo '<ul class="sub-menu">';
+                                                            renderMenu($item['children'], $current_page, $current_slug, $lang);
+                                                            echo '</ul>';
+                                                        }
+                                                        echo '</li>';
+                                                    }
+                                                }
+                                                renderMenu($menu_tree, $current_page, $current_slug, $lang);
+                                                ?>
                                             </ul>
                                         </div>
                                     </div>
@@ -121,7 +145,7 @@ $conn->close();
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                     var response = JSON.parse(xhr.responseText);
                     if (response.success) {
-                        window.location.href = '/gacikaleksandar/' + response.slug;
+                        window.location.href = '/' + response.slug;
                     } else {
                         // If no corresponding content, reload the page to change language
                         location.reload();

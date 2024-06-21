@@ -27,6 +27,16 @@ if ($result->num_rows > 0) {
     $pages_en[] = $row;
   }
 }
+
+// Fetch all menu items for parent selection
+$sql = "SELECT id, title_sr FROM menu_items";
+$result = $conn->query($sql);
+$menu_items = [];
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $menu_items[] = $row;
+  }
+}
 $conn->close();
 
 if (!isset($_GET['id'])) {
@@ -59,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $link_sr = $_POST['link_sr'];
   $link_en = $_POST['link_en'];
   $order = $_POST['order'];
+  $parent_id = $_POST['parent_id'] ? $_POST['parent_id'] : NULL;
   $is_custom = isset($_POST['is_custom']) ? 1 : 0;
 
   // Connect to the database
@@ -70,9 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 
   // Update menu item
-  $sql = "UPDATE menu_items SET title_sr = ?, title_en = ?, link_sr = ?, link_en = ?, `order` = ?, is_custom = ? WHERE id = ?";
+  $sql = "UPDATE menu_items SET title_sr = ?, title_en = ?, link_sr = ?, link_en = ?, `order` = ?, parent_id = ?, is_custom = ? WHERE id = ?";
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param("ssssiii", $title_sr, $title_en, $link_sr, $link_en, $order, $is_custom, $id);
+  $stmt->bind_param("ssssiiii", $title_sr, $title_en, $link_sr, $link_en, $order, $parent_id, $is_custom, $id);
   if (!$stmt->execute()) {
     echo "Error: " . $stmt->error;
   }
@@ -148,6 +159,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </select>
           </div>
           <div class="form-group">
+            <label for="parent_id">Parent Menu Item</label>
+            <select class="form-control" id="parent_id" name="parent_id">
+              <option value="">None</option>
+              <?php foreach ($menu_items as $item) : ?>
+                <option value="<?php echo $item['id']; ?>" <?php echo $menu_item['parent_id'] == $item['id'] ? 'selected' : ''; ?>><?php echo htmlspecialchars($item['title_sr']); ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+          <div class="form-group">
             <label for="order">Order</label>
             <input type="number" class="form-control" id="order" name="order" value="<?php echo htmlspecialchars($menu_item['order']); ?>" required>
           </div>
@@ -163,18 +183,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <script src="../js/bootstrap.min.js"></script>
   <script>
     function updateDropdowns() {
+      const isCustom = document.getElementById('is_custom').checked;
       const linkSr = document.getElementById('link_sr');
       const linkEn = document.getElementById('link_en');
-      const isCustom = document.getElementById('is_custom').checked;
-
       if (isCustom) {
-        linkSr.innerHTML = '<option value="index.php">Početna</option><option value="contact.php">Kontakt</option><option value="blog.php">Blog</option>';
+        linkSr.innerHTML = '<option value="index.php">Home</option><option value="contact.php">Contact</option><option value="blog.php">Blog</option>';
         linkEn.innerHTML = '<option value="index.php">Home</option><option value="contact.php">Contact</option><option value="blog.php">Blog</option>';
       } else {
-        linkSr.innerHTML = '<option value="">Select Page</option><?php foreach ($pages_sr as $page) : ?><option value="<?php echo htmlspecialchars($page['slug']); ?>"><?php echo htmlspecialchars($page['title']); ?></option><?php endforeach; ?>';
-        linkEn.innerHTML = '<option value="">Select Page</option><?php foreach ($pages_en as $page) : ?><option value="<?php echo htmlspecialchars($page['slug']); ?>"><?php echo htmlspecialchars($page['title']); ?></option><?php endforeach; ?>';
+        linkSr.innerHTML = '<?php foreach ($pages_sr as $page) : ?><option value="<?php echo htmlspecialchars($page['slug']); ?>"><?php echo htmlspecialchars($page['title']); ?></option><?php endforeach; ?>';
+        linkEn.innerHTML = '<?php foreach ($pages_en as $page) : ?><option value="<?php echo htmlspecialchars($page['slug']); ?>"><?php echo htmlspecialchars($page['title']); ?></option><?php endforeach; ?>';
       }
-
       // Re-select the previously selected option
       linkSr.value = "<?php echo htmlspecialchars($menu_item['link_sr']); ?>";
       linkEn.value = "<?php echo htmlspecialchars($menu_item['link_en']); ?>";

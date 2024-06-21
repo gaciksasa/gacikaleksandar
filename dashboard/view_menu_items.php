@@ -8,16 +8,10 @@ if (!isset($_SESSION['user_id'])) {
 
 require '../config.php';
 
-// Connect to the database
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
-
-// Fetch menu items
-$sql = "SELECT id, title_sr, title_en, link_sr, link_en, `order` FROM menu_items ORDER BY `order`";
+// Fetch all menu items
+$sql = "SELECT id, title_sr, title_en, link_sr, link_en, `order`, parent_id FROM menu_items ORDER BY parent_id, `order`";
 $result = $conn->query($sql);
 $menu_items = [];
 if ($result->num_rows > 0) {
@@ -53,39 +47,39 @@ $conn->close();
           <h1 class="h2">View Menu Items</h1>
           <a href="add_menu_item.php" class="btn btn-primary">Add Menu Item</a>
         </div>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Title (Serbian)</th>
-              <th>Title (English)</th>
-              <th>Link (Serbian)</th>
-              <th>Link (English)</th>
-              <th>Order</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php if (!empty($menu_items)) : ?>
+        <div class="table-responsive">
+          <table class="table table-striped table-sm">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title (Serbian)</th>
+                <th>Title (English)</th>
+                <th>Link (Serbian)</th>
+                <th>Link (English)</th>
+                <th>Order</th>
+                <th>Parent ID</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
               <?php foreach ($menu_items as $item) : ?>
                 <tr>
+                  <td><?php echo htmlspecialchars($item['id']); ?></td>
                   <td><?php echo htmlspecialchars($item['title_sr']); ?></td>
                   <td><?php echo htmlspecialchars($item['title_en']); ?></td>
                   <td><?php echo htmlspecialchars($item['link_sr']); ?></td>
                   <td><?php echo htmlspecialchars($item['link_en']); ?></td>
                   <td><?php echo htmlspecialchars($item['order']); ?></td>
+                  <td><?php echo htmlspecialchars($item['parent_id']); ?></td>
                   <td>
-                    <a href="edit_menu_item.php?id=<?php echo $item['id']; ?>" class="btn btn-warning">Edit</a>
-                    <a href="delete_menu_item.php?id=<?php echo $item['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this menu item?');">Delete</a>
+                    <a href="edit_menu_item.php?id=<?php echo $item['id']; ?>" class="btn btn-sm btn-primary">Edit</a>
+                    <a href="delete_menu_item.php?id=<?php echo $item['id']; ?>" class="btn btn-sm btn-danger">Delete</a>
                   </td>
                 </tr>
               <?php endforeach; ?>
-            <?php else : ?>
-              <tr>
-                <td colspan="6">No menu items found</td>
-              </tr>
-            <?php endif; ?>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </main>
       <!-- Main Content End -->
     </div>

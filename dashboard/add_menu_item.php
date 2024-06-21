@@ -27,6 +27,17 @@ if ($result->num_rows > 0) {
     $pages_en[] = $row;
   }
 }
+
+// Fetch all menu items for parent selection
+$sql = "SELECT id, title_sr FROM menu_items";
+$result = $conn->query($sql);
+$menu_items = [];
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $menu_items[] = $row;
+  }
+}
+
 $conn->close();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -35,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $link_sr = $_POST['link_sr'];
   $link_en = $_POST['link_en'];
   $order = $_POST['order'];
+  $parent_id = $_POST['parent_id'] ? $_POST['parent_id'] : NULL;
   $is_custom = isset($_POST['is_custom']) ? 1 : 0;
 
   // Connect to the database
@@ -46,9 +58,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 
   // Insert menu item
-  $sql = "INSERT INTO menu_items (title_sr, title_en, link_sr, link_en, `order`, is_custom) VALUES (?, ?, ?, ?, ?, ?)";
+  $sql = "INSERT INTO menu_items (title_sr, title_en, link_sr, link_en, `order`, parent_id, is_custom) VALUES (?, ?, ?, ?, ?, ?, ?)";
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param("ssssii", $title_sr, $title_en, $link_sr, $link_en, $order, $is_custom);
+  $stmt->bind_param("ssssiii", $title_sr, $title_en, $link_sr, $link_en, $order, $parent_id, $is_custom);
   if (!$stmt->execute()) {
     echo "Error: " . $stmt->error;
   }
@@ -95,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="title_en">Title (English)</label>
             <input type="text" class="form-control" id="title_en" name="title_en" required>
           </div>
-          <div class="form-group mb-4">
+          <div class="form-group">
             <label for="is_custom">Is Custom Link</label>
             <input type="checkbox" id="is_custom" name="is_custom" value="1">
           </div>
@@ -103,8 +115,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="link_sr">Link (Serbian)</label>
             <select class="form-control" id="link_sr" name="link_sr" required>
               <option value="">Select Page</option>
+              <option value="index.php">Home</option>
+              <option value="contact.php">Contact</option>
+              <option value="blog.php">Blog</option>
               <?php foreach ($pages_sr as $page) : ?>
-                <option value="<?php echo $page['slug']; ?>"><?php echo $page['title']; ?></option>
+                <option value="<?php echo htmlspecialchars($page['slug']); ?>"><?php echo htmlspecialchars($page['title']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
@@ -112,8 +127,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="link_en">Link (English)</label>
             <select class="form-control" id="link_en" name="link_en" required>
               <option value="">Select Page</option>
+              <option value="index.php">Home</option>
+              <option value="contact.php">Contact</option>
+              <option value="blog.php">Blog</option>
               <?php foreach ($pages_en as $page) : ?>
-                <option value="<?php echo $page['slug']; ?>"><?php echo $page['title']; ?></option>
+                <option value="<?php echo htmlspecialchars($page['slug']); ?>"><?php echo htmlspecialchars($page['title']); ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="parent_id">Parent Menu Item</label>
+            <select class="form-control" id="parent_id" name="parent_id">
+              <option value="">None</option>
+              <?php foreach ($menu_items as $item) : ?>
+                <option value="<?php echo $item['id']; ?>"><?php echo htmlspecialchars($item['title_sr']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
@@ -136,11 +163,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       const linkSr = document.getElementById('link_sr');
       const linkEn = document.getElementById('link_en');
       if (this.checked) {
-        linkSr.innerHTML = '<option value="">Select Page</option><option value="index.php">Početna</option><option value="blog.php">Blog</option><option value="contact.php">Kontakt</option>';
-        linkEn.innerHTML = '<option value="">Select Page</option><option value="index.php">Home</option><option value="blog.php">Blog</option><option value="contact.php">Contact</option>';
+        linkSr.innerHTML = '<option value="index.php">Home</option><option value="contact.php">Contact</option><option value="blog.php">Blog</option>';
+        linkEn.innerHTML = '<option value="index.php">Home</option><option value="contact.php">Contact</option><option value="blog.php">Blog</option>';
       } else {
-        linkSr.innerHTML = '<?php foreach ($pages_sr as $page) : ?><option value="<?php echo $page['slug']; ?>"><?php echo $page['title']; ?></option><?php endforeach; ?>';
-        linkEn.innerHTML = '<?php foreach ($pages_en as $page) : ?><option value="<?php echo $page['slug']; ?>"><?php echo $page['title']; ?></option><?php endforeach; ?>';
+        linkSr.innerHTML = '<?php foreach ($pages_sr as $page) : ?><option value="<?php echo htmlspecialchars($page['slug']); ?>"><?php echo htmlspecialchars($page['title']); ?></option><?php endforeach; ?>';
+        linkEn.innerHTML = '<?php foreach ($pages_en as $page) : ?><option value="<?php echo htmlspecialchars($page['slug']); ?>"><?php echo htmlspecialchars($page['title']); ?></option><?php endforeach; ?>';
       }
     });
   </script>
