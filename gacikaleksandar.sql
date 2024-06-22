@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 21, 2024 at 06:07 PM
--- Server version: 5.7.36
--- PHP Version: 7.4.26
+-- Generation Time: Jun 22, 2024 at 07:56 PM
+-- Server version: 8.3.0
+-- PHP Version: 8.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,14 +29,14 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `about`;
 CREATE TABLE IF NOT EXISTS `about` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `subtitle` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `content` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `link` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subtitle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `language` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'sr',
+  `language` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'sr',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -56,14 +56,14 @@ INSERT INTO `about` (`id`, `title`, `subtitle`, `content`, `link`, `image`, `cre
 
 DROP TABLE IF EXISTS `blog_posts`;
 CREATE TABLE IF NOT EXISTS `blog_posts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `article_group_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `content` text COLLATE utf8mb4_unicode_ci,
-  `category_id` int(11) NOT NULL,
-  `featured_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `language` enum('en','sr') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `article_group_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `category_id` int NOT NULL,
+  `featured_image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `language` enum('en','sr') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `published_date` date NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -90,7 +90,7 @@ INSERT INTO `blog_posts` (`id`, `article_group_id`, `title`, `content`, `categor
 
 DROP TABLE IF EXISTS `blog_section`;
 CREATE TABLE IF NOT EXISTS `blog_section` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `section_title` varchar(255) DEFAULT NULL,
   `section_subtitle` varchar(255) DEFAULT NULL,
   `section_title_en` varchar(255) DEFAULT NULL,
@@ -113,7 +113,7 @@ INSERT INTO `blog_section` (`id`, `section_title`, `section_subtitle`, `section_
 
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE IF NOT EXISTS `categories` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `category_group_id` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `featured_image` varchar(255) DEFAULT NULL,
@@ -134,19 +134,46 @@ INSERT INTO `categories` (`id`, `category_group_id`, `name`, `featured_image`, `
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `footer_items`
+--
+
+DROP TABLE IF EXISTS `footer_items`;
+CREATE TABLE IF NOT EXISTS `footer_items` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title_sr` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title_en` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `link_sr` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `link_en` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `menu` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order` int NOT NULL,
+  `is_custom` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `footer_items`
+--
+
+INSERT INTO `footer_items` (`id`, `title_sr`, `title_en`, `link_sr`, `link_en`, `menu`, `order`, `is_custom`) VALUES
+(1, 'Program 1', 'Program 1', 'novi-clanak-na-srpskom', 'new-post-in-english', 'information', 1, 0),
+(2, 'Plan ishrane', 'Nutrition plan', 'strana-na-srpskom', 'english-page', 'services', 1, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `menu_items`
 --
 
 DROP TABLE IF EXISTS `menu_items`;
 CREATE TABLE IF NOT EXISTS `menu_items` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title_sr` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `title_en` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `link_sr` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `link_en` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `order` int(11) NOT NULL DEFAULT '0',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title_sr` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title_en` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `link_sr` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `link_en` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order` int NOT NULL DEFAULT '0',
   `is_custom` tinyint(1) NOT NULL DEFAULT '0',
-  `parent_id` int(11) DEFAULT NULL,
+  `parent_id` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -170,12 +197,12 @@ INSERT INTO `menu_items` (`id`, `title_sr`, `title_en`, `link_sr`, `link_en`, `o
 
 DROP TABLE IF EXISTS `pages`;
 CREATE TABLE IF NOT EXISTS `pages` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `page_group_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `content` text COLLATE utf8mb4_unicode_ci,
-  `slug` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `language` enum('en','sr') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `page_group_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `slug` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `language` enum('en','sr') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -200,9 +227,9 @@ INSERT INTO `pages` (`id`, `page_group_id`, `title`, `content`, `slug`, `languag
 
 DROP TABLE IF EXISTS `pricing`;
 CREATE TABLE IF NOT EXISTS `pricing` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
-  `price` int(11) NOT NULL,
+  `price` int NOT NULL,
   `currency_symbol` varchar(10) NOT NULL,
   `frequency` varchar(50) NOT NULL,
   `features` text NOT NULL,
@@ -232,7 +259,7 @@ INSERT INTO `pricing` (`id`, `title`, `price`, `currency_symbol`, `frequency`, `
 
 DROP TABLE IF EXISTS `pricing_section`;
 CREATE TABLE IF NOT EXISTS `pricing_section` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `subtitle` varchar(255) NOT NULL,
   `content` text NOT NULL,
@@ -256,7 +283,7 @@ INSERT INTO `pricing_section` (`id`, `title`, `subtitle`, `content`, `language`)
 
 DROP TABLE IF EXISTS `programs`;
 CREATE TABLE IF NOT EXISTS `programs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `subtitle` varchar(255) NOT NULL,
   `icon` varchar(255) NOT NULL,
@@ -286,7 +313,7 @@ INSERT INTO `programs` (`id`, `title`, `subtitle`, `icon`, `link`, `content`, `l
 
 DROP TABLE IF EXISTS `services`;
 CREATE TABLE IF NOT EXISTS `services` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `icon` varchar(255) NOT NULL,
   `description` text NOT NULL,
@@ -317,7 +344,7 @@ INSERT INTO `services` (`id`, `title`, `icon`, `description`, `image`, `created_
 
 DROP TABLE IF EXISTS `services_section`;
 CREATE TABLE IF NOT EXISTS `services_section` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `section_title` varchar(255) DEFAULT NULL,
   `section_subtitle` varchar(255) DEFAULT NULL,
   `section_content` text,
@@ -341,12 +368,12 @@ INSERT INTO `services_section` (`id`, `section_title`, `section_subtitle`, `sect
 
 DROP TABLE IF EXISTS `sliders`;
 CREATE TABLE IF NOT EXISTS `sliders` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `subtitle` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `background_image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `link` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `language` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT 'en',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subtitle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `background_image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `language` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'en',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -369,13 +396,13 @@ INSERT INTO `sliders` (`id`, `title`, `subtitle`, `background_image`, `link`, `l
 
 DROP TABLE IF EXISTS `testimonials`;
 CREATE TABLE IF NOT EXISTS `testimonials` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `author_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `author_designation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `testimonial_text` text COLLATE utf8mb4_unicode_ci,
-  `rating` int(11) DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `author_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `author_designation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `testimonial_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `rating` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `language` varchar(5) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `language` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -399,10 +426,10 @@ INSERT INTO `testimonials` (`id`, `author_name`, `author_designation`, `testimon
 
 DROP TABLE IF EXISTS `testimonial_section`;
 CREATE TABLE IF NOT EXISTS `testimonial_section` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `section_title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `section_subtitle` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `language` varchar(5) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `section_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `section_subtitle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `language` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -422,7 +449,7 @@ INSERT INTO `testimonial_section` (`id`, `section_title`, `section_subtitle`, `l
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(100) NOT NULL,
