@@ -1,3 +1,19 @@
+<?php
+require 'config.php';
+
+// Fetch footer items from the database
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+$sql = "SELECT title_sr, title_en, link_sr, link_en, is_custom, menu FROM footer_items ORDER BY `order`";
+$result = $conn->query($sql);
+$footer_items = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $footer_items[$row['menu']][] = $row;
+    }
+}
+$conn->close();
+?>
+
 <footer class="footer site-footer">
     <div class="pbmit-footer-widget-area">
         <div class="container">
@@ -12,37 +28,39 @@
                 </div>
                 <div class="footer-widget-col-2">
                     <div class="widget">
-                        <h3 class="widget-title">Information</h3>
+                        <h3 class="widget-title"><?php echo $lang == 'en' ? 'Information' : 'Informacije'; ?></h3>
                         <div class="textwidget">
                             <ul>
-                                <li><a href="../about-us.html">About Us</a></li>
-                                <li><a href="../portfolio-style-1.html">Clients</a></li>
-                                <li><a href="../contacts.html">Privacy policy</a></li>
-                                <li><a href="../contacts.html">Customer</a></li>
+                                <?php if (isset($footer_items['information'])) : ?>
+                                    <?php foreach ($footer_items['information'] as $item) : ?>
+                                        <li><a href="<?php echo $lang == 'en' ? $item['link_en'] : $item['link_sr']; ?>"><?php echo $lang == 'en' ? $item['title_en'] : $item['title_sr']; ?></a></li>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="footer-widget-col-3">
                     <div class="widget">
-                        <h2 class="widget-title">Our Services</h2>
+                        <h3 class="widget-title"><?php echo $lang == 'en' ? 'Our Services' : 'Naše Usluge'; ?></h3>
                         <div class="textwidget">
                             <ul>
-                                <li><a href="../classes-details.html">Psycho Training</a></li>
-                                <li><a href="../classes-details.html">Self Defense</a></li>
-                                <li><a href="../classes-details.html">Fitness For Man</a></li>
-                                <li><a href="../classes-details.html">Strength Training</a></li>
+                                <?php if (isset($footer_items['services'])) : ?>
+                                    <?php foreach ($footer_items['services'] as $item) : ?>
+                                        <li><a href="<?php echo $lang == 'en' ? $item['link_en'] : $item['link_sr']; ?>"><?php echo $lang == 'en' ? $item['title_en'] : $item['title_sr']; ?></a></li>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="footer-widget-col-4">
                     <div class="widget">
-                        <h2 class="widget-title">Subscribe us</h2>
+                        <h3 class="widget-title"><?php echo $lang == 'en' ? 'Subscribe Us' : 'Pretplatite se'; ?></h3>
                         <div class="textwidget">
                             <form>
                                 <input type="email" name="EMAIL" placeholder="Email address" required="">
-                                <button type="submit">Subscribe</button>
+                                <button type="submit"><?php echo $lang == 'en' ? 'Subscribe' : 'Pretplati se'; ?></button>
                             </form>
                         </div>
                     </div>
@@ -79,12 +97,12 @@
                             <div class="pbmit-social-links-wrapper">
                                 <ul class="social-icons mt-3">
                                     <li class="pbmit-social-facebook">
-                                        <a class=" tooltip-top" target="_blank" href="https://www.facebook.com/gacik.alexandar.5" data-tooltip="Facebook" rel="noopener">
+                                        <a class="tooltip-top" target="_blank" href="https://www.facebook.com/gacik.alexandar.5" data-tooltip="Facebook" rel="noopener">
                                             <i class="pbmit-base-icon-facebook"></i>
                                         </a>
                                     </li>
                                     <li class="pbmit-social-instagram">
-                                        <a class=" tooltip-top" target="_blank" href="https://www.instagram.com/garejiujitsu/" data-tooltip="Instagram" rel="noopener">
+                                        <a class="tooltip-top" target="_blank" href="https://www.instagram.com/garejiujitsu/" data-tooltip="Instagram" rel="noopener">
                                             <i class="pbmit-base-icon-instagram"></i>
                                         </a>
                                     </li>

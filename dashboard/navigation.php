@@ -16,6 +16,12 @@
                     Header
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="view_footer_items.php">
+                    <i class="fa fa-list-alt"></i>
+                    Footer
+                </a>
+            </li>
             <li class="nav-item my-2 py-2 px-3 bg-primary text-white">
                 Blog
             </li>
