@@ -133,29 +133,27 @@ $menu_tree = buildMenuTree($menu_items);
 <script>
     function updateLanguage(lang) {
         document.cookie = "lang=" + lang + "; path=/; max-age=" + (86400 * 30);
-        var currentPath = window.location.pathname.split("/").pop();
 
-        // Check if currentPath matches a content slug
-        if (currentPath && currentPath !== 'index.php') {
-            // Make an AJAX request to fetch the corresponding content slug for the selected language
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'get_corresponding_content.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    if (response.success) {
-                        window.location.href = '/' + response.slug;
-                    } else {
-                        // If no corresponding content, reload the page to change language
-                        location.reload();
-                    }
+        var currentPath = window.location.pathname;
+        var currentSlug = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+
+        // Make an AJAX request to fetch the corresponding content slug for the selected language
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'get_corresponding_content.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    var newSlug = response.slug;
+                    var newPath = currentPath.replace(currentSlug, newSlug);
+                    window.location.href = newPath;
+                } else {
+                    // If no corresponding content, reload the page to change language
+                    location.reload();
                 }
-            };
-            xhr.send('currentSlug=' + encodeURIComponent(currentPath) + '&lang=' + encodeURIComponent(lang));
-        } else {
-            // If not a content page, reload to change language
-            location.reload();
-        }
+            }
+        };
+        xhr.send('currentSlug=' + encodeURIComponent(currentSlug) + '&lang=' + encodeURIComponent(lang));
     }
 </script>
