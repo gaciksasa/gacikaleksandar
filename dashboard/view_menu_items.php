@@ -47,6 +47,7 @@ $conn->close();
           <h1 class="h2">View Header Items</h1>
           <a href="add_menu_item.php" class="btn btn-primary">Add Menu Item</a>
         </div>
+
         <div class="table-responsive">
           <table class="table table-striped table-sm">
             <thead>
@@ -64,16 +65,16 @@ $conn->close();
             <tbody>
               <?php foreach ($menu_items as $item) : ?>
                 <tr>
-                  <td><?php echo htmlspecialchars($item['id']); ?></td>
-                  <td><?php echo htmlspecialchars($item['title_sr']); ?></td>
-                  <td><?php echo htmlspecialchars($item['title_en']); ?></td>
-                  <td><?php echo htmlspecialchars($item['link_sr']); ?></td>
-                  <td><?php echo htmlspecialchars($item['link_en']); ?></td>
-                  <td><?php echo htmlspecialchars($item['order']); ?></td>
-                  <td><?php echo htmlspecialchars($item['parent_id']); ?></td>
+                  <td><?php echo htmlspecialchars($item['id'] ?? ''); ?></td>
+                  <td><?php echo htmlspecialchars($item['title_sr'] ?? ''); ?></td>
+                  <td><?php echo htmlspecialchars($item['title_en'] ?? ''); ?></td>
+                  <td><?php echo htmlspecialchars($item['link_sr'] ?? ''); ?></td>
+                  <td><?php echo htmlspecialchars($item['link_en'] ?? ''); ?></td>
+                  <td><?php echo htmlspecialchars($item['order'] ?? ''); ?></td>
+                  <td><?php echo htmlspecialchars($item['parent_id'] ?? ''); ?></td>
                   <td>
-                    <a href="edit_menu_item.php?id=<?php echo $item['id']; ?>" class="btn btn-sm btn-primary">Edit</a>
-                    <a href="delete_menu_item.php?id=<?php echo $item['id']; ?>" class="btn btn-sm btn-danger">Delete</a>
+                    <a href="edit_menu_item.php?id=<?php echo htmlspecialchars($item['id']); ?>" class="btn btn-sm btn-primary">Edit</a>
+                    <a href="delete_menu_item.php?id=<?php echo htmlspecialchars($item['id']); ?>" class="btn btn-sm btn-danger">Delete</a>
                   </td>
                 </tr>
               <?php endforeach; ?>
