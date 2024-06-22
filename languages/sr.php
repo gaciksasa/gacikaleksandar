@@ -10,6 +10,7 @@ return [
     'about' => 'O meni',
     'programs' => 'Programi',
     'contact' => 'Kontakt',
+    'site-title' => 'Personalni trener',
     'contact-title' => 'Kontakt',
     'contact-subtitle' => 'Kako do mene?',
     'contact-address' => 'Adresa',
