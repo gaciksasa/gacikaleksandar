@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="text" class="form-control" id="subtitle" name="subtitle" required>
           </div>
           <div class="form-group">
-            <label for="background_image">Background Image</label>
+            <label for="background_image">Background Image (1900x900)</label>
             <input type="file" class="form-control" id="background_image" name="background_image" required>
           </div>
           <div class="form-group">

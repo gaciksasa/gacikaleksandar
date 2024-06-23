@@ -120,7 +120,7 @@ $conn->close();
             <textarea class="form-control" id="description" name="description" rows="3"><?php echo htmlspecialchars($description); ?></textarea>
           </div>
           <div class="form-group">
-            <label for="image">Image</label>
+            <label for="image">Featured image (800x800)</label>
             <input type="file" class="form-control" id="image" name="image">
             <?php if ($image) : ?>
               <img src="../<?php echo htmlspecialchars($image); ?>" alt="Service Image" style="max-width: 200px;">
@@ -130,7 +130,7 @@ $conn->close();
             <label for="link">Link</label>
             <input type="text" class="form-control" id="link" name="link" value="<?php echo htmlspecialchars($link); ?>" required>
           </div>
-          <button type="submit" class="btn btn-primary">Update Service</button>
+          <button type="submit" class="btn btn-primary mb-4">Update Service</button>
         </form>
       </main>
       <!-- Main Content End -->

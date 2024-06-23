@@ -135,7 +135,7 @@ if ($categories_result->num_rows > 0) {
                         <label for="content_sr">Content (Serbian)</label>
                         <textarea class="form-control" id="content_sr" name="content_sr" required><?php echo htmlspecialchars($articles['sr']['content']); ?></textarea>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mt-4">
                         <label for="category_id_sr">Category (Serbian)</label>
                         <select class="form-control" id="category_id_sr" name="category_id_sr" required>
                             <?php foreach ($categories as $id => $name) : ?>
@@ -155,7 +155,7 @@ if ($categories_result->num_rows > 0) {
                         <label for="content_en">Content (English)</label>
                         <textarea class="form-control" id="content_en" name="content_en" required><?php echo htmlspecialchars($articles['en']['content']); ?></textarea>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mt-4">
                         <label for="category_id_en">Category (English)</label>
                         <select class="form-control" id="category_id_en" name="category_id_en" required>
                             <?php foreach ($categories as $id => $name) : ?>
@@ -168,7 +168,7 @@ if ($categories_result->num_rows > 0) {
                         <input type="date" class="form-control" id="published_date_en" name="published_date_en" value="<?php echo htmlspecialchars($articles['en']['published_date']); ?>" required>
                     </div>
                     <div class="form-group">
-                        <label for="featured_image">Featured Image</label>
+                        <label for="featured_image">Featured Image (1200x1000)</label>
                         <input type="file" class="form-control" id="featured_image" name="featured_image" accept="image/*">
                         <?php if ($articles['sr']['featured_image']) : ?>
                             <img src="../<?php echo htmlspecialchars($articles['sr']['featured_image']); ?>" class="img-fluid mt-2" alt="Featured Image">

@@ -100,13 +100,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <input type="text" class="form-control" id="name_en" name="name_en" value="<?php echo htmlspecialchars($categories['en']['name']); ?>" required>
                     </div>
                     <div class="form-group">
-                        <label for="featured_image">Featured Image</label>
+                        <label for="featured_image">Featured Image (1900x900)</label>
                         <input type="file" class="form-control" id="featured_image" name="featured_image" accept="image/*">
                         <?php if ($categories['sr']['featured_image']) : ?>
                             <img src="../<?php echo htmlspecialchars($categories['sr']['featured_image']); ?>" class="img-fluid mt-2" alt="Featured Image">
                         <?php endif; ?>
                     </div>
-                    <button type="submit" class="btn btn-primary mt-4">Update</button>
+                    <button type="submit" class="btn btn-primary my-4">Update category</button>
                 </form>
             </main>
             <!-- Main Content End -->

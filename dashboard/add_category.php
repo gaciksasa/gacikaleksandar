@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <input type="text" class="form-control" id="name_en" name="name_en" required>
                     </div>
                     <div class="form-group">
-                        <label for="featured_image">Featured Image</label>
+                        <label for="featured_image">Featured Image (1900x900)</label>
                         <input type="file" class="form-control" id="featured_image" name="featured_image" accept="image/*">
                     </div>
                     <button type="submit" class="btn btn-primary">Add</button>
