@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 22, 2024 at 07:56 PM
+-- Generation Time: Jun 22, 2024 at 08:40 PM
 -- Server version: 8.3.0
 -- PHP Version: 8.2.18
 
@@ -45,8 +45,8 @@ CREATE TABLE IF NOT EXISTS `about` (
 --
 
 INSERT INTO `about` (`id`, `title`, `subtitle`, `content`, `link`, `image`, `created_at`, `language`) VALUES
-(2, 'Why choose us? Because we are the best!', 'Know About Me', '<p>Hello! I\'m Aleksandar Gacik, a dedicated personal trainer specializing in nutrition and strength plans. I offer comprehensive training that combines fitness, nutrition, and martial arts. My mission is to help you achieve your health and fitness goals through customized programs and expert guidance.</p>', 'about-me', 'gacik-aleksandar-square.jpg', '2024-06-08 18:51:38', 'en'),
-(3, 'ZaÅ¡to odabrati nas? zato Å¡to smo najbolji!', 'Saznajte viÅ¡e', '<p>Zdravo! Ja sam Aleksandar Gacik, posveÄ‡eni personalni trener specijalizovan za planove ishrane i treninga snage. Nudim sveobuhvatne treninge koji kombinuju fitnes, ishranu i borilaÄke ve&scaron;tine. Moja misija je da vam pomognem da postignete svoje zdravstvene i fitnes ciljeve kroz prilagoÄ‘ene programe i struÄne savete.</p>', 'o-meni', 'gacik-aleksandar-square.jpg', '2024-06-08 18:51:38', 'sr');
+(2, 'Personal trainer with specialized skills', 'Know About Me', '<p>Hello! I\'m Aleksandar Gacik, a dedicated personal trainer specializing in nutrition and strength plans. I offer comprehensive training that combines fitness, nutrition, and martial arts. My mission is to help you achieve your health and fitness goals through customized programs and expert guidance.</p>', 'about-me', 'gacik-aleksandar-square.jpg', '2024-06-08 18:51:38', 'en'),
+(3, 'Personalni trener sa specijalizovanim veštinama ', 'Saznajte više', '<p>Zdravo! Ja sam Aleksandar Gacik, posvećeni personalni trener specijalizovan za planove ishrane i treninga snage. Nudim sveobuhvatne treninge koji kombinuju fitnes, ishranu i borilačke ve&scaron;tine. Moja misija je da vam pomognem da postignete svoje zdravstvene i fitnes ciljeve kroz prilagođene programe i struče savete.</p>', 'o-meni', 'gacik-aleksandar-square.jpg', '2024-06-08 18:51:38', 'sr');
 
 -- --------------------------------------------------------
 
@@ -91,12 +91,12 @@ INSERT INTO `blog_posts` (`id`, `article_group_id`, `title`, `content`, `categor
 DROP TABLE IF EXISTS `blog_section`;
 CREATE TABLE IF NOT EXISTS `blog_section` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `section_title` varchar(255) DEFAULT NULL,
-  `section_subtitle` varchar(255) DEFAULT NULL,
-  `section_title_en` varchar(255) DEFAULT NULL,
-  `section_subtitle_en` varchar(255) DEFAULT NULL,
+  `section_title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `section_subtitle` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `section_title_en` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `section_subtitle_en` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `blog_section`
@@ -114,12 +114,12 @@ INSERT INTO `blog_section` (`id`, `section_title`, `section_subtitle`, `section_
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE IF NOT EXISTS `categories` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `category_group_id` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `featured_image` varchar(255) DEFAULT NULL,
-  `language` varchar(10) NOT NULL DEFAULT 'en',
+  `category_group_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `featured_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `language` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'en',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `categories`
@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `menu_items` (
 --
 
 INSERT INTO `menu_items` (`id`, `title_sr`, `title_en`, `link_sr`, `link_en`, `order`, `is_custom`, `parent_id`) VALUES
-(1, 'PoÄetna', 'Home', 'index.php', 'index.php', 1, 1, NULL),
+(1, 'Početna', 'Home', 'index.php', 'index.php', 1, 1, NULL),
 (2, 'Kontakt', 'Contact', 'contact.php', 'contact.php', 5, 1, NULL),
 (3, 'Blog', 'Blog', 'blog.php', 'blog.php', 4, 1, NULL),
 (4, 'O meni', 'About me', 'o-meni', 'about-me', 2, 0, NULL),
@@ -216,8 +216,8 @@ CREATE TABLE IF NOT EXISTS `pages` (
 INSERT INTO `pages` (`id`, `page_group_id`, `title`, `content`, `slug`, `language`, `created_at`, `updated_at`) VALUES
 (1, '6670a96a53639', 'strana na srpskom', '<p>asd asdas dasdasdas dasd</p>', 'strana-na-srpskom', 'sr', '2024-06-17 21:23:54', '2024-06-18 11:11:23'),
 (2, '6670a96a53639', 'English page', '<p>sd asdasd adasdasdasdassd asdasd adasdasdasdassd asdasd adasdasdasdassd asdasd adasdasdasdassd asdasd adasdasdasdassd asdasd adasdasdasdassd asdasd adasdasdasdas</p>', 'english-page', 'en', '2024-06-17 21:23:54', '2024-06-18 11:11:23'),
-(5, '6673f31373020', 'O meni', '<p>Zdravo, ja sam Aleksandar Gacik, sertifikovani liÄni trener sa preko 10 godina iskustva. Posedujem sertifikate Konzulat Fitnessa i specijalizovan sam za personalni trening i savetovanje o ishrani. Moja misija je da vam pomognem da postignete svoje fitnes ciljeve kroz prilagoÄ‘ene planove veÅ¾banja i smernice za ishranu. Fitnes je oduvek bio moja strast i volim da pomaÅ¾em drugima da otkriju prednosti zdravog naÄina Å¾ivota.</p>\r\n<h4>LiÄna priÄa</h4>\r\n<p>ZapoÄeo sam svoje fitnes putovanje pre 15 godina, borecÌi se sa sopstvenim problemima sa teÅ¾inom. Kroz posvecÌenost i pravo voÄ‘stvo, transformisao sam svoje telo i um. Sada sam tu da vam pomognem da uradite isto.</p>\r\n<h4>Filozofija</h4>\r\n<p>Verujem u holistiÄki pristup fitnesu, fokusirajucÌi se ne samo na veÅ¾banje vecÌ i na ishranu, mentalno zdravlje i op&scaron;te blagostanje. Moja filozofija treninga se vrti oko doslednosti, motivacije i pozitivnog naÄina razmi&scaron;ljanja.</p>', 'o-meni', 'sr', '2024-06-20 09:14:59', '2024-06-20 09:16:04'),
-(6, '6673f31373020', 'About me', '<p>Hi, I\'m Aleksandar Gacik, a certified personal trainer with over 10 years of experience. I hold certifications from Konzulat Fitness, and I specialize in personal training and nutrition counseling. My mission is to help you achieve your fitness goals through customized workout plans and nutritional guidance. Fitness has always been my passion, and I love helping others discover the benefits of a healthy lifestyle.</p>\r\n<h4>Personal story</h4>\r\n<p>I started my fitness journey 15 years ago, struggling with my own weight issues. Through dedication and the right guidance, I transformed my body and mind. Now, I&rsquo;m here to help you do the same.</p>\r\n<h4>Philosophy&nbsp;</h4>\r\n<p>I believe in a holistic approach to fitness, focusing not just on exercise but also on nutrition, mental health, and overall well-being. My training philosophy revolves around consistency, motivation, and a positive mindset.</p>', 'about-me', 'en', '2024-06-20 09:14:59', '2024-06-20 09:16:04');
+(5, '6673f31373020', 'O meni', '<p>Zdravo, ja sam Aleksandar Gacik, sertifikovani lični trener sa preko 10 godina iskustva. Posedujem sertifikate Konzulat Fitnessa i specijalizovan sam za personalni trening i savetovanje o ishrani. Moja misija je da vam pomognem da postignete svoje fitnes ciljeve kroz prilagožene planove vežbanja i smernice za ishranu. Fitnes je oduvek bio moja strast i volim da pomažem drugima da otkriju prednosti zdravog načina života.</p>\r\n<h4>Lična priča</h4>\r\n<p>Započeo sam svoje fitnes putovanje pre 15 godina, boreći se sa sopstvenim problemima sa težinom. Kroz posvećenost i pravo vođstvo, transformisao sam svoje telo i um. Sada sam tu da vam pomognem da uradite isto.</p>\r\n<h4>Filozofija</h4>\r\n<p>Verujem u holistički pristup fitnesu, fokusirajući se ne samo na vežbanje već i na ishranu, mentalno zdravlje i op&scaron;te blagostanje. Moja filozofija treninga se vrti oko doslednosti, motivacije i pozitivnog načina razmi&scaron;ljanja.</p>', 'o-meni', 'sr', '2024-06-20 09:14:59', '2024-06-22 20:33:22'),
+(6, '6673f31373020', 'About me', '<p>Hi, I\'m Aleksandar Gacik, a certified personal trainer with over 10 years of experience. I hold certifications from Konzulat Fitness, and I specialize in personal training and nutrition counseling. My mission is to help you achieve your fitness goals through customized workout plans and nutritional guidance. Fitness has always been my passion, and I love helping others discover the benefits of a healthy lifestyle.</p>\r\n<h4>Personal story</h4>\r\n<p>I started my fitness journey 15 years ago, struggling with my own weight issues. Through dedication and the right guidance, I transformed my body and mind. Now, I&rsquo;m here to help you do the same.</p>\r\n<h4>Philosophy&nbsp;</h4>\r\n<p>I believe in a holistic approach to fitness, focusing not just on exercise but also on nutrition, mental health, and overall well-being. My training philosophy revolves around consistency, motivation, and a positive mindset.</p>', 'about-me', 'en', '2024-06-20 09:14:59', '2024-06-22 20:33:22');
 
 -- --------------------------------------------------------
 
@@ -228,16 +228,16 @@ INSERT INTO `pages` (`id`, `page_group_id`, `title`, `content`, `slug`, `languag
 DROP TABLE IF EXISTS `pricing`;
 CREATE TABLE IF NOT EXISTS `pricing` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `price` int NOT NULL,
-  `currency_symbol` varchar(10) NOT NULL,
-  `frequency` varchar(50) NOT NULL,
-  `features` text NOT NULL,
+  `currency_symbol` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `frequency` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `features` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_featured` tinyint(1) NOT NULL,
-  `link` varchar(255) NOT NULL,
-  `language` varchar(2) NOT NULL DEFAULT 'sr',
+  `link` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `language` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'sr',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `pricing`
@@ -260,12 +260,12 @@ INSERT INTO `pricing` (`id`, `title`, `price`, `currency_symbol`, `frequency`, `
 DROP TABLE IF EXISTS `pricing_section`;
 CREATE TABLE IF NOT EXISTS `pricing_section` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `subtitle` varchar(255) NOT NULL,
-  `content` text NOT NULL,
-  `language` varchar(2) NOT NULL DEFAULT 'sr',
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subtitle` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `language` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'sr',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `pricing_section`
@@ -284,14 +284,14 @@ INSERT INTO `pricing_section` (`id`, `title`, `subtitle`, `content`, `language`)
 DROP TABLE IF EXISTS `programs`;
 CREATE TABLE IF NOT EXISTS `programs` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `subtitle` varchar(255) NOT NULL,
-  `icon` varchar(255) NOT NULL,
-  `link` varchar(255) NOT NULL,
-  `content` text NOT NULL,
-  `language` varchar(2) NOT NULL DEFAULT 'sr',
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subtitle` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `icon` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `link` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `language` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'sr',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `programs`
@@ -314,15 +314,15 @@ INSERT INTO `programs` (`id`, `title`, `subtitle`, `icon`, `link`, `content`, `l
 DROP TABLE IF EXISTS `services`;
 CREATE TABLE IF NOT EXISTS `services` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `icon` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `image` varchar(255) NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `icon` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `link` varchar(255) NOT NULL,
-  `language` varchar(2) DEFAULT 'sr',
+  `link` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `language` varchar(2) COLLATE utf8mb4_unicode_ci DEFAULT 'sr',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `services`
@@ -345,12 +345,12 @@ INSERT INTO `services` (`id`, `title`, `icon`, `description`, `image`, `created_
 DROP TABLE IF EXISTS `services_section`;
 CREATE TABLE IF NOT EXISTS `services_section` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `section_title` varchar(255) DEFAULT NULL,
-  `section_subtitle` varchar(255) DEFAULT NULL,
-  `section_content` text,
-  `language` varchar(2) DEFAULT 'sr',
+  `section_title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `section_subtitle` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `section_content` mediumtext COLLATE utf8mb4_unicode_ci,
+  `language` varchar(2) COLLATE utf8mb4_unicode_ci DEFAULT 'sr',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `services_section`
@@ -415,7 +415,7 @@ INSERT INTO `testimonials` (`id`, `author_name`, `author_designation`, `testimon
 (2, 'Jovana S.', 'Journalist', 'Fitness Gym isnï¿½t anything like a regular chain gym. The gym also has amazing equipment that you donï¿½t find in most gyms like Kettlebells, challeng battle ropes and sledges.', 4, '2024-05-25 20:12:43', 'en'),
 (4, 'Milica', 'Model', 'Fitness Within is an amazing gym and community of trainers and clients that all want one thingâ€¦.to be the best version of themselves! Workouts, nutrition plans, everything is tailored to your body and current fitness journey! I came in with back and shoulder issues.', 5, '2024-05-26 10:46:07', 'en'),
 (5, 'Marta', 'IT struÄnjak', 'Treniram veÄ‡ nekoliko meseci i prezadovoljna sam rezultatima. Ne samo Å¡to sam konaÄno uspela da skinem kilograme, veÄ‡ sam uz pomoÄ‡ treninga znatno popravila svoje najbolje vreme na polumaratonu! Sve preporuke za Aleksandra!', 5, '2024-06-10 16:02:03', 'sr'),
-(6, 'Mirjana KostiÄ‡', 'HR menadÅ¾erka', 'Sa Aleksandrom sam shvatila vaÅ¾nost pravilne ishrane i njen uticaj na zdravlje! Skinula sam 12 kg za 3 meseca i prezadovoljna sam!', 5, '2024-06-10 16:27:22', 'sr'),
+(6, 'Mirjana Kostić', 'HR menadžerka', 'Sa Aleksandrom sam shvatila važnost pravilne ishrane i njen uticaj na zdravlje! Skinula sam 12 kg za 3 meseca i prezadovoljna sam!', 5, '2024-06-10 16:27:22', 'sr'),
 (7, 'Katarina', 'studentkinja', 'Sve preporuke za rad sa Aleksandrom! Njegova struÄnost i posveÄ‡enost su na najviÅ¡em nivou!', 5, '2024-06-10 16:28:56', 'sr');
 
 -- --------------------------------------------------------
@@ -439,7 +439,7 @@ CREATE TABLE IF NOT EXISTS `testimonial_section` (
 
 INSERT INTO `testimonial_section` (`id`, `section_title`, `section_subtitle`, `language`) VALUES
 (1, 'WHAT OUR CLIENTS SAY ABOUT US', 'OUR TESTIMONIALS', 'en'),
-(2, 'Å ta kaÅ¾u naÅ¡i veÅ¾baÄi', 'ocene iz prve ruke', 'sr');
+(2, 'Šta kažu naši vežbači', 'ocene iz prve ruke', 'sr');
 
 -- --------------------------------------------------------
 

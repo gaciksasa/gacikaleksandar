@@ -1,15 +1,13 @@
 <?php
 require 'config.php'; // Include the config file at the very beginning
 
-// Redirect to the same page to set the cookie if it was not already set
-if (!isset($_COOKIE['lang'])) {
-	setcookie('lang', 'sr', time() + (86400 * 30), "/"); // Set default language to Serbian
-	header("Location: index.php");
-	exit();
+$lang = 'sr'; // Default language
+if (isset($_COOKIE['lang'])) {
+	$lang = $_COOKIE['lang'];
 }
 ?>
 <!doctype html>
-<html class="no-js" lang="en">
+<html lang="sr">
 
 <head>
 	<meta charset="utf-8">

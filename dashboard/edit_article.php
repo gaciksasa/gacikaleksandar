@@ -92,7 +92,7 @@ if ($categories_result->num_rows > 0) {
 ?>
 
 <!doctype html>
-<html lang="en">
+<html lang="sr">
 
 <head>
     <meta charset="utf-8">

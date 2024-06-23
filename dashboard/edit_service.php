@@ -65,7 +65,7 @@ $conn->close();
 ?>
 
 <!doctype html>
-<html lang="en">
+<html lang="sr">
 
 <head>
   <meta charset="utf-8">
