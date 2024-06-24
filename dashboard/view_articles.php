@@ -102,7 +102,7 @@ $conn->close();
 
                 <!-- Section Details Form -->
                 <div class="mb-3">
-                    <form method="POST" action="articles.php">
+                    <form method="POST" action="view_articles.php">
                         <button type="submit" class="btn btn-primary mb-3" name="save_section">Save Section</button>
                         <div class="form-group">
                             <label for="section_subtitle">Section Subtitle (Serbian)</label>

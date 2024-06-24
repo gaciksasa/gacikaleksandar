@@ -15,14 +15,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Handle file upload
     if (!empty($_FILES['featured_image']['name'])) {
-        $target_dir = "uploads/";
+        $target_dir = "uploads/"; // Ensure this directory exists and is writable
         $target_file = $target_dir . basename($_FILES["featured_image"]["name"]);
-        if (move_uploaded_file($_FILES["featured_image"]["tmp_name"], $target_file)) {
+        if (move_uploaded_file($_FILES["featured_image"]["tmp_name"], "../" . $target_file)) {
             $featured_image = $target_file;
         } else {
             echo "Sorry, there was an error uploading your file.";
         }
     }
+
+    // Debugging: Check if the file path is correct
+    echo "Featured Image Path: " . $featured_image;
 
     // Connect to the database
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -38,14 +41,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Insert category in Serbian
     $sql = "INSERT INTO categories (category_group_id, name, featured_image, language) VALUES (?, ?, ?, 'sr')";
     $stmt = $conn->prepare($sql);
+    if ($stmt === false) {
+        die('Prepare failed: ' . $conn->error);
+    }
     $stmt->bind_param("sss", $category_group_id, $name_sr, $featured_image);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        die('Execute failed: ' . $stmt->error);
+    }
 
     // Insert category in English
     $sql = "INSERT INTO categories (category_group_id, name, featured_image, language) VALUES (?, ?, ?, 'en')";
     $stmt = $conn->prepare($sql);
+    if ($stmt === false) {
+        die('Prepare failed: ' . $conn->error);
+    }
     $stmt->bind_param("sss", $category_group_id, $name_en, $featured_image);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        die('Execute failed: ' . $stmt->error);
+    }
 
     $stmt->close();
     $conn->close();

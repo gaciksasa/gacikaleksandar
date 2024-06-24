@@ -37,9 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Handle file upload
     if (!empty($_FILES['featured_image']['name'])) {
-        $target_dir = "../uploads/";
+        $target_dir = "uploads/"; // Ensure this directory exists and is writable
         $target_file = $target_dir . basename($_FILES["featured_image"]["name"]);
-        if (move_uploaded_file($_FILES["featured_image"]["tmp_name"], $target_file)) {
+        if (move_uploaded_file($_FILES["featured_image"]["tmp_name"], "../" . $target_file)) {
             $featured_image = $target_file;
         } else {
             echo "Sorry, there was an error uploading your file.";
@@ -49,14 +49,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Update category in Serbian
     $sql = "UPDATE categories SET name = ?, featured_image = ? WHERE category_group_id = ? AND language = 'sr'";
     $stmt = $conn->prepare($sql);
+    if ($stmt === false) {
+        die('Prepare failed: ' . $conn->error);
+    }
     $stmt->bind_param("sss", $name_sr, $featured_image, $category_group_id);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        die('Execute failed: ' . $stmt->error);
+    }
 
     // Update category in English
     $sql = "UPDATE categories SET name = ?, featured_image = ? WHERE category_group_id = ? AND language = 'en'";
     $stmt = $conn->prepare($sql);
+    if ($stmt === false) {
+        die('Prepare failed: ' . $conn->error);
+    }
     $stmt->bind_param("sss", $name_en, $featured_image, $category_group_id);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        die('Execute failed: ' . $stmt->error);
+    }
 
     $stmt->close();
     $conn->close();

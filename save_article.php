@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_FILES['featured_image']) && $_FILES['featured_image']['error'] == 0) {
         $target_dir = "uploads/";
         $target_file = $target_dir . basename($_FILES["featured_image"]["name"]);
-        
+
         // Check if directory exists and is writable
         if (!is_dir($target_dir) || !is_writable($target_dir)) {
             die("Error: Upload directory is not writable.");
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
 
-        header("Location: articles.php");
+        header("Location: view_articles.php");
         exit;
     } else {
         echo "Error executing statement: " . $stmt->error;
@@ -73,4 +73,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->close();
     $conn->close();
 }
-?>
