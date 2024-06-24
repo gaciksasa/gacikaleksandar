@@ -27,18 +27,18 @@ $section_sql = "SELECT section_title, section_subtitle, section_title_en, sectio
 $section_result = $conn->query($section_sql);
 if ($section_result && $section_result->num_rows > 0) {
     $section = $section_result->fetch_assoc();
-    $section_title = $section['section_title'];
-    $section_subtitle = $section['section_subtitle'];
-    $section_title_en = $section['section_title_en'];
-    $section_subtitle_en = $section['section_subtitle_en'];
+    $section_title = $section['section_title'] ?? '';
+    $section_subtitle = $section['section_subtitle'] ?? '';
+    $section_title_en = $section['section_title_en'] ?? '';
+    $section_subtitle_en = $section['section_subtitle_en'] ?? '';
 }
 
 // Handle form submission for updating section details
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_section'])) {
-    $section_title = $_POST['section_title'];
-    $section_subtitle = $_POST['section_subtitle'];
-    $section_title_en = $_POST['section_title_en'];
-    $section_subtitle_en = $_POST['section_subtitle_en'];
+    $section_title = $_POST['section_title'] ?? '';
+    $section_subtitle = $_POST['section_subtitle'] ?? '';
+    $section_title_en = $_POST['section_title_en'] ?? '';
+    $section_subtitle_en = $_POST['section_subtitle_en'] ?? '';
 
     // Update section details
     if ($section_result->num_rows > 0) {
@@ -106,19 +106,19 @@ $conn->close();
                         <button type="submit" class="btn btn-primary mb-3" name="save_section">Save Section</button>
                         <div class="form-group">
                             <label for="section_subtitle">Section Subtitle (Serbian)</label>
-                            <input type="text" class="form-control" id="section_subtitle" name="section_subtitle" value="<?php echo htmlspecialchars($section_subtitle); ?>">
+                            <input type="text" class="form-control" id="section_subtitle" name="section_subtitle" value="<?php echo htmlspecialchars($section_subtitle ?? ''); ?>">
                         </div>
                         <div class="form-group">
                             <label for="section_title">Section Title (Serbian)</label>
-                            <input type="text" class="form-control" id="section_title" name="section_title" value="<?php echo htmlspecialchars($section_title); ?>">
+                            <input type="text" class="form-control" id="section_title" name="section_title" value="<?php echo htmlspecialchars($section_title ?? ''); ?>">
                         </div>
                         <div class="form-group">
                             <label for="section_subtitle_en">Section Subtitle (English)</label>
-                            <input type="text" class="form-control" id="section_subtitle_en" name="section_subtitle_en" value="<?php echo htmlspecialchars($section_subtitle_en); ?>">
+                            <input type="text" class="form-control" id="section_subtitle_en" name="section_subtitle_en" value="<?php echo htmlspecialchars($section_subtitle_en ?? ''); ?>">
                         </div>
                         <div class="form-group">
                             <label for="section_title_en">Section Title (English)</label>
-                            <input type="text" class="form-control" id="section_title_en" name="section_title_en" value="<?php echo htmlspecialchars($section_title_en); ?>">
+                            <input type="text" class="form-control" id="section_title_en" name="section_title_en" value="<?php echo htmlspecialchars($section_title_en ?? ''); ?>">
                         </div>
                     </form>
                 </div>
@@ -140,18 +140,18 @@ $conn->close();
                                 <?php foreach ($articles as $article) : ?>
                                     <tr>
                                         <td>
-                                            <?php echo htmlspecialchars($article['title_sr']); ?> (sr)<br>
-                                            <?php echo htmlspecialchars($article['title_en']); ?> (en)
+                                            <?php echo htmlspecialchars($article['title_sr'] ?? ''); ?> (sr)<br>
+                                            <?php echo htmlspecialchars($article['title_en'] ?? ''); ?> (en)
                                         </td>
-                                        <td><?php echo htmlspecialchars($article['category']) ?: 'Unknown'; ?></td>
+                                        <td><?php echo htmlspecialchars($article['category'] ?? 'Unknown'); ?></td>
                                         <td>
                                             <?php if ($article['featured_image']) : ?>
-                                                <img src="../<?php echo htmlspecialchars($article['featured_image']); ?>" alt="Featured Image" style="width: 50px; height: auto;">
+                                                <img src="../<?php echo htmlspecialchars($article['featured_image'] ?? ''); ?>" alt="Featured Image" style="width: 50px; height: auto;">
                                             <?php endif; ?>
                                         </td>
                                         <td>
-                                            <?php echo htmlspecialchars($article['published_date_sr']); ?><br>
-                                            <?php echo htmlspecialchars($article['published_date_en']); ?>
+                                            <?php echo htmlspecialchars($article['published_date_sr'] ?? ''); ?><br>
+                                            <?php echo htmlspecialchars($article['published_date_en'] ?? ''); ?>
                                         </td>
                                         <td>
                                             <a href="edit_article.php?id=<?php echo $article['article_group_id']; ?>" class="btn btn-warning">Edit</a>
