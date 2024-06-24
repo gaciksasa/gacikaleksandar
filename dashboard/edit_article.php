@@ -37,6 +37,26 @@ while ($stmt->fetch()) {
 }
 $stmt->close();
 
+// Fetch categories for Serbian
+$categories_sr_sql = "SELECT id, name FROM categories WHERE language = 'sr'";
+$categories_sr_result = $conn->query($categories_sr_sql);
+$categories_sr = [];
+if ($categories_sr_result->num_rows > 0) {
+    while ($row = $categories_sr_result->fetch_assoc()) {
+        $categories_sr[$row['id']] = $row['name'];
+    }
+}
+
+// Fetch categories for English
+$categories_en_sql = "SELECT id, name FROM categories WHERE language = 'en'";
+$categories_en_result = $conn->query($categories_en_sql);
+$categories_en = [];
+if ($categories_en_result->num_rows > 0) {
+    while ($row = $categories_en_result->fetch_assoc()) {
+        $categories_en[$row['id']] = $row['name'];
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title_sr = $_POST['title_sr'];
     $content_sr = $_POST['content_sr'];
@@ -78,16 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     header("Location: view_articles.php");
     exit;
-}
-
-// Fetch categories
-$categories_sql = "SELECT id, name FROM categories";
-$categories_result = $conn->query($categories_sql);
-$categories = [];
-if ($categories_result->num_rows > 0) {
-    while ($row = $categories_result->fetch_assoc()) {
-        $categories[$row['id']] = $row['name'];
-    }
 }
 ?>
 
@@ -138,7 +148,7 @@ if ($categories_result->num_rows > 0) {
                     <div class="form-group mt-4">
                         <label for="category_id_sr">Category (Serbian)</label>
                         <select class="form-control" id="category_id_sr" name="category_id_sr" required>
-                            <?php foreach ($categories as $id => $name) : ?>
+                            <?php foreach ($categories_sr as $id => $name) : ?>
                                 <option value="<?php echo $id; ?>" <?php echo ($articles['sr']['category_id'] == $id) ? 'selected' : ''; ?>><?php echo htmlspecialchars($name); ?></option>
                             <?php endforeach; ?>
                         </select>
@@ -158,7 +168,7 @@ if ($categories_result->num_rows > 0) {
                     <div class="form-group mt-4">
                         <label for="category_id_en">Category (English)</label>
                         <select class="form-control" id="category_id_en" name="category_id_en" required>
-                            <?php foreach ($categories as $id => $name) : ?>
+                            <?php foreach ($categories_en as $id => $name) : ?>
                                 <option value="<?php echo $id; ?>" <?php echo ($articles['en']['category_id'] == $id) ? 'selected' : ''; ?>><?php echo htmlspecialchars($name); ?></option>
                             <?php endforeach; ?>
                         </select>
