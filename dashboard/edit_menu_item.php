@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="title_en">Title (English)</label>
             <input type="text" class="form-control" id="title_en" name="title_en" value="<?php echo htmlspecialchars($menu_item['title_en']); ?>" required>
           </div>
-          <div class="form-group">
+          <div class="form-group mb-4">
             <label for="is_custom">Is Custom Link</label>
             <input type="checkbox" id="is_custom" name="is_custom" value="1" <?php echo $menu_item['is_custom'] ? 'checked' : ''; ?>>
           </div>
@@ -187,7 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       const linkSr = document.getElementById('link_sr');
       const linkEn = document.getElementById('link_en');
       if (isCustom) {
-        linkSr.innerHTML = '<option value="index.php">Home</option><option value="contact.php">Contact</option><option value="blog.php">Blog</option>';
+        linkSr.innerHTML = '<option value="index.php">Početna</option><option value="contact.php">Kontakt</option><option value="blog.php">Blog</option>';
         linkEn.innerHTML = '<option value="index.php">Home</option><option value="contact.php">Contact</option><option value="blog.php">Blog</option>';
       } else {
         linkSr.innerHTML = '<?php foreach ($pages_sr as $page) : ?><option value="<?php echo htmlspecialchars($page['slug']); ?>"><?php echo htmlspecialchars($page['title']); ?></option><?php endforeach; ?>';
