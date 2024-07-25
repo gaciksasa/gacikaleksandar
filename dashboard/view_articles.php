@@ -146,7 +146,7 @@ $conn->close();
                                         <td><?php echo htmlspecialchars($article['category'] ?? 'Unknown'); ?></td>
                                         <td>
                                             <?php if ($article['featured_image']) : ?>
-                                                <img src="../<?php echo htmlspecialchars($article['featured_image'] ?? ''); ?>" alt="Featured Image" style="width: 50px; height: auto;">
+                                                <img src="./../uploads/<?php echo htmlspecialchars($article['featured_image'] ?? ''); ?>" alt="Featured Image" style="width: 50px; height: auto;">
                                             <?php endif; ?>
                                         </td>
                                         <td>

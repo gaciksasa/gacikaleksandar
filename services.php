@@ -58,7 +58,7 @@ function getExcerpt($str, $length = 70)
                 <a href="<?php echo htmlspecialchars($service['link']); ?>">
                   <span class="pbmit-item-thumbnail">
                     <span class="pbmit-item-thumbnail-inner">
-                      <img src="<?php echo htmlspecialchars($service['image']); ?>" class="img-fluid" width="100%" alt="">
+                      <img src="./uploads/<?php echo htmlspecialchars($service['image']); ?>" class="img-fluid" width="100%" alt="">
                     </span>
                   </span>
                 </a>

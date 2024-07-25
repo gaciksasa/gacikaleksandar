@@ -2101,7 +2101,7 @@ body {
     background-color: transparent;
     background-image: none!important;
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: 50% 50%;
     background-size: cover;
     background-attachment: scroll;
 }
@@ -2109,7 +2109,7 @@ body {
 	position: relative;
     background-image: url(../images/title-bg.jpg);
     background-color: transparent;
-    background-position: 0% 0%;
+    background-position: 50% 50%;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: scroll;
@@ -2958,3 +2958,12 @@ ul.list-group .list-group-item i{
 	-webkit-transform:scale(0.4); 
 	background-color:rgba(255,255,255,1)
 }
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+  }

@@ -21,7 +21,7 @@ if ($conn->connect_error) {
 $sql = "
     (SELECT 'article' AS content_type, title, content, category_id, featured_image, published_date, language FROM blog_posts WHERE slug = ?)
     UNION
-    (SELECT 'page' AS content_type, title, content, NULL AS category_id, NULL AS featured_image, NULL AS published_date, language FROM pages WHERE slug = ?)
+    (SELECT 'page' AS content_type, title, content, NULL AS category_id, header_image AS featured_image, NULL AS published_date, language FROM pages WHERE slug = ?)
 ";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
@@ -122,6 +122,11 @@ $conn->close();
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .pbmit-title-bar-wrapper {
+      background-image: url('<?php echo $featured_image ? './uploads/' . htmlspecialchars($featured_image) : "./images/title-bg.jpg"; ?>');
+    }
+  </style>
 </head>
 
 <body>
@@ -135,6 +140,7 @@ $conn->close();
 
     <!-- Title Bar -->
     <div class="pbmit-title-bar-wrapper">
+      <div class="overlay"></div>
       <div class="container">
         <div class="pbmit-title-bar-content">
           <div class="pbmit-title-bar-content-inner">
@@ -147,6 +153,7 @@ $conn->close();
         </div>
       </div>
     </div>
+
     <!-- Title Bar End -->
 
     <!-- Page Content -->
@@ -164,7 +171,7 @@ $conn->close();
                       <?php if ($content_type == 'article' && $featured_image) : ?>
                         <div class="pbmit-featured-img-wrapper">
                           <div class="pbmit-featured-wrapper">
-                            <img src="<?php echo htmlspecialchars($featured_image); ?>" class="img-fluid w-100" alt="Featured Image" style="height: auto;">
+                            <img src="./uploads/<?php echo htmlspecialchars($featured_image); ?>" class="img-fluid w-100" alt="Featured Image" style="height: auto;">
                           </div>
                         </div>
                       <?php endif; ?>
@@ -247,7 +254,7 @@ $conn->close();
                     <?php foreach ($recent_articles as $article) : ?>
                       <li class="recent-post-list-li">
                         <a class="recent-post-thum" href="/<?php echo $article['slug']; ?>">
-                          <img src="<?php echo $article['featured_image']; ?>" class="img-fluid" style="width: 90px; height: 90px;" alt="Thumbnail">
+                          <img src="./uploads/<?php echo $article['featured_image']; ?>" class="img-fluid" style="width: 90px; height: 90px;" alt="Thumbnail">
                         </a>
                         <span class="post-date"><?php echo date('F j, Y', strtotime($article['published_date'])); ?></span>
                         <a href="<?php echo $article['slug']; ?>"><?php echo htmlspecialchars($article['title']); ?></a>
@@ -265,39 +272,20 @@ $conn->close();
     </div>
     <!-- Page Content End -->
 
-    <!-- Include footer -->
-    <?php include 'footer.php'; ?>
-
+    <!-- Footer Area -->
+    <footer class="site-footer">
+      <!-- Include Footer -->
+      <?php include 'footer.php'; ?>
+    </footer>
+    <!-- Footer Area End Here -->
   </div>
-  <!-- Page Wrapper End -->
+  <!-- page-wrapper End -->
+  <a href="#pbmit-top-anchor" class="pbmit-scroll-to-top"><i class="pbmit-base-icon-up-open-big"></i></a>
 
-  <!-- Search Box Start Here -->
-  <div class="pbmit-search-overlay">
-    <div class="pbmit-icon-close"></div>
-    <div class="pbmit-search-outer">
-      <div class="pbmit-search-logo">
-        <img src="images/logo.png" alt="">
-      </div>
-      <form class="pbmit-site-searchform">
-        <input type="search" class="form-control field searchform-s" name="s" placeholder="Type Word Then Press Enter">
-        <button type="submit">
-          <i class="pbmit-base-icon-search"></i>
-        </button>
-      </form>
-    </div>
-  </div>
-  <!-- Search Box End Here -->
-
-  <!-- JS ============================================ -->
+  <!-- All Js -->
   <script src="js/jquery.min.js"></script>
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/jquery.waypoints.min.js"></script>
-  <script src="js/jquery.appear.js"></script>
-  <script src="js/numinate.min.js"></script>
-  <script src="js/swiper.min.js"></script>
-  <script src="js/jquery.magnific-popup.min.js"></script>
-  <script src="js/circle-progress.js"></script>
   <script src="js/scripts.js"></script>
 </body>
 

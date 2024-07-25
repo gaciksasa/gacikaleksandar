@@ -27,6 +27,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     die("Connection failed: " . $conn->connect_error);
   }
 
+  // Handle file upload
+  $headerImage = null;
+  if (isset($_FILES['header_image']) && $_FILES['header_image']['error'] === UPLOAD_ERR_OK) {
+    $uploadDir = '../uploads/';
+    $uploadFile = $uploadDir . basename($_FILES['header_image']['name']);
+
+    if (move_uploaded_file($_FILES['header_image']['tmp_name'], $uploadFile)) {
+      $headerImage = $_FILES['header_image']['name'];
+    } else {
+      echo "Error uploading file.";
+    }
+  }
+
   // Generate a unique page_group_id
   $page_group_id = uniqid();
 
@@ -35,19 +48,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $slug_en = generateSlug($title_en);
 
   // Insert page in Serbian
-  $sql_sr = "INSERT INTO pages (page_group_id, title, content, slug, language, created_at, updated_at) 
-               VALUES (?, ?, ?, ?, 'sr', NOW(), NOW())";
+  $sql_sr = "INSERT INTO pages (page_group_id, title, content, slug, language, header_image, created_at, updated_at) 
+               VALUES (?, ?, ?, ?, 'sr', ?, NOW(), NOW())";
   $stmt_sr = $conn->prepare($sql_sr);
-  $stmt_sr->bind_param("ssss", $page_group_id, $title_sr, $content_sr, $slug_sr);
+  $stmt_sr->bind_param("sssss", $page_group_id, $title_sr, $content_sr, $slug_sr, $headerImage);
   if (!$stmt_sr->execute()) {
     echo "Error: " . $stmt_sr->error;
   }
 
   // Insert page in English
-  $sql_en = "INSERT INTO pages (page_group_id, title, content, slug, language, created_at, updated_at) 
-               VALUES (?, ?, ?, ?, 'en', NOW(), NOW())";
+  $sql_en = "INSERT INTO pages (page_group_id, title, content, slug, language, header_image, created_at, updated_at) 
+               VALUES (?, ?, ?, ?, 'en', ?, NOW(), NOW())";
   $stmt_en = $conn->prepare($sql_en);
-  $stmt_en->bind_param("ssss", $page_group_id, $title_en, $content_en, $slug_en);
+  $stmt_en->bind_param("sssss", $page_group_id, $title_en, $content_en, $slug_en, $headerImage);
   if (!$stmt_en->execute()) {
     echo "Error: " . $stmt_en->error;
   }
@@ -97,7 +110,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Add Page</h1>
         </div>
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" action="add_page.php" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="header_image">Header Image</label>
+            <input type="file" class="form-control" id="header_image" name="header_image">
+          </div>
           <h3>Serbian</h3>
           <div class="form-group">
             <label for="title_sr">Title (Serbian)</label>

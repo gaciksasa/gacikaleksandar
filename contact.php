@@ -63,6 +63,7 @@ if (isset($_COOKIE['lang'])) {
 
 		<!-- Title Bar -->
 		<div class="pbmit-title-bar-wrapper">
+			<div class="overlay"></div>
 			<div class="container">
 				<div class="pbmit-title-bar-content pbmit-contact-title-bar">
 					<div class="pbmit-title-bar-content-inner">

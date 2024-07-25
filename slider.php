@@ -38,18 +38,6 @@ $stmt->close();
 $conn->close();
 ?>
 
-<style>
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 1;
-  }
-</style>
-
 <!-- START Home Slider 1 REVOLUTION SLIDER 6.5.19 -->
 <p class="rs-p-wp-fix"></p>
 <rs-module-wrap id="rev_slider_1_1_wrapper" data-alias="Home-Slider-1" data-source="gallery" style="visibility:hidden;background:#222d35;padding:0;margin:0px auto;margin-top:0;margin-bottom:0;">

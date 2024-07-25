@@ -34,18 +34,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     die("Connection failed: " . $conn->connect_error);
   }
 
+  // Handle file upload
+  $headerImage = null;
+  if (isset($_FILES['header_image']) && $_FILES['header_image']['error'] === UPLOAD_ERR_OK) {
+    $uploadDir = '../uploads/';
+    $uploadFile = $uploadDir . basename($_FILES['header_image']['name']);
+
+    if (move_uploaded_file($_FILES['header_image']['tmp_name'], $uploadFile)) {
+      $headerImage = $_FILES['header_image']['name'];
+    } else {
+      echo "Error uploading file.";
+    }
+  } else {
+    $headerImage = $_POST['existing_header_image'];
+  }
+
   // Update page in Serbian
-  $sql_sr = "UPDATE pages SET title = ?, content = ?, slug = ?, updated_at = NOW() WHERE page_group_id = ? AND language = 'sr'";
+  $sql_sr = "UPDATE pages SET title = ?, content = ?, slug = ?, header_image = ?, updated_at = NOW() WHERE page_group_id = ? AND language = 'sr'";
   $stmt_sr = $conn->prepare($sql_sr);
-  $stmt_sr->bind_param("ssss", $title_sr, $content_sr, $slug_sr, $page_group_id);
+  $stmt_sr->bind_param("sssss", $title_sr, $content_sr, $slug_sr, $headerImage, $page_group_id);
   if (!$stmt_sr->execute()) {
     echo "Error: " . $stmt_sr->error;
   }
 
   // Update page in English
-  $sql_en = "UPDATE pages SET title = ?, content = ?, slug = ?, updated_at = NOW() WHERE page_group_id = ? AND language = 'en'";
+  $sql_en = "UPDATE pages SET title = ?, content = ?, slug = ?, header_image = ?, updated_at = NOW() WHERE page_group_id = ? AND language = 'en'";
   $stmt_en = $conn->prepare($sql_en);
-  $stmt_en->bind_param("ssss", $title_en, $content_en, $slug_en, $page_group_id);
+  $stmt_en->bind_param("sssss", $title_en, $content_en, $slug_en, $headerImage, $page_group_id);
   if (!$stmt_en->execute()) {
     echo "Error: " . $stmt_en->error;
   }
@@ -59,29 +74,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   exit;
 }
 
-// Fetch existing page data
+// Retrieve existing page data
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
 
-$sql = "SELECT title, content, language FROM pages WHERE page_group_id = ?";
+$sql = "SELECT * FROM pages WHERE page_group_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $page_group_id);
 $stmt->execute();
 $result = $stmt->get_result();
-
-$page_sr = $page_en = [];
-while ($row = $result->fetch_assoc()) {
-  if ($row['language'] == 'sr') {
-    $page_sr = $row;
-  } elseif ($row['language'] == 'en') {
-    $page_en = $row;
-  }
-}
+$pages = $result->fetch_all(MYSQLI_ASSOC);
 
 $stmt->close();
 $conn->close();
+
+// Extract Serbian and English pages
+$page_sr = null;
+$page_en = null;
+foreach ($pages as $page) {
+  if ($page['language'] === 'sr') {
+    $page_sr = $page;
+  } elseif ($page['language'] === 'en') {
+    $page_en = $page;
+  }
+}
 ?>
 
 <!doctype html>
@@ -119,8 +134,16 @@ $conn->close();
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Edit Page</h1>
         </div>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
           <input type="hidden" name="page_group_id" value="<?php echo htmlspecialchars($page_group_id); ?>">
+          <div class="form-group">
+            <label for="header_image">Header Image</label>
+            <input type="file" class="form-control" id="header_image" name="header_image">
+            <?php if (!empty($page_sr['header_image'])) : ?>
+              <input type="hidden" name="existing_header_image" value="<?php echo htmlspecialchars($page_sr['header_image']); ?>">
+              <img class="mb-4" src="../uploads/<?php echo htmlspecialchars($page_sr['header_image']); ?>" alt="Current Header Image" style="max-width: 300px; height: auto;">
+            <?php endif; ?>
+          </div>
           <h3>Serbian</h3>
           <div class="form-group">
             <label for="title_sr">Title (Serbian)</label>
@@ -141,7 +164,7 @@ $conn->close();
             <textarea class="form-control" id="content_en" name="content_en" rows="10"><?php echo htmlspecialchars($page_en['content']); ?></textarea>
           </div>
 
-          <button type="submit" class="btn btn-primary mt-4">Update</button>
+          <button type="submit" class="btn btn-primary mt-4">Save Changes</button>
         </form>
       </main>
       <!-- Main Content End -->

@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $target_dir = "../uploads/"; // Updated to go one level up from the dashboard folder
         $target_file = $target_dir . basename($_FILES["featured_image"]["name"]);
         if (move_uploaded_file($_FILES["featured_image"]["tmp_name"], $target_file)) {
-            $featured_image = 'uploads/' . basename($_FILES["featured_image"]["name"]); // Save the correct relative path
+            $featured_image = basename($_FILES["featured_image"]["name"]); // Save the correct relative path
         } else {
             echo "Sorry, there was an error uploading your file.";
         }

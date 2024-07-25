@@ -181,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <label for="featured_image">Featured Image (1200x1000)</label>
                         <input type="file" class="form-control" id="featured_image" name="featured_image" accept="image/*">
                         <?php if ($articles['sr']['featured_image']) : ?>
-                            <img src="../<?php echo htmlspecialchars($articles['sr']['featured_image']); ?>" class="img-fluid mt-2" alt="Featured Image">
+                            <img src="./../uploads/<?php echo htmlspecialchars($articles['sr']['featured_image']); ?>" class="img-fluid mt-2" alt="Featured Image">
                         <?php endif; ?>
                     </div>
                     <button type="submit" class="btn btn-primary mt-4">Update</button>

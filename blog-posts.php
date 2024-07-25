@@ -72,7 +72,7 @@ $conn->close();
                             <?php if ($index % 2 == 0) : ?>
                                 <div class="pbmit-blog-image-with-meta">
                                     <div class="pbmit-featured-wrapper pbmit-post-featured-wrapper">
-                                        <img src="<?php echo htmlspecialchars($article['featured_image']); ?>" class="img-fluid" alt="">
+                                        <img width="100%" src="./uploads/<?php echo htmlspecialchars($article['featured_image']); ?>" class="img-fluid" alt="">
                                     </div>
                                 </div>
                             <?php endif; ?>
@@ -103,7 +103,7 @@ $conn->close();
                             <?php if ($index % 2 != 0) : ?>
                                 <div class="pbmit-blog-image-with-meta">
                                     <div class="pbmit-featured-wrapper pbmit-post-featured-wrapper">
-                                        <img src="<?php echo htmlspecialchars($article['featured_image']); ?>" class="img-fluid" alt="">
+                                        <img width="100%" src="./uploads/<?php echo htmlspecialchars($article['featured_image']); ?>" class="img-fluid" alt="">
                                     </div>
                                 </div>
                             <?php endif; ?>

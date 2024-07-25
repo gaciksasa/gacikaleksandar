@@ -87,6 +87,7 @@ $conn->close();
 
 		<!-- Title Bar -->
 		<div class="pbmit-title-bar-wrapper">
+			<div class="overlay"></div>
 			<div class="container">
 				<div class="pbmit-title-bar-content">
 					<div class="pbmit-title-bar-content-inner">
@@ -99,6 +100,7 @@ $conn->close();
 				</div>
 			</div>
 		</div>
+
 		<!-- Title Bar End-->
 
 		<!-- Page Content -->
@@ -117,7 +119,7 @@ $conn->close();
 								<div class="col-md-6 col-lg-4">
 									<article class="pbmit-box-blog pbmit-blogbox-style-1">
 										<div class="post-item">
-											<div class="pbmit-blog-image-with-meta" style="background-image: url('<?php echo htmlspecialchars($article['featured_image']); ?>')">
+											<div class="pbmit-blog-image-with-meta" style="background-image: url('./uploads/<?php echo htmlspecialchars($article['featured_image']); ?>')">
 											</div>
 											<div class="pbmit-box-content">
 												<div class="pbmit-entry-meta-wrapper">

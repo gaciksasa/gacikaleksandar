@@ -122,7 +122,7 @@ function create_excerpt($content, $length = 200)
     <link rel="stylesheet" href="css/responsive.css">
     <style>
         .pbmit-title-bar-wrapper {
-            background-image: url('<?php echo htmlspecialchars($category_image); ?>');
+            background-image: url('./uploads/<?php echo htmlspecialchars($category_image); ?>');
             background-size: cover;
             background-position: center;
         }
@@ -140,7 +140,8 @@ function create_excerpt($content, $length = 200)
         <!-- Header Main Area End Here -->
 
         <!-- Title Bar -->
-        <div class="pbmit-title-bar-wrapper" style="background-image: url('<?php echo htmlspecialchars($category_image); ?>');">
+        <div class="pbmit-title-bar-wrapper" style="background-image: url('./uploads/<?php echo htmlspecialchars($category_image); ?>');">
+            <div class="overlay"></div>
             <div class="container">
                 <div class="pbmit-title-bar-content">
                     <div class="pbmit-title-bar-content-inner">
@@ -170,7 +171,7 @@ function create_excerpt($content, $length = 200)
                                                 <div class="pbmit-featured-img-wrapper">
                                                     <div class="pbmit-featured-wrapper">
                                                         <a href="<?php echo $article['slug']; ?>">
-                                                            <img src="<?php echo htmlspecialchars($article['featured_image']); ?>" class="img-fluid w-100" alt="">
+                                                            <img src="./uploads/<?php echo htmlspecialchars($article['featured_image']); ?>" class="img-fluid w-100" alt="">
                                                         </a>
                                                     </div>
                                                 </div>
@@ -226,7 +227,7 @@ function create_excerpt($content, $length = 200)
                                         <?php foreach ($articles as $article) : ?>
                                             <li class="recent-post-list-li">
                                                 <a class="recent-post-thum" href="<?php echo $article['slug']; ?>">
-                                                    <img src="<?php echo $article['featured_image']; ?>" class="img-fluid" alt="">
+                                                    <img src="./uploads/<?php echo $article['featured_image']; ?>" class="img-fluid" alt="">
                                                 </a>
                                                 <span class="post-date"><?php echo date('F j, Y', strtotime($article['published_date'])); ?></span>
                                                 <a href="<?php echo $article['slug']; ?>"><?php echo htmlspecialchars($article['title']); ?></a>
